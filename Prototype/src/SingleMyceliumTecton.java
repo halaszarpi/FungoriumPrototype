@@ -1,5 +1,3 @@
-package fungorium;
-
 public class SingleMyceliumTecton extends Tecton {
 
     private static final String type = "single mycelium tecton";

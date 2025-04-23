@@ -1,5 +1,3 @@
-package fungorium;
-
 public class NoBodyTecton extends Tecton {
 
     private static final String type = "no body tecton";

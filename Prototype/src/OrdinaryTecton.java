@@ -1,5 +1,3 @@
-package fungorium;
-
 public class OrdinaryTecton extends Tecton {
 
     private static final String type = "ordinary tecton";
