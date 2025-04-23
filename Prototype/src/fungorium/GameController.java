@@ -13,7 +13,7 @@ public class GameController {
 
     public GameController(Scanner _scanner) {
         this.scanner = _scanner;
-        this.gameView = _gameView;
+        this.gameView = new GameView();
 
         /// TODO
         //Load map from file "map.txt"
@@ -21,6 +21,8 @@ public class GameController {
         this.map = new ArrayList<Tecton>();
 
         this.players = new ArrayList<Player>();
+
+        startGame();
     }
 
     public void startGame() {
@@ -45,6 +47,8 @@ public class GameController {
         System.out.println("Please enter the number of rounds:");
         numberOfRounds = scanner.nextInt();
         scanner.nextLine(); // Consume newline
+
+        runGame();
     }
 
     public void runGame() {
@@ -69,6 +73,8 @@ public class GameController {
             gameView.refreshMap(map);
             numberOfRounds--;
         }
+
+        endGame();
     }
 
     public void endGame() {
