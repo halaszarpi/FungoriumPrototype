@@ -1,11 +1,11 @@
 public class MyceliumVanisherTecton extends Tecton {
 
     private static final String type = "mycelium vanisher tecton";
-    private int vanishPrecent;
+    private int vanishPercent;
 
-    public MyceliumVanisherTecton(int precentToBreak, int precentToVanish, String tectonName, TectonView view) { 
-        super(precentToBreak, tectonName, type, view); 
-        vanishPrecent = precentToVanish;
+    public MyceliumVanisherTecton(int percentToBreak, int percentToVanish, String tectonName, TectonView view) { 
+        super(percentToBreak, tectonName, type, view); 
+        vanishPercent = percentToVanish;
     }
 
     @Override
@@ -17,8 +17,8 @@ public class MyceliumVanisherTecton extends Tecton {
 
     @Override
     public void roundPassed() {
-        boolean myceliumVanishes = generatedNumWithinBound(vanishPrecent);
-        boolean tectonBreaks = generatedNumWithinBound(breakPrecent);
+        boolean myceliumVanishes = generatedNumWithinBound(vanishPercent);
+        boolean tectonBreaks = generatedNumWithinBound(breakPercent);
 
         if (myceliumVanishes) {
             int randomMyceliumIndex = gen.nextInt(myceliumList.size());
@@ -37,7 +37,7 @@ public class MyceliumVanisherTecton extends Tecton {
 
     @Override
     public void breakTecton() {
-        Tecton newTecton = new MyceliumVanisherTecton(breakPrecent, vanishPrecent, name + "-2", view);
+        Tecton newTecton = new MyceliumVanisherTecton(breakPercent, vanishPercent, name + "-2", view);
         try {
             removeConnectionAtBreak();
             manageNeighboursAtBreak(newTecton);
@@ -50,6 +50,6 @@ public class MyceliumVanisherTecton extends Tecton {
     }
 
     @Override 
-    public String toString(){ return super.toString() + "\nMycelium vanish chance: " + Integer.toString(vanishPrecent) + "%"; }
+    public String toString(){ return super.toString() + "\nMycelium vanish chance: " + Integer.toString(vanishPercent) + "%"; }
 
 }

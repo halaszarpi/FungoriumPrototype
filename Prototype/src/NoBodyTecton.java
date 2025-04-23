@@ -2,7 +2,7 @@ public class NoBodyTecton extends Tecton {
 
     private static final String type = "no body tecton";
 
-    public NoBodyTecton(int precentToBreak, String tectonName, TectonView view) { super(precentToBreak, tectonName, type, view); }
+    public NoBodyTecton(int percentToBreak, String tectonName, TectonView view) { super(percentToBreak, tectonName, type, view); }
 
     @Override
     public void addMycelium(Mycelium m) throws Exception { 
@@ -13,7 +13,7 @@ public class NoBodyTecton extends Tecton {
 
     @Override
     public void roundPassed() {
-        boolean tectonBreaks = generatedNumWithinBound(breakPrecent);
+        boolean tectonBreaks = generatedNumWithinBound(breakPercent);
 
         if (tectonBreaks) { breakTecton(); }
     }
@@ -25,7 +25,7 @@ public class NoBodyTecton extends Tecton {
 
     @Override
     public void breakTecton() {
-        Tecton newTecton = new NoBodyTecton(breakPrecent, name + "-2", view);
+        Tecton newTecton = new NoBodyTecton(breakPercent, name + "-2", view);
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton);
 

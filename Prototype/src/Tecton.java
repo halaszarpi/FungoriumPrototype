@@ -7,20 +7,20 @@ public abstract class Tecton implements IRoundFollower{
     private Map<Tecton, Integer> neighbours;
     private List<Insect> insectList;
     protected String name;
-    protected int breakPrecent;
+    protected int breakPercent;
     protected Random gen;
     protected List<Mycelium> myceliumList;
     protected TectonView view;
     private static final int noMyceliumConnectionVal = 0;
     private static final int maxMyceliumSurvivalTimeVal = 5;
 
-    protected Tecton(int precentToBreak, String tectonName, String type, TectonView tectonView) {
+    protected Tecton(int percentToBreak, String tectonName, String type, TectonView tectonView) {
         tectonType = type;
         sporeList = new ArrayList<>();
         neighbours = new HashMap<>();
         insectList = new ArrayList<>();
         name = tectonName;
-        breakPrecent = precentToBreak;
+        breakPercent = percentToBreak;
         gen = new Random();
         myceliumList = new ArrayList<>();
         view = tectonView;
@@ -258,7 +258,7 @@ public abstract class Tecton implements IRoundFollower{
         }
 
         returnString += "\nBreak chance: ";
-        returnString += Integer.toString(breakPrecent) + "%";
+        returnString += Integer.toString(breakPercent) + "%";
 
         return returnString;
     }

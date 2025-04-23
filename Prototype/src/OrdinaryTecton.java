@@ -2,7 +2,7 @@ public class OrdinaryTecton extends Tecton {
 
     private static final String type = "ordinary tecton";
 
-    public OrdinaryTecton(int precentToBreak, String tectonName, TectonView view) { super(precentToBreak, tectonName, type, view); }
+    public OrdinaryTecton(int percentToBreak, String tectonName, TectonView view) { super(percentToBreak, tectonName, type, view); }
 
     @Override
     public void addMycelium(Mycelium m) throws Exception { 
@@ -13,7 +13,7 @@ public class OrdinaryTecton extends Tecton {
 
     @Override
     public void roundPassed() {
-        boolean tectonBreaks = generatedNumWithinBound(breakPrecent);
+        boolean tectonBreaks = generatedNumWithinBound(breakPercent);
 
         if (tectonBreaks) { breakTecton(); }
     }
@@ -26,7 +26,7 @@ public class OrdinaryTecton extends Tecton {
 
     @Override
     public void breakTecton() {
-        Tecton newTecton = new OrdinaryTecton(breakPrecent, name + "-2", view);
+        Tecton newTecton = new OrdinaryTecton(breakPercent, name + "-2", view);
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton);
 
