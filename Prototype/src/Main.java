@@ -1,15 +1,82 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import java.util.Scanner;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+public class Main {
+    public static Scanner scanner;
+
+    public static void main(String[] args) {
+
+        scanner = new Scanner(System.in);
+        boolean exit = false;
+        String input;
+
+        while(!exit){
+            print_mainMenu();
+
+            input = scanner.nextLine().toUpperCase();
+
+            switch (input) {
+                case "1" -> newGame(scanner);
+                case "2" -> gameTester(scanner);
+                case "E" -> {System.out.println("Goodbye!"); exit = true;}
+                default -> System.out.println("Invalid input!");
+            }
         }
+        scanner.close();
     }
-}//hello nagyon faszantos
+
+    private static void newGame(Scanner scanner) {
+        GameController gamecontroller = new GameController(scanner);
+        gamecontroller.startGame();
+        gamecontroller.runGame();
+        gamecontroller.endGame();
+    }
+
+    /// TODO
+    private static void gameTester(Scanner scanner) {
+//        TesterController testercontroller = new TesterController(scanner);
+//
+//        print_testMenu();
+//
+//        String input = scanner.nextLine().toUpperCase();
+//
+//        switch (input) {
+//            case "1" -> testercontroller.CreateTest(scanner);
+//            case "2" -> testercontroller.RunTest(scanner);
+//            case "E" -> System.out.println("Back to main menu!");
+//            default -> System.out.println("Invalid input!");
+//        }
+    }
+
+    private static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
+    private static void print_Logo(){
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("|  #####  #   #  #   #  #####  #####  #####  #  #   #  #   #  |");
+        System.out.println("|  #      #   #  ##  #  #      #   #  #   #  #  #   #  ## ##  |");
+        System.out.println("|  ####   #   #  # # #  #  ##  #   #  ###    #  #   #  # # #  |");
+        System.out.println("|  #      #   #  #  ##  #   #  #   #  #  ##  #  #   #  #   #  |");
+        System.out.println("|  #      #####  #   #  #####  #####  #   #  #  #####  #   #  |");
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("\n");
+    }
+
+    private static void print_mainMenu() {
+        clearScreen();
+        print_Logo();
+        System.out.println("Main Menu:");
+        System.out.println("1 - New Game");
+        System.out.println("2 - Game Tester");
+        System.out.println("E - Exit");
+    }
+
+    private static void print_testMenu(){
+        clearScreen();
+        System.out.println("Game Tester Menu:");
+        System.out.println("1 - Create Test");
+        System.out.println("2 - Run Test");
+        System.out.println("E - Back to Main Menu");
+    }
+}
