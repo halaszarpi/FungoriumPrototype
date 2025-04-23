@@ -9,7 +9,7 @@ public class GameController {
 
     private GameView gameView;
 
-    public GameController(Scanner _scanner, GameView _gameView) {
+    public GameController(Scanner _scanner) {
         this.scanner = _scanner;
         this.gameView = _gameView;
 
