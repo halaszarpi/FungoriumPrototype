@@ -1,24 +1,25 @@
 package fungorium;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class GameController {
-    private Scanner scanner;
-    private List<Tecton> map;
-    private List<Player> players;
+    private final Scanner scanner;
+    private final TectonMap tectonMap;
+    private final List<Player> players;
     private int numberOfRounds;
 
-    private GameView gameView;
+    private final TectonMapView gameView;
 
     public GameController(Scanner _scanner) {
         this.scanner = _scanner;
-        this.gameView = new GameView();
+        this.gameView = new TectonMapView(_scanner);
 
         /// TODO
         //Load map from file "map.txt"
         //For now:
-        this.map = new ArrayList<Tecton>();
+        this.tectonMap = TectonMap("map.txt", scanner);
 
         this.players = new ArrayList<Player>();
 
@@ -35,30 +36,30 @@ public class GameController {
             if(i%2 == 0){
                 System.out.println("Player " + (i + 1) + " is a Fungus Farmer. Please choose a name:");
                 String playerName = scanner.nextLine();
-                players.add(new FungusFarmer(playerName, map));
+                players.add(new FungusFarmer(playerName));
             } else {
                 System.out.println("Player " + (i + 1) + " is a Insect Keeper. Please choose a name:");
                 String playerName = scanner.nextLine();
-                players.add(new InsectKeeper(playerName, map));
+                players.add(new InsectKeeper(playerName));
             }
         }
         System.out.println("Game initialized!");
 
         System.out.println("Please enter the number of rounds:");
         numberOfRounds = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
 
         runGame();
     }
 
     public void runGame() {
-        gameView.showMap(map);
+        tectonMap.showMap();
 
         for (int round = 0; round < numberOfRounds; round++) {
             for (Player player : players) {
                 if (player.isInGame()) {
-                    player.step();
-                    gameView.refreshMap(map);
+                    player.step(tectonMap.map());
+                    tectonMap.refreshMap();
                 }
             }
 
@@ -66,11 +67,11 @@ public class GameController {
                 player.roundPassed();
             }
 
-            for (Tecton tecton : map) {
+            for (Tecton tecton : tectonMap.map()) {
                 tecton.roundPassed();
             }
 
-            gameView.refreshMap(map);
+            tectonMap.refreshMap();
             numberOfRounds--;
         }
 
@@ -79,7 +80,7 @@ public class GameController {
 
     public void endGame() {
         System.out.println("Game ended!");
-        gameView.showMap(map);
+        tectonMap.showMap();
 
         for (Player player : players) {
             System.out.println(player.getScore());
