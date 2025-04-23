@@ -1,3 +1,5 @@
+package fungorium;
+
 public class InsectView {
 
     // Biztos fog valami belole kimaradni

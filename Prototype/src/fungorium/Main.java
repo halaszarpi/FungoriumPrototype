@@ -1,3 +1,5 @@
+package fungorium;
+
 import java.util.Scanner;
 
 public class Main {
