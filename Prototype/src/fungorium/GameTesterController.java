@@ -5,35 +5,59 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class GameTesterController {
 
+    private static final String workingDir = System.getProperty("user.dir");
     private Scanner scanner;
     private GameTesterView view;
     private ArrayList<String> mapBuildingCommands;
+    private ArrayList<String> playerCommands;
+    private ArrayList<String> controllerCommands;
+    private boolean saveToFile = false;
+    private String mapName = "";
 
-    private void initializeMapBuildingCommands() {
-        this.mapBuildingCommands = new ArrayList<>(){{
-           add("ADD_TEC");
-           add("SET_NGH");
-           add("ADD_CON");
-           add("ADD_MYC");
-           add("ADD_BOD");
-           add("ADD_INS");
-           add("ADD_SPO");
-           add("RM_TEC");
-           add("RM_CON");
-           add("RM_MYC");
-           add("RM_BOD");
-           add("RM_INS");
-           add("RM_SPO");
-        }};
+    private void initializeCommands() {
+
+        this.mapBuildingCommands = new ArrayList<>(Arrays.asList(
+                "ADD_TEC",
+                "SET_NGH",
+                "ADD_CON",
+                "ADD_MYC",
+                "ADD_BOD",
+                "ADD_INS",
+                "ADD_SPO",
+                "RM_TEC",
+                "RM_CON",
+                "RM_MYC",
+                "RM_BOD",
+                "RM_INS",
+                "RM_SPO"
+        ));
+
+        this.playerCommands = new ArrayList<>(Arrays.asList(
+                "GROWMYC",
+                "GROWBOD",
+                "EATINS",
+                "SCATTERSP",
+                "MOVETOTECTON",
+                "CUTMYC",
+                "EATSPORE"
+        ));
+
+        this.controllerCommands = new ArrayList<>(Arrays.asList(
+                "BREAKTEC",
+                "VANISHMYC",
+                "ROUND"
+        ));
+
     }
 
     public GameTesterController(Scanner scanner) {
         this.scanner = scanner;
-        this.initializeMapBuildingCommands();
+        this.initializeCommands();
         view = new GameTesterView();
     }
 
@@ -43,7 +67,7 @@ public class GameTesterController {
         switch (option) {
             case "1" -> createTest();
             case "2" -> runTest();
-            case "3" -> {return;}
+            case "3" -> { return; }
             default -> System.out.println("Invalid option");
         }
     }
@@ -52,7 +76,7 @@ public class GameTesterController {
 
         // Letrehozzuk a teszt fajl mappajat
         boolean exitCreateTest = false;
-        String filePath = System.getProperty("user.dir") + "\\Prototype\\src\\tests";
+        String filePath = workingDir + "\\Prototype\\src\\tests\\testCases";
         String testName = null;
 
         while (!exitCreateTest) {
@@ -63,6 +87,7 @@ public class GameTesterController {
             File[] files = file.listFiles();
 
             boolean matchingTestName = false;
+
             for (File f : files) {
                 if (f.getName().equals(testName)) {
                     System.out.println("Test " + testName + " already exists!");
@@ -77,25 +102,29 @@ public class GameTesterController {
         }
 
         // Letrehozzuk a 3 db txt-t a teszthez
+
         ArrayList<File> testTXTs = createTestFiles(filePath, testName);
 
         boolean validOption = false;
+        ArrayList<String> commands = new ArrayList<>();
+
         while (!validOption) {
+
             view.listMapOptions();
             String mapOption = scanner.nextLine();
+
             switch (mapOption) {
-                case "1": createNewMap(testTXTs.getFirst()); validOption = true; break;
+                case "1": commands = createNewMap(); validOption = true; break;
                 case "2": loadMap(testTXTs.getFirst()); validOption = true; break;
                 default: System.out.println("Invalid option");
             }
         }
 
+        validateTestFiles(testName, testTXTs, commands);
+
     }
 
     public ArrayList<File> createTestFiles(String filePath, String testName) {
-
-        File testFile = new File(filePath, testName);
-        testFile.mkdirs();
 
         // Letrehozzuk a fajlokat
         filePath += "\\" + testName;
@@ -103,49 +132,99 @@ public class GameTesterController {
         File testFileInput = new File(filePath, testName + "_input.txt");
         File testFileOutput = new File(filePath, testName + "_output.txt");
 
-        try {
-            testFileMap.createNewFile();
-            testFileInput.createNewFile();
-            testFileOutput.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return new ArrayList<File>(){{
-            add(testFileMap);
-            add(testFileInput);
-            add(testFileOutput);
-        }};
+        return new ArrayList<>(
+                Arrays.asList(
+                        testFileMap,
+                        testFileInput,
+                        testFileOutput
+                )
+        );
     }
 
-    public void createNewMap(File mapFile) {
+    public ArrayList<String> createNewMap() {
 
         view.enterMapBuildingCommands();
         ArrayList<String> commands = new ArrayList<>();
         String command = "";
+
         while (!command.equals("INIT_END")) {
-            command = scanner.nextLine().toUpperCase().trim();
-            if (command.equals("INIT_END")) { break; }
+            command = scanner.nextLine().trim();
             String[] commandParts = command.split(" ");
+            commandParts[0] = commandParts[0].toUpperCase();
+
+            if (commandParts[0].equals("INIT_END")) {
+
+                if (commandParts.length == 3 && commandParts[1].equalsIgnoreCase("TRUE")) {
+                    saveToFile = true;
+                    mapName = commandParts[2];
+                }
+
+                break;
+            }
+
             if (command.equals("CLEAR")) {
                 System.out.println("Map cleared! Start over!");
                 commands.clear();
-            } else if (!mapBuildingCommands.contains(commandParts[0])) {
+            }
+
+            else if (!mapBuildingCommands.contains(commandParts[0])) {
                 System.out.println("Invalid command!");
-            } else {
+            }
+
+            else {
                 commands.add(command);
             }
         }
-        try {
-            Files.write(Paths.get(mapFile.getPath()), commands);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        return commands;
 
     }
 
-    public void loadMap(File mapFile) {
-        System.out.println("Loading map");
+    public void validateTestFiles(String testName, ArrayList<File> testTXTs, ArrayList<String> commands) {
+        String filePath = workingDir + "\\Prototype\\src\\tests";
+        File testFolder = new File(filePath + "\\testCases", testName);
+        File map = null;
+
+        if (saveToFile) {
+            map = new File(filePath + "\\maps", mapName + "_map.txt");
+            testTXTs.add(map);
+        }
+
+        testFolder.mkdirs();
+
+        try{
+
+            for (File f : testTXTs) {
+                f.createNewFile();
+            }
+            Files.write(Paths.get(testTXTs.getFirst().getPath()), commands);
+            if (saveToFile)
+                Files.write(Paths.get(testTXTs.getLast().getPath()), commands);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadMap() {
+        view.loadMapMessage();
+        String filePath = workingDir + "\\Prototype\\src\\tests\\testCases";
+        String loadedMapName = scanner.nextLine();
+
+        File file = new File(filePath);
+        File[] files = file.listFiles();
+
+        File foundMap = null;
+
+        for (File f : files) {
+            if (f.getName().equals(loadedMapName)) {
+                foundMap = f;
+                break;
+            }
+        }
+
+        // TODO: Tekton map feltoltese beolvasott map fajlbol
+
     }
 
     public void runTest() {}
