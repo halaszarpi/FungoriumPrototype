@@ -115,7 +115,7 @@ public class GameTesterController {
 
             switch (mapOption) {
                 case "1": commands = createNewMap(); validOption = true; break;
-                case "2": loadMap(testTXTs.getFirst()); validOption = true; break;
+                case "2": loadMap(); validOption = true; break;
                 default: System.out.println("Invalid option");
             }
         }
@@ -207,24 +207,28 @@ public class GameTesterController {
     }
 
     public void loadMap() {
-        view.loadMapMessage();
-        String filePath = workingDir + "\\Prototype\\src\\tests\\testCases";
-        String loadedMapName = scanner.nextLine();
-
-        File file = new File(filePath);
-        File[] files = file.listFiles();
-
+        String filePath = workingDir + "\\Prototype\\src\\tests\\maps";
         File foundMap = null;
 
-        for (File f : files) {
-            if (f.getName().equals(loadedMapName)) {
-                foundMap = f;
-                break;
+        while (foundMap == null) {
+            view.loadMapMessage();
+            String loadedMapName = scanner.nextLine();
+            File file = new File(filePath);
+            File[] files = file.listFiles();
+
+            for (File f : files) {
+                if (f.getName().equals(loadedMapName)) {
+                    foundMap = f;
+                    break;
+                }
+            }
+
+            if (foundMap == null) {
+                System.out.println("Map not found!");
             }
         }
-
         // TODO: Tekton map feltoltese beolvasott map fajlbol
-
+        TectonMap loadedMap = new TectonMap(foundMap, scanner, true);
     }
 
     public void runTest() {}
