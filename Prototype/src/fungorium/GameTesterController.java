@@ -15,11 +15,11 @@ public class GameTesterController {
 
     public void printMenuAndWaitForOption() {
         view.listGameTesterOptions();
-        int option = scanner.nextInt();
+        String option = scanner.nextLine();
         switch(option) {
-            case 1 -> createTest();
-            case 2 -> runTest();
-            case 3 -> {return;}
+            case "1" -> createTest();
+            case "2" -> runTest();
+            case "3" -> {return;}
             default -> System.out.println("Invalid option");
         }
     }
@@ -28,7 +28,9 @@ public class GameTesterController {
         view.enterTestName();
         String testName = scanner.nextLine();
         File filePath = new File(System.getProperty("user.dir") + "\\Prototype\\src\\tests");
-        File testFile = new File(filePath, testName + ".txt");
+        System.out.println(filePath);
+        File testFile = new File(filePath, testName);
+        testFile.mkdirs();
     }
 
     public void runTest() {}
