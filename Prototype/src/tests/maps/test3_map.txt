@@ -1,2 +1,0 @@
-ADD_TEC t3
-ADD_TEC t4

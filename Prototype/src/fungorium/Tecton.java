@@ -217,7 +217,7 @@ public abstract class Tecton implements IRoundFollower{
 
         if (!sporeList.isEmpty()) {
             for (Spore s : sporeList){
-                returnString += s.name + ", ";
+                returnString += s.getName() + ", ";
             }
         }
         else {
@@ -230,7 +230,7 @@ public abstract class Tecton implements IRoundFollower{
 
         if (!neighbourList.isEmpty()) {
             for (Tecton t : neighbourList){
-                returnString += t.name + ", ";
+                returnString += t.getName() + ", ";
             }
         }
         else {
@@ -241,7 +241,7 @@ public abstract class Tecton implements IRoundFollower{
 
         if (!myceliumList.isEmpty()) {
             for (Mycelium m : myceliumList){
-                returnString += m.name + ", ";
+                returnString += m.getName() + ", ";
             }
         }
         else {
@@ -252,7 +252,7 @@ public abstract class Tecton implements IRoundFollower{
 
         if (!insectList.isEmpty()){
             for (Insect i : insectList){
-                returnString += i.name + ", ";
+                returnString += i.getName() + ", ";
             }
         }
         else {

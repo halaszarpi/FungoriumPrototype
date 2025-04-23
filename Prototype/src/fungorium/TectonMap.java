@@ -15,17 +15,13 @@ public class TectonMap {
     private Random rand;
     private boolean isTest;
     private TectonView tectonView;
+    private InsectView insectView; 
+    private MyceliumView myceliumView;
     private FungusBodyView fungusBodyView;
     private ArrayList<String> playerCommands;
     private ArrayList<String> controllerCommands;
     private final int maxSporeNutrientContent = 5;
     private final int maxSporeEffectDuration = 3;
-
-    public TectonMap(List<Tecton> _tectons, Scanner _scanner) {
-
-        initViews(_scanner);
-        this.tectons = _tectons;
-    }
 
     public TectonMap(File _mapFile, Scanner _scanner, boolean isTest) {
 
@@ -40,6 +36,9 @@ public class TectonMap {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        processAllMapCreatingCommands(commands);
+
     }
 
     private void initViews(Scanner _scanner) {
@@ -88,20 +87,20 @@ public class TectonMap {
     private void addMycelium(String myceliumName, String tectonName) throws Exception {
 
         Tecton foundTecton = findTecton(tectonName);
-        foundTecton.addMycelium(new Mycelium(foundTecton, myceliumName));
+        foundTecton.addMycelium(new Mycelium(foundTecton, myceliumName, myceliumView));
 
     }
 
     private void addBody(String myceliumName) throws Exception {
 
         Mycelium foundMycelium = findMycelium(myceliumName);
-        foundMycelium.growBody();
+        foundMycelium.growBody(fungusBodyView);
     }
 
     private void addInsect(String insectName, String tectonName) throws Exception {
 
         Tecton foundTecton = findTecton(insectName);
-        foundTecton.addInsect(new Insect(foundTecton, tectonName));
+        foundTecton.addInsect(new Insect(foundTecton, tectonName, insectView));
 
     }
 
@@ -223,7 +222,7 @@ public class TectonMap {
         }
     }
 
-    private void processAllCommands(List<String> commands) {
+    private void processAllMapCreatingCommands(List<String> commands) {
         for (String command : commands) {
             processCommand(command);
         }
