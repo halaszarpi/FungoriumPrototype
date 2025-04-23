@@ -18,6 +18,7 @@ public class GameTesterController {
     private ArrayList<String> controllerCommands;
     private boolean saveToFile = false;
     private String mapName = "";
+    private TectonMap loadedMap = null;
 
     private void initializeCommands() {
 
@@ -52,7 +53,6 @@ public class GameTesterController {
                 "VANISHMYC",
                 "ROUND"
         ));
-
     }
 
     public GameTesterController(Scanner scanner) {
@@ -133,11 +133,11 @@ public class GameTesterController {
         File testFileOutput = new File(filePath, testName + "_output.txt");
 
         return new ArrayList<>(
-                Arrays.asList(
-                        testFileMap,
-                        testFileInput,
-                        testFileOutput
-                )
+            Arrays.asList(
+                    testFileMap,
+                    testFileInput,
+                    testFileOutput
+            )
         );
     }
 
@@ -180,6 +180,31 @@ public class GameTesterController {
 
     }
 
+    public void loadMap() {
+        String filePath = workingDir + "\\Prototype\\src\\tests\\maps";
+        File foundMap = null;
+
+        while (foundMap == null) {
+            view.loadMapMessage();
+            String loadedMapName = scanner.nextLine();
+            File file = new File(filePath);
+            File[] files = file.listFiles();
+
+            for (File f : files) {
+                if (f.getName().equals(loadedMapName)) {
+                    foundMap = f;
+                    break;
+                }
+            }
+
+            if (foundMap == null) {
+                System.out.println("Map not found!");
+            }
+        }
+
+        loadedMap = new TectonMap(foundMap, scanner, true);
+    }
+
     public void validateTestFiles(String testName, ArrayList<File> testTXTs, ArrayList<String> commands) {
         String filePath = workingDir + "\\Prototype\\src\\tests";
         File testFolder = new File(filePath + "\\testCases", testName);
@@ -206,30 +231,7 @@ public class GameTesterController {
         }
     }
 
-    public void loadMap() {
-        String filePath = workingDir + "\\Prototype\\src\\tests\\maps";
-        File foundMap = null;
+    public void runTest() {
 
-        while (foundMap == null) {
-            view.loadMapMessage();
-            String loadedMapName = scanner.nextLine();
-            File file = new File(filePath);
-            File[] files = file.listFiles();
-
-            for (File f : files) {
-                if (f.getName().equals(loadedMapName)) {
-                    foundMap = f;
-                    break;
-                }
-            }
-
-            if (foundMap == null) {
-                System.out.println("Map not found!");
-            }
-        }
-        // TODO: Tekton map feltoltese beolvasott map fajlbol
-        TectonMap loadedMap = new TectonMap(foundMap, scanner, true);
     }
-
-    public void runTest() {}
 }

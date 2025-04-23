@@ -265,4 +265,10 @@ public abstract class Tecton implements IRoundFollower{
         return returnString;
     }
 
+    public List<Mycelium> getMyceliumList() { return myceliumList; }
+
+    public List<Insect> getInsectList() { return insectList; }
+
+    public List<Spore> getSporeList() { return sporeList; }
+
 }
