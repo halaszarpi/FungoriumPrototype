@@ -10,27 +10,18 @@ public class GameController {
     private final List<Player> players;
     private int numberOfRounds;
 
-    private final TectonMapView gameView;
-
     public GameController(Scanner _scanner) {
         this.scanner = _scanner;
-        this.gameView = new TectonMapView(_scanner);
-
-        /// TODO
-        //Load map from file "map.txt"
-        //For now:
         this.tectonMap = TectonMap("map.txt", scanner);
-
         this.players = new ArrayList<Player>();
-
-        startGame();
+        initializeGame();
     }
 
-    public void startGame() {
+    public void initializeGame() {
         System.out.println("New game started!");
         System.out.println("Please enter the number of players:");
         int numPlayers = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
 
         for (int i = 0; i < numPlayers; i++) {
             if(i%2 == 0){
@@ -43,12 +34,11 @@ public class GameController {
                 players.add(new InsectKeeper(playerName));
             }
         }
-        System.out.println("Game initialized!");
-
         System.out.println("Please enter the number of rounds:");
         numberOfRounds = scanner.nextInt();
         scanner.nextLine();
 
+        System.out.println("Game initialized!");
         runGame();
     }
 

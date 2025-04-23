@@ -32,7 +32,7 @@ public class Main {
 
     /// TODO
     private static void gameTester(Scanner scanner) {
-       TesterController testercontroller = new TesterController(scanner);
+       //TesterController testercontroller = new TesterController(scanner);
     }
 
     private static void clearScreen() {
