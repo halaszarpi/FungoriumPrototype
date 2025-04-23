@@ -57,12 +57,4 @@ public class Main {
         System.out.println("2 - Game Tester");
         System.out.println("E - Exit");
     }
-
-    private static void print_testMenu(){
-        clearScreen();
-        System.out.println("Game Tester Menu:");
-        System.out.println("1 - Create Test");
-        System.out.println("2 - Run Test");
-        System.out.println("E - Back to Main Menu");
-    }
 }
