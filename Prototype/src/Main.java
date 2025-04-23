@@ -26,25 +26,11 @@ public class Main {
 
     private static void newGame(Scanner scanner) {
         GameController gamecontroller = new GameController(scanner);
-        gamecontroller.startGame();
-        gamecontroller.runGame();
-        gamecontroller.endGame();
     }
 
     /// TODO
     private static void gameTester(Scanner scanner) {
-//        TesterController testercontroller = new TesterController(scanner);
-//
-//        print_testMenu();
-//
-//        String input = scanner.nextLine().toUpperCase();
-//
-//        switch (input) {
-//            case "1" -> testercontroller.CreateTest(scanner);
-//            case "2" -> testercontroller.RunTest(scanner);
-//            case "E" -> System.out.println("Back to main menu!");
-//            default -> System.out.println("Invalid input!");
-//        }
+       TesterController testercontroller = new TesterController(scanner);
     }
 
     private static void clearScreen() {
