@@ -1,0 +1,4 @@
+ADD_TEC t0
+ADD_MYC m0
+ADD_INS i0 t0
+ADD_SPO s0 ORD t0

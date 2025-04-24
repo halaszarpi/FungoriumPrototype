@@ -56,4 +56,9 @@ public class GameTesterView {
     public void afterTestNotification() {
         System.out.println("(This map did not change ultimately, you can rerun the test and get the same result.)");
     }
+
+    public void invalidInputMessage() {
+        System.out.println("Invalid input!");
+    }
+
 }

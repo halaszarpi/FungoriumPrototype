@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+/*
 public class TectonMap {
     List<Tecton> tectons;
     private TectonMapView view;
@@ -241,3 +242,5 @@ public class TectonMap {
     }
 
 }
+
+ */

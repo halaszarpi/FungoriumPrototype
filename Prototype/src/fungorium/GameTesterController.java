@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class GameTesterController {
@@ -18,7 +19,7 @@ public class GameTesterController {
     private ArrayList<String> controllerCommands;
     private boolean saveToFile = false;
     private String mapName = "";
-    private TectonMap loadedMap = null;
+    //private TectonMap loadedMap = null;
 
     private void initializeCommands() {
 
@@ -106,7 +107,7 @@ public class GameTesterController {
         ArrayList<File> testTXTs = createTestFiles(filePath, testName);
 
         boolean validOption = false;
-        ArrayList<String> commands = new ArrayList<>();
+        ArrayList<String> commandsForMapBuilding = new ArrayList<>();
 
         while (!validOption) {
 
@@ -114,13 +115,26 @@ public class GameTesterController {
             String mapOption = scanner.nextLine();
 
             switch (mapOption) {
-                case "1": commands = createNewMap(); validOption = true; break;
-                case "2": loadMap(); validOption = true; break;
+                case "1": commandsForMapBuilding = createNewMap(true); validOption = true; break;
+                case "2": commandsForMapBuilding = copyExistingMapForNewTestCase(); validOption = true; break;
                 default: System.out.println("Invalid option");
             }
         }
 
-        validateTestFiles(testName, testTXTs, commands);
+        // Ide kell egy fgv., amely kezeli a bemeneti nyelvet
+        view.enterInputCommands();
+        ArrayList<String> inputCommands = handleInputCommands();
+
+        // Ide jon a kimeneti nyelvet kero fgv.
+        ArrayList<String> outputCommands = createNewMap(false);
+
+        // A 3 command listat (epito, bemenet, kimenet) tartalmazo tomb
+        ArrayList<String>[] allCommands = new ArrayList[3];
+        allCommands[0] = commandsForMapBuilding; // mapbuilding commands
+        allCommands[1] = inputCommands; // input commands
+        allCommands[2] = outputCommands; // output commands
+
+        validateTestFiles(testName, testTXTs, allCommands);
 
     }
 
@@ -141,9 +155,15 @@ public class GameTesterController {
         );
     }
 
-    public ArrayList<String> createNewMap() {
+    // Ez kezeli a palyaepitest a palyaepitesnel es kimeneti nyelvnel is
+    public ArrayList<String> createNewMap(boolean isCreatingMap) {
 
-        view.enterMapBuildingCommands();
+        if (isCreatingMap) {
+            view.enterMapBuildingCommands();
+        } else {
+            view.enterOutputCommands();
+        }
+        
         ArrayList<String> commands = new ArrayList<>();
         String command = "";
 
@@ -154,7 +174,7 @@ public class GameTesterController {
 
             if (commandParts[0].equals("INIT_END")) {
 
-                if (commandParts.length == 3 && commandParts[1].equalsIgnoreCase("TRUE")) {
+                if (commandParts.length == 3 && commandParts[1].equalsIgnoreCase("TRUE") && isCreatingMap) {
                     saveToFile = true;
                     mapName = commandParts[2];
                 }
@@ -180,6 +200,37 @@ public class GameTesterController {
 
     }
 
+    public ArrayList<String> copyExistingMapForNewTestCase() {
+        String filePath = workingDir + "\\Prototype\\src\\tests\\maps";
+        File foundMap = null;
+
+        while (foundMap == null) {
+            view.loadMapMessage();
+            String loadedMapName = scanner.nextLine() + ".txt";
+            File file = new File(filePath);
+            File[] files = file.listFiles();
+
+            for (File f : files) {
+                if (f.getName().equals(loadedMapName)) {
+                    foundMap = f;
+                    break;
+                }
+            }
+
+            if (foundMap == null) {
+                System.out.println("Map not found!");
+            }
+        }
+
+        List<String> copiedMapBuildingCommands = new ArrayList<String>();
+        try {
+            copiedMapBuildingCommands = Files.readAllLines(foundMap.toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>(copiedMapBuildingCommands);
+    }
+
     public void loadMap() {
         String filePath = workingDir + "\\Prototype\\src\\tests\\maps";
         File foundMap = null;
@@ -202,16 +253,34 @@ public class GameTesterController {
             }
         }
 
-        loadedMap = new TectonMap(foundMap, scanner, true);
+        //loadedMap = new TectonMap(foundMap, scanner, true);
     }
 
-    public void validateTestFiles(String testName, ArrayList<File> testTXTs, ArrayList<String> commands) {
+    public ArrayList<String> handleInputCommands() {
+        String inputCommand = "";
+        ArrayList<String> returnInputCommands = new ArrayList<>();
+        while (!inputCommand.equals("SAVE")) {
+            inputCommand = scanner.nextLine();
+            String[] inputCommandParts = inputCommand.split(" ");
+            inputCommandParts[0] = inputCommandParts[0].toUpperCase();
+            if (inputCommandParts[0].equals("SAVE")) { break; }
+            else if (!playerCommands.contains(inputCommandParts[0]) && !controllerCommands.contains(inputCommandParts[0])) {
+                view.invalidInputMessage();
+            }
+            else {
+                returnInputCommands.add(inputCommand);
+            }
+        }
+        return returnInputCommands;
+    }
+
+    public void validateTestFiles(String testName, ArrayList<File> testTXTs, ArrayList<String>[] commands) {
         String filePath = workingDir + "\\Prototype\\src\\tests";
         File testFolder = new File(filePath + "\\testCases", testName);
         File map = null;
 
         if (saveToFile) {
-            map = new File(filePath + "\\maps", mapName + "_map.txt");
+            map = new File(filePath + "\\maps", mapName + ".txt");
             testTXTs.add(map);
         }
 
@@ -222,9 +291,12 @@ public class GameTesterController {
             for (File f : testTXTs) {
                 f.createNewFile();
             }
-            Files.write(Paths.get(testTXTs.getFirst().getPath()), commands);
-            if (saveToFile)
-                Files.write(Paths.get(testTXTs.getLast().getPath()), commands);
+            Files.write(Paths.get(testTXTs.get(0).getPath()), commands[0]);
+            Files.write(Paths.get(testTXTs.get(1).getPath()), commands[1]);
+            Files.write(Paths.get(testTXTs.get(2).getPath()), commands[2]);
+            if (saveToFile) {
+                Files.write(Paths.get(testTXTs.get(3).getPath()), commands[0]);
+            }
         }
         catch (IOException e) {
             e.printStackTrace();

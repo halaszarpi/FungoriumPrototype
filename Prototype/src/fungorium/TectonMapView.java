@@ -3,6 +3,7 @@ package fungorium;
 import java.util.List;
 import java.util.Scanner;
 
+/*
 public class TectonMapView {
 
     private final Scanner scanner;
@@ -33,3 +34,5 @@ public class TectonMapView {
 
     public String couldntFindInsect(String name) { return "There is no insect on the map with the name " + name + "!"; }
 }
+
+ */
