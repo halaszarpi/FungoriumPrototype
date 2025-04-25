@@ -44,12 +44,12 @@ public class GameTesterView {
         System.out.println("You can run the test in the RUN TEST menu!");
     }
 
-    public void showMapBeforeTest(String testMapName) {
-        System.out.println("Map: " + testMapName + " before test:");
+    public void chooseTest() {
+        System.out.println("Plese enter the test name you want to run: ");
     }
 
-    public void showMapAfterTest(String testMapName) {
-        System.out.println("Map: " + testMapName + " after test:");
+    public void showInputMapBeforeTest(String testMapName) {
+        System.out.println("\nMap: " + testMapName + "\nBefore test:");
     }
 
     // Ez a teszt legvegen kiirodik
@@ -57,8 +57,31 @@ public class GameTesterView {
         System.out.println("(This map did not change ultimately, you can rerun the test and get the same result.)");
     }
 
-    public void invalidInputMessage() {
-        System.out.println("Invalid input!");
+    public void invalidInputMessage() { System.out.println("Invalid input!"); }
+
+    public void theGivenMapsAreEqual(TectonMap inputMap, TectonMap outputMap, String testName) { 
+        System.out.println("\nThe input and output maps are equal: "); 
+        printMaps(inputMap, outputMap, testName);
+        System.out.println("\nTest successful!\n"); 
     }
+
+    public void theGivenMapsAreNotEqual(TectonMap inputMap, TectonMap outputMap, String testName) { 
+        System.out.println("\nThe input and output maps are not equal: "); 
+        printMaps(inputMap, outputMap, testName);
+        System.out.println("\nTest unsuccessful!\n"); 
+    }
+
+    public void printMaps(TectonMap inputMap, TectonMap outputMap, String testName) {
+        System.out.println("\nInput map (" + testName + "):");
+        inputMap.showMap();
+        System.out.println("Output map (" + testName + "):");
+        outputMap.showMap();
+    }
+
+    public void getMessage(Exception e) { System.out.println(e.getMessage()); }
+
+    public void runnungInputCommands() { System.out.println("Running input commands:\n"); }
+
+    public void tryingToBuildMaps() { System.out.println("\nIf all the inputs and logics were correct the map is built without getting exceptions:\n"); }
 
 }
