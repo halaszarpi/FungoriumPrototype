@@ -298,7 +298,8 @@ public abstract class Tecton implements IRoundFollower{
         returnString += "---------------------------";
         returnString += "\nBreak chance: ";
         returnString += Integer.toString(breakPrecent) + "%";
-        returnString += "\n--------------------------------------------------------------------------------------------------------\n";
+
+        if (!tectonType.equals("mycelium vanisher tecton")) returnString += "\n--------------------------------------------------------------------------------------------------------\n";
 
         return returnString;
     }

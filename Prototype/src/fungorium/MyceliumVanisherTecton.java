@@ -51,7 +51,9 @@ public class MyceliumVanisherTecton extends Tecton {
     }
 
     @Override 
-    public String toString(){ return super.toString() + "\nMycelium vanish chance: " + Integer.toString(vanishPrecent) + "%"; }
+    public String toString() { return super.toString() + "\n---------------------------" + 
+    "\nMycelium vanish chance: " + Integer.toString(vanishPrecent) + "%" + 
+    "\n--------------------------------------------------------------------------------------------------------\n"; }
 
     @Override
     public void vanishMycelium() throws Exception { 
