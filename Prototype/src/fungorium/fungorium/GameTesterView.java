@@ -2,8 +2,12 @@ package fungorium;
 
 public class GameTesterView {
 
+    public String noTestToRun() { return "There is no tests to run!"; }
+
+    public String noMapsToLoad() { return "There is no maps to load!"; }
+
     public void listGameTesterOptions() {
-        System.out.println("1. CREATE TEST");
+        System.out.println("\n1. CREATE TEST");
         System.out.println("2. RUN TEST");
         System.out.println("3. BACK TO MAIN MENU");
     }
@@ -84,4 +88,6 @@ public class GameTesterView {
 
     public void tryingToBuildMaps() { System.out.println("\nIf all the inputs and logics were correct the map is built without getting exceptions:\n"); }
 
+    public void inputMapCommands() { System.out.println("Input map commands:\n"); }
+    public void outputMapCommands() { System.out.println("\nOutput map commands:\n"); }
 }

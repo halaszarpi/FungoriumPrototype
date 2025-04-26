@@ -66,16 +66,21 @@ public class GameTesterController {
         while (true) {
             view.listGameTesterOptions();
             String option = scanner.nextLine();
-            switch (option) {
-                case "1" -> createTest();
-                case "2" -> runTest();
-                case "3" -> { return; }
-                default -> System.out.println("Invalid option");
+            try {
+                switch (option) {
+                    case "1" -> createTest();
+                    case "2" -> runTest();
+                    case "3" -> { return; }
+                    default -> System.out.println("Invalid option");
+                }
+            }
+            catch(Exception e) {
+                view.getMessage(e);
             }
         }
     }
 
-    public void createTest() {
+    public void createTest() throws Exception {
 
         // Letrehozzuk a teszt fajl mappajat
         boolean exitCreateTest = false;
@@ -204,15 +209,18 @@ public class GameTesterController {
 
     }
 
-    public ArrayList<String> copyExistingMapForNewTestCase() {
+    public ArrayList<String> copyExistingMapForNewTestCase() throws Exception {
         String filePath = workingDir + "\\Prototype\\src\\tests\\maps";
         File foundMap = null;
 
         while (foundMap == null) {
-            view.loadMapMessage();
 
             File file = new File(filePath);
             File[] files = file.listFiles();
+
+            if (files.length == 0) { throw new Exception(view.noMapsToLoad()); }
+
+            view.loadMapMessage();
 
             for (File f : files) {
                 String name = f.getName().substring(0, f.getName().length() - 4);
@@ -253,10 +261,13 @@ public class GameTesterController {
         File outputMap = null;
 
         while (inputMap == null || inputCommands == null || outputMap == null) {
-            view.chooseTest();
 
             File file = new File(filePath);
             File[] files = file.listFiles();
+
+            if (files.length == 0) throw new Exception(view.noTestToRun());
+
+            view.chooseTest();
 
             for (File f : files) {
                 System.out.println(f.getName());
@@ -288,7 +299,13 @@ public class GameTesterController {
 
         maps[0] = new TectonMap(scanner, true);
         maps[1] = new TectonMap(scanner, true);
+
+        view.inputMapCommands();
+
         maps[0].processAllMapCreatingCommands(inputMap);
+
+        view.outputMapCommands();
+
         maps[1].processAllMapCreatingCommands(outputMap);
 
         return inputCommands;

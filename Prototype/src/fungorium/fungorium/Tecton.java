@@ -148,9 +148,19 @@ public abstract class Tecton implements IRoundFollower{
         return true;
     }
 
-    public abstract Tecton breakTecton();
+    public abstract void breakTecton();
 
     public abstract void vanishMycelium() throws Exception;
+
+    protected void callRoundPasseds() {
+        for (Insect i : insectList) {
+            i.roundPassed();
+        }
+
+        for (Mycelium m : myceliumList) {
+            m.roundPassed();
+        }
+    }
 
     protected void manageNeighboursAtBreak(Tecton newTecton) {
 
@@ -304,10 +314,13 @@ public abstract class Tecton implements IRoundFollower{
         List<M> map2KeySet = new ArrayList<>(map2.keySet());
 
         if (map1KeySet.size() != map2KeySet.size()) return false;
-        for (M map1Key : map1KeySet){
+
+        for (M map1Key : map1KeySet) {
+
             boolean foundVal = false;
             for (M map2Key : map2KeySet) {
                 if (map2Key.equals(map1Key)) { 
+
                     foundVal = true; 
                     if (map1.get(map1Key) != map2.get(map2Key)) { return false; }
                 }

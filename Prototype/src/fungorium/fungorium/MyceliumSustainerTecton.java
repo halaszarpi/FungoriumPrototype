@@ -30,13 +30,13 @@ private static final String type = "mycelium sustainer tecton";
     }
 
     @Override
-    public Tecton breakTecton() {
+    public void breakTecton() {
         Tecton newTecton = new OrdinaryTecton(breakPrecent, name + "-2", view);
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton);
 
         view.tectonBreaks(this, newTecton);
-        return newTecton;
+        callRoundPasseds();
     }
 
     @Override

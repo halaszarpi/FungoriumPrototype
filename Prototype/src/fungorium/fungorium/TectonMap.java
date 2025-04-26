@@ -10,7 +10,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class TectonMap {
-    List<IRoundFollower> iRoundObjects;
     List<Tecton> tectons;
     private TectonMapView view;
     private Random rand;
@@ -30,7 +29,6 @@ public class TectonMap {
 
         rand = new Random();
         this.isTest = isTest;
-        iRoundObjects = new ArrayList<>();
         tectons = new ArrayList<>();
     }
 
@@ -59,7 +57,6 @@ public class TectonMap {
             default -> throw new Exception(view.noSuchTecton(tectonName));
         }
         tectons.add(tecton);
-        iRoundObjects.add(tecton);
     }
 
     private void setNeighbour(String[] commandParts) throws Exception {
@@ -85,7 +82,6 @@ public class TectonMap {
         Tecton foundTecton = findTecton(tectonName);
         Mycelium newMycelium = new Mycelium(foundTecton, myceliumName, myceliumView);
         foundTecton.addMycelium(newMycelium);
-        iRoundObjects.add(newMycelium);
 
     }
 
@@ -100,7 +96,6 @@ public class TectonMap {
         Tecton foundTecton = findTecton(insectName);
         Insect newInsect = new Insect(insectName, foundTecton, new InsectKeeper(), insectView);
         foundTecton.addInsect(newInsect);
-        iRoundObjects.add(newInsect);
 
     }
 
@@ -125,7 +120,6 @@ public class TectonMap {
     private void removeTecon(String tectonName) throws Exception {
         Tecton foundTecton = findTecton(tectonName);
         tectons.remove(foundTecton);
-        iRoundObjects.remove(foundTecton);
     }
 
     private void removeConnection(String firstTectonName, String secondTectonName) throws Exception {
@@ -143,7 +137,6 @@ public class TectonMap {
 
             if (t.getMyceliumList().contains(foundMycelium)) { 
                 t.removeMycelium(foundMycelium); 
-                iRoundObjects.remove(foundMycelium);
             }
         }
     }
@@ -161,7 +154,6 @@ public class TectonMap {
 
             if (t.getInsectList().contains(foundInsect)) { 
                 t.removeInsect(foundInsect); 
-                iRoundObjects.remove(foundInsect);
             }
         }
     }
@@ -299,7 +291,7 @@ public class TectonMap {
     private void breakTecton(String tectonName) throws Exception {
         Tecton foundTecton = findTecton(tectonName);
 
-        tectons.add(foundTecton.breakTecton());
+        foundTecton.breakTecton();
     }
 
     private void vanishMycelium(String tectonName) throws Exception {
@@ -308,9 +300,9 @@ public class TectonMap {
         foundTecton.vanishMycelium();
     }
 
-    private void roundPassed() throws Exception {
-        for (IRoundFollower follower : iRoundObjects){
-            follower.roundPassed();
+    private void roundPassed() {
+        for (Tecton t : tectons){
+            t.roundPassed();
         }
     }
 

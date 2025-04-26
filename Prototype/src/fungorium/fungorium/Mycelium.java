@@ -64,7 +64,7 @@ public class Mycelium implements IRoundFollower{
     }
 
     // Teszteles erejeig felvesszuk, kesobb elhagyjuk
-    public void setBody(FungusBody f){
+    public void setBody(FungusBody f) {
         this.fungusBody = f;
     }
 
@@ -79,6 +79,6 @@ public class Mycelium implements IRoundFollower{
     @Override
     public boolean equals(Object obj) {
         Mycelium m = (Mycelium)obj;
-        return tecton.equals(m.tecton) && name.equals(m.name) && (fungusBody != null && m.fungusBody != null);
+        return tecton.equals(m.tecton) && name.equals(m.name) && ((hasBody() && m.hasBody()) || (!hasBody() && !m.hasBody()));
     }
 }
