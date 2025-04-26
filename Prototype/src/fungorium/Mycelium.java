@@ -60,7 +60,7 @@ public class Mycelium implements IRoundFollower{
 
     @Override
     public String toString() {
-        return "Mycelium name: " + name + "\nHasbody: " + (fungusBody != null);
+        return "\tMycelium name: " + name + "\n\tHasbody: " + (fungusBody != null);
     }
 
     // Teszteles erejeig felvesszuk, kesobb elhagyjuk

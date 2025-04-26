@@ -27,15 +27,15 @@ public abstract class Spore {
 
     @Override
     public String toString() {
-        String returnString = "Spore name: ";
+        String returnString = "\tSpore name: ";
         returnString += this.name;
-        returnString += "\nSpore type: ";
+        returnString += "\n\tSpore type: ";
         returnString += this.sporeType;
-        returnString += "\nSpore's nutrient content: ";
+        returnString += "\n\tSpore's nutrient content: ";
         returnString += this.nutrientContent;
-        returnString += "\nSpore's effect duration: ";
+        returnString += "\n\tSpore's effect duration: ";
         returnString += this.effectDuration;
-        returnString += "\nSpore's owner: ";
+        returnString += "\n\tSpore's owner: ";
         returnString += this.owner;
         return returnString;
     }

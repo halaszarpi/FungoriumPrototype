@@ -36,7 +36,8 @@ public class GameTesterController {
                 "RM_MYC",
                 "RM_BOD",
                 "RM_INS",
-                "RM_SPO"
+                "RM_SPO",
+                "SET_EFF"
         ));
 
         this.playerCommands = new ArrayList<>(Arrays.asList(

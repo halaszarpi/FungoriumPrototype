@@ -93,7 +93,7 @@ public class TectonMap {
 
     private void addInsect(String insectName, String tectonName) throws Exception {
 
-        Tecton foundTecton = findTecton(insectName);
+        Tecton foundTecton = findTecton(tectonName);
         Insect newInsect = new Insect(insectName, foundTecton, new InsectKeeper(), insectView);
         foundTecton.addInsect(newInsect);
 
@@ -220,6 +220,18 @@ public class TectonMap {
         throw new Exception(view.couldntFindTectont(name));
     }
 
+    // DUP spora nem allit allapotot a rovaron, csak meghivja az owner duplicateInsect metodusat.
+    private void setEffect(String insectName, String effectName, String duration) throws Exception {
+        Insect foundInsect = findInsect(insectName);
+        switch (effectName) {
+            case "ANT" -> foundInsect.setAntiSeveredForRounds(Integer.parseInt(duration));
+            case "BST" -> foundInsect.setBoostedForRounds(Integer.parseInt(duration));
+            case "SLO" -> foundInsect.setSlowedForRounds(Integer.parseInt(duration));
+            case "STU" -> foundInsect.setStunnedForRounds(Integer.parseInt(duration));
+            default -> throw new Exception();
+        }
+    }
+
     private void processMapCreatingCommand(String command) throws Exception {
 
         String[] commandParts = command.split(" ");
@@ -238,6 +250,7 @@ public class TectonMap {
             case "RM_BOD" -> removeBody(commandParts[1]);
             case "RM_INS" -> removeInsect(commandParts[1]);
             case "RM_SPO" -> removeSpore(commandParts[1]);
+            case "SET_EFF" -> setEffect(commandParts[1], commandParts[2], commandParts[3]);
         }
     }
 
@@ -291,7 +304,8 @@ public class TectonMap {
     private void breakTecton(String tectonName) throws Exception {
         Tecton foundTecton = findTecton(tectonName);
 
-        foundTecton.breakTecton();
+        // ezt le kellene tarolni, ami letrejott tekton, majd berakni a map tektonlistajaba
+        tectons.add(foundTecton.breakTecton());
     }
 
     private void vanishMycelium(String tectonName) throws Exception {

@@ -148,7 +148,7 @@ public abstract class Tecton implements IRoundFollower{
         return true;
     }
 
-    public abstract void breakTecton();
+    public abstract Tecton breakTecton();
 
     public abstract void vanishMycelium() throws Exception;
 

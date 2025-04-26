@@ -1,10 +1,10 @@
 package fungorium;
 
-public class OrdinaryTecton extends Tecton {
+public class MyceliumSustainerTecton extends Tecton{
 
-    private static final String type = "ordinary tecton";
+private static final String type = "mycelium sustainer tecton";
 
-    public OrdinaryTecton(int precentToBreak, String tectonName, TectonView view) { super(precentToBreak, tectonName, type, view); }
+    public MyceliumSustainerTecton(int precentToBreak, String tectonName, TectonView view) { super(precentToBreak, tectonName, type, view); }
 
     @Override
     public void addMycelium(Mycelium m) throws Exception { 
@@ -18,6 +18,9 @@ public class OrdinaryTecton extends Tecton {
         boolean tectonBreaks = generatedNumWithinBound(breakPrecent);
 
         if (tectonBreaks) { breakTecton(); }
+        for (Mycelium m : myceliumList){
+            m.increaseRoundsToLive();
+        }
     }
 
     @Override
@@ -27,16 +30,18 @@ public class OrdinaryTecton extends Tecton {
     }
 
     @Override
-    public void breakTecton() {
+    public Tecton breakTecton() {
         Tecton newTecton = new OrdinaryTecton(breakPrecent, name + "-2", view);
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton);
 
         view.tectonBreaks(this, newTecton);
         callRoundPasseds();
+
+        return newTecton;
     }
 
     @Override
     public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton(this)); }
-
+    
 }

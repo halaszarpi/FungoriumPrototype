@@ -39,13 +39,15 @@ public class MyceliumVanisherTecton extends Tecton {
     }
 
     @Override
-    public void breakTecton() {
+    public Tecton breakTecton() {
         Tecton newTecton = new MyceliumVanisherTecton(breakPrecent, vanishPrecent, name + "-2", view);
         removeConnectionAtBreak();
          manageNeighboursAtBreak(newTecton);
 
         view.tectonBreaks(this, newTecton);
         callRoundPasseds();
+
+        return newTecton;
     }
 
     @Override 

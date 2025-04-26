@@ -67,6 +67,7 @@ public class Insect implements IRoundFollower{
             return -1;
         }
         int nutrientContent = spore.gotEatenBy(this);
+        tecton.removeSpore(spore);
         owner.useActionPoints(1);
         view.insectAteSpore(name, spore.getName());
         return nutrientContent;
@@ -92,6 +93,7 @@ public class Insect implements IRoundFollower{
         else if (this.tecton.isConnectedTo(targetTecton)) {
             this.tecton.removeInsect(this);
             targetTecton.addInsect(this);
+            this.tecton = targetTecton;
             int actionPointsUsed = actionPointsForStepping();
             this.owner.useActionPoints(actionPointsUsed);
             view.insectSteppedToTecton(name, targetTecton.getName());
@@ -122,17 +124,17 @@ public class Insect implements IRoundFollower{
 
     // Insect adatai: kiiras elott es utan is van egy uj sor direkt
     public String toString() {
-        String returnString = "\nInsect name: ";
+        String returnString = "\n\tInsect name: ";
         returnString += this.name;
-        returnString += "\nInsect's tecton: ";
+        returnString += "\n\tInsect's tecton: ";
         returnString += this.tecton.getName();
-        returnString += "\nInsect's owner: ";
+        returnString += "\n\tInsect's owner: ";
         returnString += this.owner.getName();
-        returnString += "\nInsect's effects: (duration in rounds)\n";
-        returnString += "\tanti-severed: " + antiSeveredForRounds + "\n";
-        returnString += "\tstunned: " + stunnedForRounds + "\n";
-        returnString += "\tslowed: " + slowedForRounds + "\n";
-        returnString += "\tboosted: " + boostedForRounds + "\n\n";
+        returnString += "\n\tInsect's effects: (duration in rounds)\n";
+        returnString += "\t\tanti-severed: " + antiSeveredForRounds + "\n";
+        returnString += "\t\tstunned: " + stunnedForRounds + "\n";
+        returnString += "\t\tslowed: " + slowedForRounds + "\n";
+        returnString += "\t\tboosted: " + boostedForRounds + "\n\n";
         return returnString;
     }
 
@@ -147,7 +149,7 @@ public class Insect implements IRoundFollower{
     @Override
     public boolean equals(Object obj) {
         Insect i = (Insect)obj;
-        return name.equals(i.name) && tecton.isEqual(i.tecton) && owner.equals(i.owner) && antiSeveredForRounds == i.antiSeveredForRounds &&
+        return name.equals(i.name) && tecton.equals(i.tecton) && owner.equals(i.owner) && antiSeveredForRounds == i.antiSeveredForRounds &&
                 stunnedForRounds == i.stunnedForRounds && slowedForRounds == i.slowedForRounds && boostedForRounds == i.boostedForRounds;
     }
 

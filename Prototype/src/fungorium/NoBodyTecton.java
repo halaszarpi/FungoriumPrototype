@@ -1,10 +1,10 @@
 package fungorium;
 
-public class MyceliumSustainerTecton extends Tecton{
+public class NoBodyTecton extends Tecton {
 
-private static final String type = "mycelium sustainer tecton";
+    private static final String type = "no body tecton";
 
-    public MyceliumSustainerTecton(int precentToBreak, String tectonName, TectonView view) { super(precentToBreak, tectonName, type, view); }
+    public NoBodyTecton(int precentToBreak, String tectonName, TectonView view) { super(precentToBreak, tectonName, type, view); }
 
     @Override
     public void addMycelium(Mycelium m) throws Exception { 
@@ -18,28 +18,26 @@ private static final String type = "mycelium sustainer tecton";
         boolean tectonBreaks = generatedNumWithinBound(breakPrecent);
 
         if (tectonBreaks) { breakTecton(); }
-        for (Mycelium m : myceliumList){
-            m.increaseRoundsToLive();
-        }
     }
 
     @Override
-    public boolean canPlaceBody() throws Exception{
-        if (!canPlaceBodyHelper()) throw new Exception(view.alreadyHasFungusbody(this));
-        return true;
-    }
+    public boolean canPlaceBody() throws Exception { 
+        throw new Exception(view.noBodyTectonCannotPlaceBody(this));
+     }
 
     @Override
-    public void breakTecton() {
-        Tecton newTecton = new OrdinaryTecton(breakPrecent, name + "-2", view);
+    public Tecton breakTecton() {
+        Tecton newTecton = new NoBodyTecton(breakPrecent, name + "-2", view);
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton);
 
         view.tectonBreaks(this, newTecton);
         callRoundPasseds();
+
+        return newTecton;
     }
 
     @Override
     public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton(this)); }
-    
+
 }

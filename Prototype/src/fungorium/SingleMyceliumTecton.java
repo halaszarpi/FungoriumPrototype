@@ -27,13 +27,15 @@ public class SingleMyceliumTecton extends Tecton {
     }
 
     @Override
-    public void breakTecton() {
+    public Tecton breakTecton() {
         Tecton newTecton = new SingleMyceliumTecton(breakPrecent, name + "-2", view);
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton);
 
         view.tectonBreaks(this, newTecton);
         callRoundPasseds();
+
+        return newTecton;
     }
 
     @Override
