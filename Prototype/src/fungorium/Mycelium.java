@@ -1,80 +1,150 @@
 package fungorium;
 
 public class Mycelium implements IRoundFollower{
+    private String name;
+    private FungusFarmer owner;
     private Tecton tecton;
-    private FungusBody fungusBody;
-    public String name;
+    private FungusBody body;
+    private int roundsToLive;
     private MyceliumView view;
-    
-    public Mycelium(Tecton tecton, String name, MyceliumView view){
+
+    public Mycelium(String name, FungusFarmer owner, Tecton tecton, int live) {
+        this.name = name;
+        this.owner = owner;
         this.tecton = tecton;
-        this.fungusBody = null;
-        this.name=name;
-        this.view = view;
+        this.body = null;
+        this.roundsToLive = live;
+        this.view = new MyceliumView();
     }
 
-    //ha nincsen gombatest noveszt egyet es true ertekkel ter vissza, ha pedig mar van false-al ter vissza/
-    public boolean growBody(FungusBodyView fungusBodyView) throws Exception {
-        if (tecton.hasSpores() && tecton.canPlaceBody()) {
-            // Itt majd a cooldown-t kicserelni
-            fungusBody = new FungusBody(this, fungusBodyView);
+    // Getterek
+    public String getName() {
+        return name;
+    }
+
+    public FungusFarmer getOwner() {
+        return owner;
+    }
+
+    public Tecton getTecton() {
+        return tecton;
+    }
+
+    public FungusBody getBody() {
+        return body;
+    }
+
+    public int getRoundsToLive() {
+        return roundsToLive;
+    }
+
+    public void setRoundsToLive(int roundsToLive) {
+        this.roundsToLive = roundsToLive;
+    }
+
+
+    /*ha nincsen gombatest noveszt egyet es true ertekkel ter vissza, ha pedig mar van false-al ter vissza */
+    public boolean growBody(Spore spore) throws Exception {
+        if (body != null) {
+            throw new Exception("This mycelium already has a body.");
+        }
+        if (owner.getActionPoints() < 1) {
+            throw new Exception("Not enough action points to grow body.");
+        }
+
+        // Ha rakhatunk ra gombatestet es rajta van a noveszteshez hasznalando spora a tektonok akkor oke
+        if (tecton.hasSpores(spore) && tecton.canPlaceBody()) {
+            body = new FungusBody(this);
+            tecton.removeSpore(spore);
+            view.hasGrownBody(this.name);
+            owner.useActionPoints(1);
             return true;
         }
         return false;
     }
 
-    public void spreadTo(Tecton targetTecton, String name) throws Exception {
-        //ellenorzi, hogy a tecton az nem null/
-        /* ellenorzi a new tecton benne van-e a szomszedsagi listaban,/
-        / es azt hogy van-e aktiv kapcsolat a ket tekton kozott */ 
-        if (targetTecton != null && tecton.getNeighbours().containsKey(targetTecton)) {
-            Mycelium newMycelium = new Mycelium(targetTecton , name, view);
-            targetTecton.addConnection(this.tecton);
-            targetTecton.addMycelium(newMycelium);
+    public void spreadTo(Tecton targetTecton) throws Exception {
+        // Szomszedos tekton-e, ahova akar terjedni
+        try {
+            if (targetTecton == null || !tecton.isNeighbour(targetTecton)) {
+                return;
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
         }
-    }
- 
-    public void bodyDied() {
-        fungusBody = null;
+        
+        // Ellenorzi, hogy van-e mar kapcsolat a ketto kozott
+        try {
+            if (tecton.isConnectedTo(targetTecton)) {
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Mycelium newMycelium = new Mycelium(name, owner, targetTecton, roundsToLive);
+        targetTecton.addMycelium(newMycelium);
+        targetTecton.addConnection(tecton);
+        owner.useActionPoints(2);
+
+        view.hasSpreadTo(this.name, targetTecton.name);
     }
 
-    public void scatterSpore(Tecton targetTecton, String sporeName) throws Exception {
-        if (fungusBody != null) {
-            fungusBody.scatterTo(targetTecton, sporeName);
+
+    public void bodyDied() {
+        this.body = null;
+        view.bodyHasDied(this.name);
+    }
+
+    public void scatterSpore(Tecton targetTecton) throws Exception {
+        if (body == null) {
+            // view hivas!
+            throw new Exception(view.hasNoFungusBody(name));
         }
+        body.scatterTo(targetTecton);
+        owner.useActionPoints(1);
     }
 
     public void roundPassed() {
-        if (fungusBody != null) {
-            fungusBody.reduceCooldown();
+        if (body != null) {
+            body.reduceCooldown();
+            view.cooldownReduced(name);
         }
     }
 
     public boolean hasBody() {
-        return fungusBody != null;
+        return body != null;
     }
 
-    public Tecton getTecton(){
-        return tecton;
+    public void increaseRoundsToLive() {
+        if (roundsToLive < 3) {
+            roundsToLive++;
+            view.myceliumSustained(name);    
+        }
     }
 
-    @Override
+    public void decreaseRoundsToLive() {
+        if (roundsToLive > 0) { roundsToLive--; }
+        if (roundsToLive == 0) {
+            tecton.removeMycelium(this);
+            view.myceliumHasDied(name);
+        }
+    }
+
+    public void eatInsect(Insect insect){
+        insect.gotEaten();
+        owner.useActionPoints(3);
+        view.ateInsect(name, insect.getName());
+    }
+
     public String toString() {
-        return "\tMycelium name: " + name + "\n\tHasbody: " + (fungusBody != null);
+        String returnString = "\nMycelium name: " + this.name;
+        returnString += "\n\tOwner: " + this.owner.getName();
+        returnString += "\n\tTecton: " + this.tecton.getName();
+        returnString += "\n\tHas Body: " + this.hasBody();
+        returnString += "\n\tRounds to Live: " + this.roundsToLive;
+        return returnString;
     }
-
-    // Teszteles erejeig felvesszuk, kesobb elhagyjuk
-    public void setBody(FungusBody f) {
-        this.fungusBody = f;
-    }
-
-    public FungusFarmer getFarmer() { return new FungusFarmer(); }
-
-    public String getName() { return name; }
-
-    public void increaseRoundsToLive() {}
-
-    public void eatInsect(Insect i) {}
 
     @Override
     public boolean equals(Object obj) {

@@ -24,11 +24,11 @@ public class Insect implements IRoundFollower{
         else { return 2; }
     }
 
-    public Insect(String insectName, Tecton tecton, InsectKeeper owner, InsectView view) {
+    public Insect(String insectName, Tecton tecton, InsectKeeper owner) {
         this.name = insectName;
         this.tecton = tecton;
         this.owner = owner;
-        this.view = view;
+        this.view = new InsectView();
         antiSeveredForRounds = 0;
         stunnedForRounds = 0;
         slowedForRounds = 0;
@@ -121,6 +121,10 @@ public class Insect implements IRoundFollower{
     }
 
     public String getName() { return this.name; }
+
+    public Tecton getTecton() { return this.tecton; }
+
+    public InsectKeeper getOwner() { return this.owner; }
 
     // Insect adatai: kiiras elott es utan is van egy uj sor direkt
     public String toString() {

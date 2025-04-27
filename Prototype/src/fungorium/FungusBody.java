@@ -1,4 +1,5 @@
 package fungorium;
+
 import java.util.Random;
 
 public class FungusBody {
@@ -7,11 +8,16 @@ public class FungusBody {
     private int scatteringCooldown;
     private FungusBodyView view;
 
-    private Spore createRandomSpore(String sporeName, FungusFarmer owner) {
+    private Spore createRandomSpore(FungusFarmer owner) {
         Random rand = new Random();
 
         int nutrientContent = rand.nextInt(5) + 1;
         int effectDuration = rand.nextInt(3) + 1;
+        
+        // Uj spora elnevezese
+        String farmerName = mycelium.getOwner().getName();
+        int farmerSporeCount = mycelium.getOwner().getSpores().size();
+        String sporeName = farmerName + "-" + "s" + farmerSporeCount + 1;
 
         int sporeType = rand.nextInt(6);
 
@@ -33,20 +39,19 @@ public class FungusBody {
         }
     }
 
-    public FungusBody(Mycelium myceliumm, FungusBodyView view) {
+    public FungusBody(Mycelium mycelium) {
         this.mycelium = mycelium;
         this.remainingSpores = 5;
         this.scatteringCooldown = 2;
-        this.view = view;
-
+        this.view = new FungusBodyView();
     }
 
     public Mycelium getMycelium() {
         return this.mycelium;
     }
 
-    public void scatterTo(Tecton targetTecton, String sporeName) throws Exception {
-        FungusFarmer farmer = mycelium.getFarmer();
+    public void scatterTo(Tecton targetTecton) throws Exception {
+        FungusFarmer farmer = mycelium.getOwner();
         
         if(scatteringCooldown > 0) {
             throw new Exception(view.noAvailableSpore());
@@ -55,16 +60,20 @@ public class FungusBody {
         if (farmer.getActionPoints() <= 0) {
             throw new Exception(view.noAvailableActionPoint(farmer));
         }
-        Spore newSpore = createRandomSpore(sporeName, farmer);
+
+        Spore newSpore = createRandomSpore(farmer);
         boolean grownBody = remainingSpores <= 3;
         Tecton currentTecton = mycelium.getTecton();
         boolean neigbour = currentTecton.isNeighbour(targetTecton);
+        
         boolean neighbourOrNeighboursNeigbour = currentTecton.isNeighbourOrNeighboursNeighbour(targetTecton);
-         if ((!grownBody && neigbour) || (grownBody && neighbourOrNeighboursNeigbour)) {
+        
+        if ((!grownBody && neigbour) || (grownBody && neighbourOrNeighboursNeigbour)) {
             targetTecton.addSpore(newSpore);
             remainingSpores--;
             scatteringCooldown = 2;
-         }
+        }
+
         if(remainingSpores == 0) {
             mycelium.bodyDied();
         }

@@ -94,7 +94,7 @@ public class TectonMap {
     private void addInsect(String insectName, String tectonName) throws Exception {
 
         Tecton foundTecton = findTecton(tectonName);
-        Insect newInsect = new Insect(insectName, foundTecton, new InsectKeeper(), insectView);
+        Insect newInsect = new Insect(insectName, foundTecton, new InsectKeeper());
         foundTecton.addInsect(newInsect);
 
     }

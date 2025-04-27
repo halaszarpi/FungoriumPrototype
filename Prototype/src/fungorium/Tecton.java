@@ -143,9 +143,14 @@ public abstract class Tecton implements IRoundFollower{
         return true;
     }
 
-    public boolean hasSpores() throws Exception { 
+    public boolean hasSpores(Spore spore) throws Exception { 
         if (sporeList.isEmpty()) { throw new Exception(view.tectonHasNoSpores(this)); }
-        return true;
+        for (Spore s : sporeList) {
+            if (s.equals(spore)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public abstract Tecton breakTecton();
@@ -298,8 +303,7 @@ public abstract class Tecton implements IRoundFollower{
         returnString += "---------------------------";
         returnString += "\nBreak chance: ";
         returnString += Integer.toString(breakPrecent) + "%";
-
-        if (!tectonType.equals("mycelium vanisher tecton")) returnString += "\n--------------------------------------------------------------------------------------------------------\n";
+        returnString += "\n--------------------------------------------------------------------------------------------------------\n";
 
         return returnString;
     }
