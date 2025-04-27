@@ -382,6 +382,7 @@ public class GameTesterController {
 
         catch(Exception e){
             view.getMessage(e);
+            e.printStackTrace();
             return;
         }
 

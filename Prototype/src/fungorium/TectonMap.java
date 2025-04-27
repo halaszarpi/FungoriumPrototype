@@ -15,14 +15,20 @@ public class TectonMap {
     private boolean isTest;
     private final int maxSporeNutrientContent = 5;
     private final int maxSporeEffectDuration = 3;
-    private final FungusFarmer testerFarmer = new FungusFarmer("testerFarmer");
-    private final InsectKeeper testerKeeper = new InsectKeeper("testerKeeper");
+    private final FungusFarmer testerFarmer;
+    private final InsectKeeper testerKeeper;
 
     public TectonMap(Scanner _scanner, boolean isTest) {
 
         this.view = new TectonMapView(this, _scanner);
         rand = new Random();
         this.isTest = isTest;
+        testerFarmer = new FungusFarmer("testerFarmer");
+        testerKeeper = new InsectKeeper("testerKeeper");
+        if (isTest) {
+            testerFarmer.actionPoints = 100;
+            testerKeeper.actionPoints = 100;
+        }
         tectons = new ArrayList<>();
         tmpTectons = new ArrayList<>();
     }
