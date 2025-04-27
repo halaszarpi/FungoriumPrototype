@@ -2,10 +2,8 @@ package fungorium;
 
 public class AntiSeverSpore extends Spore {
 
-    private static final String type = "antisever spore";
-
     public AntiSeverSpore(FungusFarmer owner, int nutrientContent, int effectDuration, String name) {
-        super(type, owner, nutrientContent, effectDuration, name);
+        super(owner, nutrientContent, effectDuration, name);
     }
 
     @Override
@@ -16,7 +14,7 @@ public class AntiSeverSpore extends Spore {
 
     @Override
     public String toString() {
-        return super.toString();
+        return sporeToString("antisever spore");
     }
 
 }

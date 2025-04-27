@@ -1,14 +1,12 @@
 package fungorium;
 
 public abstract class Spore {
-    private String sporeType;
     protected FungusFarmer owner;
     protected int nutrientContent;
     protected int effectDuration;
     protected String name;
-    
-    protected Spore(String sporeType, FungusFarmer owner, int nutrientContent, int effectDuration, String name) {
-        this.sporeType = sporeType;
+
+    protected Spore(FungusFarmer owner, int nutrientContent, int effectDuration, String name) {
         this.owner = owner;
         this.nutrientContent = nutrientContent;
         this.effectDuration = effectDuration;
@@ -17,20 +15,15 @@ public abstract class Spore {
 
     public abstract int gotEatenBy(Insect i);
 
-    public int getNutrientContent() {
-        return this.nutrientContent;
-    }
-
     public String getName() {
         return this.name;
     }
 
-    @Override
-    public String toString() {
+    public String sporeToString(String sporeType) {
         String returnString = "\tSpore name: ";
         returnString += this.name;
         returnString += "\n\tSpore type: ";
-        returnString += this.sporeType;
+        returnString += sporeType;
         returnString += "\n\tSpore's nutrient content: ";
         returnString += this.nutrientContent;
         returnString += "\n\tSpore's effect duration: ";
@@ -38,12 +31,5 @@ public abstract class Spore {
         returnString += "\n\tSpore's owner: ";
         returnString += this.owner;
         return returnString;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        Spore s = (Spore)obj;
-        return sporeType.equals(s.sporeType) && owner.equals(s.owner) && nutrientContent == s.nutrientContent &&
-                effectDuration == s.effectDuration && name.equals(s.name);
     }
 }

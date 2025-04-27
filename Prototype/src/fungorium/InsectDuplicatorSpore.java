@@ -1,11 +1,9 @@
 package fungorium;
 
-public class InsectDuplicatorSpore extends Spore{
-
-    private static final String type = "insect duplicator spore";
+public class InsectDuplicatorSpore extends Spore {
 
     public InsectDuplicatorSpore(FungusFarmer owner, int nutrientContent, int effectDuration, String name) {
-        super(type, owner, nutrientContent, effectDuration, name);
+        super(owner, nutrientContent, effectDuration, name);
     }
 
     @Override
@@ -13,8 +11,9 @@ public class InsectDuplicatorSpore extends Spore{
         i.duplicate();
         return nutrientContent;
     }
+
     @Override
     public String toString() {
-        return super.toString();
+        return sporeToString("insect duplicator spore");
     }
 }

@@ -2,10 +2,8 @@ package fungorium;
 
 public class BoosterSpore extends Spore {
 
-    private static final String type = "booster spore";
-
     public BoosterSpore(FungusFarmer owner, int nutrientContent, int effectDuration, String name) {
-        super(type, owner, nutrientContent, effectDuration, name);
+        super(owner, nutrientContent, effectDuration, name);
     }
 
     @Override
@@ -13,8 +11,9 @@ public class BoosterSpore extends Spore {
         i.setBoostedForRounds(effectDuration);
         return nutrientContent;
     }
+
     @Override
     public String toString() {
-        return super.toString();
+        return sporeToString("booster spore");
     }
 }
