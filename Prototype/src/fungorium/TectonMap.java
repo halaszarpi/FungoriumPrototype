@@ -15,9 +15,6 @@ public class TectonMap {
     private Random rand;
     private boolean isTest;
     private TectonView tectonView;
-    private InsectView insectView;
-    private MyceliumView myceliumView;
-    private FungusBodyView fungusBodyView;
     private ArrayList<String> playerCommands;
     private ArrayList<String> controllerCommands;
     private final int maxSporeNutrientContent = 5;
@@ -27,20 +24,10 @@ public class TectonMap {
 
     public TectonMap(Scanner _scanner, boolean isTest) {
 
-        initViews(_scanner);
-
+        this.view = new TectonMapView(this, _scanner);
         rand = new Random();
         this.isTest = isTest;
         tectons = new ArrayList<>();
-    }
-
-    private void initViews(Scanner _scanner) {
-
-        this.view = new TectonMapView(_scanner);
-        tectonView = new TectonView();
-        insectView = new InsectView();
-        myceliumView = new MyceliumView();
-        fungusBodyView = new FungusBodyView();
     }
 
     private void addTecton(String tectonName, String tectonType) throws Exception {
@@ -377,11 +364,11 @@ public class TectonMap {
     }
 
     public void showMap() {
-        view.showMap(this);
+        view.showMap();
     }
 
     public void refreshMap() {
-        view.refreshMap(this);
+        view.refreshMap();
     }
 
     public List<Tecton> getTectons() { return tectons; }

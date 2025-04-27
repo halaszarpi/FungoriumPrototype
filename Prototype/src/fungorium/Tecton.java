@@ -15,7 +15,7 @@ public abstract class Tecton implements IRoundFollower{
     private static final int noMyceliumConnectionVal = 0;
     private static final int maxMyceliumSurvivalTimeVal = 5;
 
-    protected Tecton(int precentToBreak, String tectonName, String type, TectonView tectonView) {
+    protected Tecton(int precentToBreak, String tectonName, String type) {
         tectonType = type;
         sporeList = new ArrayList<>();
         neighbours = new HashMap<>();
@@ -24,16 +24,16 @@ public abstract class Tecton implements IRoundFollower{
         breakPrecent = precentToBreak;
         gen = new Random();
         myceliumList = new ArrayList<>();
-        view = tectonView;
+        view = new TectonView(this);
 
-        view.tectonCreated(this);
+        view.tectonCreated();
     }
 
     public void addNeighbour(Tecton t) { 
         neighbours.put(t, noMyceliumConnectionVal); 
         t.neighbours.put(this, noMyceliumConnectionVal);
 
-        view.neighbourAdded(this, t);
+        view.neighbourAdded(t);
     }
 
     public boolean addConnection(Tecton t) throws Exception{
@@ -43,7 +43,7 @@ public abstract class Tecton implements IRoundFollower{
         neighbours.put(t, maxMyceliumSurvivalTimeVal);
         t.neighbours.put(this, maxMyceliumSurvivalTimeVal);
 
-        view.connectionAdded(this, t);
+        view.connectionAdded(t);
         return true;
     }
 
@@ -52,13 +52,13 @@ public abstract class Tecton implements IRoundFollower{
     public void addSpore(Spore s) { 
         sporeList.add(s);
 
-        view.sporeAdded(this, s);
+        view.sporeAdded(s);
      }
 
     public void addInsect(Insect i) {
         insectList.add(i); 
 
-        view.insectAdded(this, i);
+        view.insectAdded(i);
     }
 
     private void removeNeighbour(Tecton t) {
@@ -66,25 +66,25 @@ public abstract class Tecton implements IRoundFollower{
         neighbours.remove(t); 
         t.neighbours.remove(this);
 
-        view.neighbourRemoved(this, t);
+        view.neighbourRemoved(t);
     }
 
     public void removeMycelium(Mycelium m) { 
         myceliumList.remove(m); 
 
-        view.myceliumRemoved(this, m);
+        view.myceliumRemoved(m);
     }
 
     public void removeInsect(Insect i) { 
         insectList.remove(i); 
 
-        view.insectRemoved(this, i);
+        view.insectRemoved(i);
     }
 
     public void removeSpore(Spore s) { 
         sporeList.remove(s); 
 
-        view.sporeRemoved(this, s);
+        view.sporeRemoved(s);
     }
 
     public void removeConnection(Tecton t) throws Exception { 
@@ -94,7 +94,7 @@ public abstract class Tecton implements IRoundFollower{
         neighbours.put(t, noMyceliumConnectionVal);
         t.neighbours.put(this, noMyceliumConnectionVal);
 
-        view.removeConnection(this, t);
+        view.removeConnection(t);
     }
 
     //Kód duplikálás miatt
@@ -144,7 +144,7 @@ public abstract class Tecton implements IRoundFollower{
     }
 
     public boolean hasSpores(Spore spore) throws Exception { 
-        if (sporeList.isEmpty()) { throw new Exception(view.tectonHasNoSpores(this)); }
+        if (sporeList.isEmpty()) { throw new Exception(view.tectonHasNoSpores()); }
         for (Spore s : sporeList) {
             if (s.equals(spore)) {
                 return true;
