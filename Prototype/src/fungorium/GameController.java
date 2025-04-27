@@ -55,10 +55,21 @@ public class GameController {
         tectonMap.showMap();
 
         for (Player player : players) {
-            System.out.println("Player " + player.getName() + " is choosing a starting Tecton:");
-            String tectonName = scanner.nextLine();
-            Tecton startingTecton = player.findTectonByName(tectonName, tectonMap.map());
-            player.initializePlayer(startingTecton);
+            boolean valid = false;
+            while (!valid) {
+                System.out.println("Player " + player.getName() + " is choosing a starting Tecton:");
+                String tectonName = scanner.nextLine();
+
+                Tecton startingTecton;
+                try {
+                    startingTecton = player.findTectonByName(tectonName, tectonMap.map());
+                } catch (Exception e) {
+                    System.out.println("Error while choosing starting Tecton: " + e.getMessage());
+                    continue;
+                }
+                player.initializePlayer(startingTecton);
+                valid = true;
+            }
         }
 
         System.out.println("Game initialized!");
