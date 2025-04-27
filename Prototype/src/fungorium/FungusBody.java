@@ -3,10 +3,17 @@ package fungorium;
 import java.util.Random;
 
 public class FungusBody {
-    private Mycelium mycelium;
+    private final Mycelium mycelium;
     private int remainingSpores;
     private int scatteringCooldown;
-    private FungusBodyView view;
+    private final FungusBodyView view;
+
+    public FungusBody(Mycelium mycelium) {
+        this.mycelium = mycelium;
+        this.remainingSpores = 5;
+        this.scatteringCooldown = 2;
+        this.view = new FungusBodyView(this);
+    }
 
     private Spore createRandomSpore(FungusFarmer owner) {
         Random rand = new Random();
@@ -37,13 +44,6 @@ public class FungusBody {
             default:
                 return new OrdinarySpore(owner, nutrientContent, 0, sporeName);
         }
-    }
-
-    public FungusBody(Mycelium mycelium) {
-        this.mycelium = mycelium;
-        this.remainingSpores = 5;
-        this.scatteringCooldown = 2;
-        this.view = new FungusBodyView(this);
     }
 
     public Mycelium getMycelium() {
