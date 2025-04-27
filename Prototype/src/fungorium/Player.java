@@ -34,6 +34,10 @@ public abstract class Player {
         return score;
     }
 
+    public void increaseScore(int amount) {
+        this.score += amount;
+    }
+
     public boolean isInGame() {
         return inGame;
     }

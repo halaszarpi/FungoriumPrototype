@@ -71,6 +71,9 @@ public class FungusFarmer extends Player {
             case "INFO":
                 view.info();
                 break;
+            case "SHOWMAP":
+                map.showMap();
+                break;
             case "SKIP":
                 actionPoints = 0;
                 break;
@@ -111,6 +114,10 @@ public class FungusFarmer extends Player {
 
     public void addSpore(Spore spore){
         spores.add(spore);
+    }
+
+    public void removeSpore(Spore spore ){
+        spores.remove(spore);
     }
 
     public String getNewMyceliumName() {

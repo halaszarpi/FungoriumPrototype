@@ -9,7 +9,7 @@ public class InsectKeeperView {
 
     public void chooseAction() {
         System.out.println(insectKeeper.toString());
-        System.out.println("Enter command: \n\tMOVETOTECTON(1-3) [INSNAME] [TECNAME]\n\t CUTMYC(1) [INSNAME] [TECNAME]\n\t EATSPORE(1) [INSNAME] [SPONAME]\n\t INFO\n\t SKIP");
+        System.out.println("Enter command: \n\tMOVETOTECTON(1-3) [INSNAME] [TECNAME]\n\t CUTMYC(1) [INSNAME] [TECNAME]\n\t EATSPORE(1) [INSNAME] [SPONAME]\n\t INFO\n\tSHOWMAP\n\t SKIP");
     }
 
     public void invalidActionMessage() {
@@ -24,7 +24,7 @@ public class InsectKeeperView {
         System.out.println("\n\tSCORE:"+insectKeeper.getScore());
         System.out.println("\nINSECT'S");
         for(Insect insect:insectKeeper.getInsects()){
-            System.out.println("\t"+insect.getName());                                                                                                                                                                                                                                                        }
+            System.out.println("\t"+insect.getName() + "on tecton (" + insect.getTecton().getName() + ")");                                                                                                                                                                                                                                                        }
         System.out.println("-------------------");
 
     }

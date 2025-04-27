@@ -70,6 +70,7 @@ public class Insect implements IRoundFollower{
         view.insectAteSpore(spore);
         tecton.removeSpore(spore);
         owner.useActionPoints(1);
+        owner.increaseScore(nutrientContent);
         return nutrientContent;
     }
 

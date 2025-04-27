@@ -69,6 +69,9 @@ public class InsectKeeper extends Player {
             case "INFO":
                 view.info();
                 break;
+            case "SHOWMAP":
+                map.showMap();
+                break;
             case "SKIP":
                 actionPoints=0;
                 break;
