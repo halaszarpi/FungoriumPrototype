@@ -13,6 +13,7 @@ public class FungusFarmer extends Player {
         super(name);
         myceliums = new ArrayList<>();
         spores = new ArrayList<>();
+        view = new FungusFarmerView();
     }
 
     @Override
