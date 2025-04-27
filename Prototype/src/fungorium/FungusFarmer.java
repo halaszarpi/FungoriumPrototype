@@ -18,6 +18,11 @@ public class FungusFarmer extends Player {
 
     @Override
     public void turn(TectonMap map, Scanner in){
+        if (myceliums.isEmpty()) {
+            inGame = false;
+            return;
+        }
+
         actionPoints = 4;
 
         while(actionPoints > 0 && inGame) {
@@ -42,10 +47,6 @@ public class FungusFarmer extends Player {
     }
 
     public void changeMapBasedOnCommands(TectonMap map, String[] args) throws Exception {
-
-        if (myceliums.isEmpty()) {
-            inGame = false;
-        }
 
         String action = args[0].toUpperCase();
         Mycelium mycelium = args.length > 1 ? map.findMycelium(args[1]): null;

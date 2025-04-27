@@ -16,6 +16,10 @@ public class InsectKeeper extends Player {
 
     @Override
     public void turn(TectonMap map, Scanner in) {
+        if (insects.isEmpty()) {
+            inGame = false;
+            return;
+        }
         actionPoints = 4;
 
         while (actionPoints > 0 && inGame) {
@@ -35,10 +39,6 @@ public class InsectKeeper extends Player {
                 e.printStackTrace();
 
             }
-            if (insects.isEmpty()) {
-                inGame = false;
-            }
-
         }
 
     }
