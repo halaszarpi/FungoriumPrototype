@@ -80,7 +80,7 @@ public class TectonMap {
     private void addMycelium(String myceliumName, String tectonName) throws Exception {
 
         Tecton foundTecton = findTecton(tectonName);
-        Mycelium newMycelium = new Mycelium(foundTecton, myceliumName, myceliumView);
+        Mycelium newMycelium = new Mycelium(foundTecton, myceliumName, myceliumView, 5);
         foundTecton.addMycelium(newMycelium);
 
     }
