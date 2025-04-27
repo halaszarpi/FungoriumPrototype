@@ -273,7 +273,8 @@ public class TectonMap {
     }
 
     public void roundPassed() {
-        for (Tecton t : tectons){
+        for (int i = 0; i < tectons.size(); ++i){
+            Tecton t = tectons.get(i);
             t.roundPassed();
         }
     }

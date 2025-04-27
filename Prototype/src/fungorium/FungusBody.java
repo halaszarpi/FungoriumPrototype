@@ -42,13 +42,13 @@ public class FungusBody {
         }
 
         return switch (resultSporeTypeString) {
-            case "ORD" -> new OrdinarySpore(owner, nutrientContent, 0, owner.getNewSporeName());
+            case "ORD" -> new OrdinarySpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
             case "SLO" -> new SlowingSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
             case "STU" -> new StunningSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
             case "BST" -> new BoosterSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
             case "ANT" -> new AntiSeverSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-            case "DUP" -> new InsectDuplicatorSpore(owner, nutrientContent, 1, owner.getNewSporeName());
-            default -> new OrdinarySpore(owner, nutrientContent, 0, owner.getNewSporeName());
+            case "DUP" -> new InsectDuplicatorSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+            default -> new OrdinarySpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
         };
     }
 
