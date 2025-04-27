@@ -15,13 +15,15 @@ public class TectonMap {
     private Random rand;
     private boolean isTest;
     private TectonView tectonView;
-    private InsectView insectView; 
+    private InsectView insectView;
     private MyceliumView myceliumView;
     private FungusBodyView fungusBodyView;
     private ArrayList<String> playerCommands;
     private ArrayList<String> controllerCommands;
     private final int maxSporeNutrientContent = 5;
     private final int maxSporeEffectDuration = 3;
+    private final FungusFarmer testerFarmer = new FungusFarmer("testerFarmer");
+    private final InsectKeeper testerKeeper = new InsectKeeper("testerKeeper");
 
     public TectonMap(Scanner _scanner, boolean isTest) {
 
@@ -36,7 +38,7 @@ public class TectonMap {
 
         this.view = new TectonMapView(_scanner);
         tectonView = new TectonView();
-        insectView = new InsectView(); 
+        insectView = new InsectView();
         myceliumView = new MyceliumView();
         fungusBodyView = new FungusBodyView();
     }
@@ -77,24 +79,27 @@ public class TectonMap {
         firsTecton.addConnection(secondTecton);
     }
 
+    // ADD_MYC [mycelium_name] [tecton_name]
     private void addMycelium(String myceliumName, String tectonName) throws Exception {
 
         Tecton foundTecton = findTecton(tectonName);
-        Mycelium newMycelium = new Mycelium(foundTecton, myceliumName, myceliumView, 5);
+        Mycelium newMycelium = new Mycelium(myceliumName, testerFarmer, foundTecton);
         foundTecton.addMycelium(newMycelium);
 
     }
 
-    private void addBody(String myceliumName) throws Exception {
+    // ADD_BOD [mycelium_name] [spore_to_use_name]
+    private void addBody(String myceliumName, String sporeToUseName) throws Exception {
 
         Mycelium foundMycelium = findMycelium(myceliumName);
-        foundMycelium.growBody(fungusBodyView);
+        Spore foundSpore = findSpore(sporeToUseName);
+        foundMycelium.growBody(foundSpore);
     }
 
     private void addInsect(String insectName, String tectonName) throws Exception {
 
         Tecton foundTecton = findTecton(tectonName);
-        Insect newInsect = new Insect(insectName, foundTecton, new InsectKeeper());
+        Insect newInsect = new Insect(insectName, foundTecton, testerKeeper);
         foundTecton.addInsect(newInsect);
 
     }
@@ -107,12 +112,12 @@ public class TectonMap {
         int effectDuration = maxSporeEffectDuration;
 
         switch (sporeType) {
-            case "ANT" -> foundTecton.addSpore(new AntiSeverSpore(new FungusFarmer(), nutrientContent, effectDuration, sporeName));
-            case "BST" -> foundTecton.addSpore(new BoosterSpore(new FungusFarmer(), nutrientContent, effectDuration, sporeName));
-            case "SLO" -> foundTecton.addSpore(new SlowingSpore(new FungusFarmer(), nutrientContent, effectDuration, sporeName));
-            case "DUP" -> foundTecton.addSpore(new InsectDuplicatorSpore(new FungusFarmer(), nutrientContent, effectDuration, sporeName));
-            case "STU" -> foundTecton.addSpore(new StunningSpore(new FungusFarmer(), nutrientContent, effectDuration, sporeName));
-            case "ORD" -> foundTecton.addSpore(new OrdinarySpore(new FungusFarmer(), nutrientContent, effectDuration, sporeName));
+            case "ANT" -> foundTecton.addSpore(new AntiSeverSpore(testerFarmer, nutrientContent, effectDuration, sporeName));
+            case "BST" -> foundTecton.addSpore(new BoosterSpore(testerFarmer, nutrientContent, effectDuration, sporeName));
+            case "SLO" -> foundTecton.addSpore(new SlowingSpore(testerFarmer, nutrientContent, effectDuration, sporeName));
+            case "DUP" -> foundTecton.addSpore(new InsectDuplicatorSpore(testerFarmer, nutrientContent, effectDuration, sporeName));
+            case "STU" -> foundTecton.addSpore(new StunningSpore(testerFarmer, nutrientContent, effectDuration, sporeName));
+            case "ORD" -> foundTecton.addSpore(new OrdinarySpore(testerFarmer, nutrientContent, effectDuration, sporeName));
             default -> throw new Exception();
         }
     }
@@ -135,8 +140,8 @@ public class TectonMap {
 
         for (Tecton t : tectons) {
 
-            if (t.getMyceliumList().contains(foundMycelium)) { 
-                t.removeMycelium(foundMycelium); 
+            if (t.getMyceliumList().contains(foundMycelium)) {
+                t.removeMycelium(foundMycelium);
             }
         }
     }
@@ -152,8 +157,8 @@ public class TectonMap {
 
         for (Tecton t : tectons) {
 
-            if (t.getInsectList().contains(foundInsect)) { 
-                t.removeInsect(foundInsect); 
+            if (t.getInsectList().contains(foundInsect)) {
+                t.removeInsect(foundInsect);
             }
         }
     }
@@ -241,7 +246,7 @@ public class TectonMap {
             case "SET_NGH" -> setNeighbour(commandParts);
             case "ADD_CON" -> addConnection(commandParts[1], commandParts[2]);
             case "ADD_MYC" -> addMycelium(commandParts[1], commandParts[2]);
-            case "ADD_BOD" -> addBody(commandParts[1]);
+            case "ADD_BOD" -> addBody(commandParts[1], commandParts[2]);
             case "ADD_INS" -> addInsect(commandParts[1], commandParts[2]);
             case "ADD_SPO" -> addSpore(commandParts[1], commandParts[2], commandParts[3]);
             case "RM_TEC" -> removeTecon(commandParts[1]);
@@ -273,11 +278,11 @@ public class TectonMap {
 
     }
 
-    private void scatterSpore(String myceliumName, String tectonName, String sporeName) throws Exception {
+    private void scatterSpore(String myceliumName, String tectonName) throws Exception {
         Mycelium foundMycelium = findMycelium(myceliumName);
         Tecton foundTecton = findTecton(tectonName);
 
-        foundMycelium.scatterSpore(foundTecton, sporeName);
+        foundMycelium.scatterSpore(foundTecton);
     }
 
     private void moveToTecton(String insectName, String tectonName) throws Exception {
@@ -325,9 +330,9 @@ public class TectonMap {
 
         switch (commandParts[0]) {
             case "GROWMYC" -> addMycelium(commandParts[1], commandParts[2]);
-            case "GROWBOD" -> addBody(commandParts[1]);
+            case "GROWBOD" -> addBody(commandParts[1], commandParts[2]);
             case "EATINS" -> eatInsect(commandParts[1], commandParts[2]);
-            case "SCATTERSP" -> scatterSpore(commandParts[1], commandParts[2], commandParts[3]);
+            case "SCATTERSP" -> scatterSpore(commandParts[1], commandParts[2]);
             case "MOVETOTECTON" -> moveToTecton(commandParts[1], commandParts[2]);
             case "CUTMYC" -> cutMycelium(commandParts[1], commandParts[2]);
             case "EATSPORE" -> eatSpore(commandParts[1], commandParts[2]);
