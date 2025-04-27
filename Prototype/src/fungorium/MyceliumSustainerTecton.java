@@ -28,7 +28,7 @@ public class MyceliumSustainerTecton extends Tecton{
 
     @Override
     public void breakTecton() {
-        Tecton newTecton = new OrdinaryTecton(breakPrecent, name + "-2", map);
+        Tecton newTecton = new MyceliumSustainerTecton(breakPrecent, name + "-2", map);
         name += "-1";
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton);

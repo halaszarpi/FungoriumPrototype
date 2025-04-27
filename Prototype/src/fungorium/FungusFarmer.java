@@ -51,6 +51,8 @@ public class FungusFarmer extends Player {
         String action = args[0].toUpperCase();
         Mycelium mycelium = args.length > 1 ? map.findMycelium(args[1]): null;
         String targetName = args.length > 2 ? args[2] : null;
+        String sporeType = args.length > 3 ? args[3] : null;
+        String sporeName = args.length > 4 ? args[4] : null;
 
         switch(action) {
             case "GROWMYC":
@@ -63,7 +65,7 @@ public class FungusFarmer extends Player {
                 break;
             case "SCATTERSP":
                 Tecton targetTecton2 = map.findTecton(targetName);
-                mycelium.scatterSpore(targetTecton2);
+                mycelium.scatterSpore(targetTecton2, sporeType, sporeName);
                 break;
             case "EATINS":
                 Insect targetInsect = map.findInsect(targetName);
@@ -122,7 +124,7 @@ public class FungusFarmer extends Player {
         spores.add(spore);
     }
 
-    public void removeSpore(Spore spore ){
+    public void removeSpore(Spore spore){
         spores.remove(spore);
     }
 

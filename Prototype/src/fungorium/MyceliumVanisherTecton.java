@@ -41,8 +41,9 @@ public class MyceliumVanisherTecton extends Tecton {
     }
 
     @Override
-    public void vanishMycelium(){
-        for (Mycelium m : myceliumList) {
+    public void vanishMycelium() {
+        for (int i = myceliumList.size() - 1; i >= 0; i--) {
+            Mycelium m = myceliumList.get(i);
             m.decreaseRoundsToLive();
         }
     }

@@ -9,7 +9,6 @@ import java.util.Scanner;
 
 public class TectonMap {
     private List<Tecton> tectons;
-    private List<Tecton> tmpTectons;
     private TectonMapView view;
     private Random rand;
     private boolean isTest;
@@ -30,7 +29,6 @@ public class TectonMap {
             testerKeeper.actionPoints = 100;
         }
         tectons = new ArrayList<>();
-        tmpTectons = new ArrayList<>();
     }
 
     private void addTecton(String tectonName, String tectonType) throws Exception {
@@ -98,15 +96,20 @@ public class TectonMap {
         int nutrientContent = maxSporeNutrientContent;
         int effectDuration = maxSporeEffectDuration;
 
+        Spore s = null;
+
         switch (sporeType) {
-            case "ANT" -> foundTecton.addSpore(new AntiSeverSpore(testerFarmer, nutrientContent, effectDuration, sporeName));
-            case "BST" -> foundTecton.addSpore(new BoosterSpore(testerFarmer, nutrientContent, effectDuration, sporeName));
-            case "SLO" -> foundTecton.addSpore(new SlowingSpore(testerFarmer, nutrientContent, effectDuration, sporeName));
-            case "DUP" -> foundTecton.addSpore(new InsectDuplicatorSpore(testerFarmer, nutrientContent, effectDuration, sporeName));
-            case "STU" -> foundTecton.addSpore(new StunningSpore(testerFarmer, nutrientContent, effectDuration, sporeName));
-            case "ORD" -> foundTecton.addSpore(new OrdinarySpore(testerFarmer, nutrientContent, effectDuration, sporeName));
+            case "ANT" -> s = new AntiSeverSpore(testerFarmer, nutrientContent, effectDuration, sporeName);
+            case "BST" -> s = new BoosterSpore(testerFarmer, nutrientContent, effectDuration, sporeName);
+            case "SLO" -> s = new SlowingSpore(testerFarmer, nutrientContent, effectDuration, sporeName);
+            case "DUP" -> s = new InsectDuplicatorSpore(testerFarmer, nutrientContent, effectDuration, sporeName);
+            case "STU" -> s = new StunningSpore(testerFarmer, nutrientContent, effectDuration, sporeName);
+            case "ORD" -> s = new OrdinarySpore(testerFarmer, nutrientContent, effectDuration, sporeName);
             default -> throw new Exception();
         }
+
+        foundTecton.addSpore(s);
+        testerFarmer.addSpore(s);
     }
 
     private void removeTecon(String tectonName) throws Exception {
@@ -261,7 +264,6 @@ public class TectonMap {
 
         // ezt le kellene tarolni, ami letrejott tekton, majd berakni a map tektonlistajaba
         foundTecton.breakTecton();
-        refreshMapAfterRoundPassed();
     }
 
     private void vanishMycelium(String tectonName) throws Exception {
@@ -274,7 +276,6 @@ public class TectonMap {
         for (Tecton t : tectons){
             t.roundPassed();
         }
-        refreshMapAfterRoundPassed();
     }
 
     private void processInputCommand(String command) throws Exception {
@@ -339,11 +340,6 @@ public class TectonMap {
 
     public List<Tecton> getTectons() { return tectons; }
 
-    public void add(Tecton t) { tmpTectons.add(t); }
-
-    public void refreshMapAfterRoundPassed() { 
-        tectons.addAll(tmpTectons); 
-        tmpTectons.clear();
-    }
+    public void add(Tecton t) { tectons.add(t); }
 
 }

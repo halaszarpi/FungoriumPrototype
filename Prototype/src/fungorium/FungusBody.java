@@ -15,7 +15,7 @@ public class FungusBody {
         this.view = new FungusBodyView(this);
     }
 
-    private Spore createRandomSpore(FungusFarmer owner) {
+    private Spore createRandomSpore(FungusFarmer owner, String sporeTypeString, String sporeName) {
         Random rand = new Random();
 
         int nutrientContent = rand.nextInt(5) + 1;
@@ -23,13 +23,27 @@ public class FungusBody {
 
         int sporeType = rand.nextInt(6);
 
-        return switch (sporeType) {
-            case 0 -> new OrdinarySpore(owner, nutrientContent, 0, owner.getNewSporeName());
-            case 1 -> new SlowingSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-            case 2 -> new StunningSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-            case 3 -> new BoosterSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-            case 4 -> new AntiSeverSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-            case 5 -> new InsectDuplicatorSpore(owner, nutrientContent, 1, owner.getNewSporeName());
+        String resultSporeTypeString = null;
+
+        switch (sporeType) {
+            case 0 -> resultSporeTypeString = "ORD";
+            case 1 -> resultSporeTypeString = "SLO";
+            case 2 -> resultSporeTypeString = "STU";
+            case 3 -> resultSporeTypeString = "BST";
+            case 4 -> resultSporeTypeString = "ANT";
+            case 5 -> resultSporeTypeString = "DUP";
+            default -> resultSporeTypeString = "ORD";
+        }
+
+        if (sporeTypeString != null && sporeName != null) { resultSporeTypeString = sporeTypeString; }
+
+        return switch (resultSporeTypeString) {
+            case "ORD" -> new OrdinarySpore(owner, nutrientContent, 0, owner.getNewSporeName());
+            case "SLO" -> new SlowingSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+            case "STU" -> new StunningSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+            case "BST" -> new BoosterSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+            case "ANT" -> new AntiSeverSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+            case "DUP" -> new InsectDuplicatorSpore(owner, nutrientContent, 1, owner.getNewSporeName());
             default -> new OrdinarySpore(owner, nutrientContent, 0, owner.getNewSporeName());
         };
     }
@@ -38,7 +52,7 @@ public class FungusBody {
         return this.mycelium;
     }
 
-    public void scatterTo(Tecton targetTecton) throws Exception {
+    public void scatterTo(Tecton targetTecton, String sporeType, String sporeName) throws Exception {
         FungusFarmer farmer = mycelium.getOwner();
 
         if (scatteringCooldown > 0) {
@@ -49,7 +63,7 @@ public class FungusBody {
             throw new Exception(view.noAvailableActionPoint());
         }
 
-        Spore newSpore = createRandomSpore(farmer);
+        Spore newSpore = createRandomSpore(farmer, sporeType, sporeName);
         boolean grownBody = remainingSpores <= 3;
         Tecton currentTecton = mycelium.getTecton();
         boolean sameTecton = currentTecton.equals(targetTecton);

@@ -101,12 +101,12 @@ public class Mycelium implements IRoundFollower{
         view.bodyHasDied();
     }
 
-    public void scatterSpore(Tecton targetTecton) throws Exception {
+    public void scatterSpore(Tecton targetTecton, String sporeType, String sporeName) throws Exception {
         if (body == null) {
             // view hivas!
             throw new Exception(view.hasNoFungusBody());
         }
-        body.scatterTo(targetTecton);
+        body.scatterTo(targetTecton, sporeType, sporeName);
         owner.useActionPoints(1);
     }
 
