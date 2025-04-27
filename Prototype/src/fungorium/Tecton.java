@@ -4,7 +4,7 @@ import java.util.*;
 
 public abstract class Tecton implements IRoundFollower{
     private String tectonType;
-    private Map<Tecton, Integer> neighbours;
+    private Map<Tecton, Boolean> neighbours;
     private List<Spore> sporeList;
     private List<Insect> insectList;
     protected List<Mycelium> myceliumList;
@@ -12,16 +12,13 @@ public abstract class Tecton implements IRoundFollower{
     protected int breakPrecent;
     protected Random gen;
     protected TectonView view;
-    private static final int noMyceliumConnectionVal = 0;
-    private static final int maxMyceliumSurvivalTimeVal = 5;
 
-    protected Tecton(int precentToBreak, String tectonName, String type) {
-        tectonType = type;
+    protected Tecton(int percentToBreak, String tectonName) {
         sporeList = new ArrayList<>();
         neighbours = new HashMap<>();
         insectList = new ArrayList<>();
         name = tectonName;
-        breakPrecent = precentToBreak;
+        breakPrecent = percentToBreak;
         gen = new Random();
         myceliumList = new ArrayList<>();
         view = new TectonView(this);
@@ -30,21 +27,20 @@ public abstract class Tecton implements IRoundFollower{
     }
 
     public void addNeighbour(Tecton t) { 
-        neighbours.put(t, noMyceliumConnectionVal); 
-        t.neighbours.put(this, noMyceliumConnectionVal);
+        neighbours.put(t, false);
+        t.neighbours.put(this, false);
 
         view.neighbourAdded(t);
     }
 
-    public boolean addConnection(Tecton t) throws Exception{
+    public void addConnection(Tecton t) throws Exception{
 
-        if (!isNeighbour(t)) return false; //Felesleges if()-be rakni, ha false úgyis exceptiont dob, de a szépség miatt beleírom
+        if (!isNeighbour(t)) throw new Exception(view.notNeighbour(t));
 
-        neighbours.put(t, maxMyceliumSurvivalTimeVal);
-        t.neighbours.put(this, maxMyceliumSurvivalTimeVal);
+        neighbours.put(t, true);
+        t.neighbours.put(this, true);
 
         view.connectionAdded(t);
-        return true;
     }
 
     public boolean hasMycelium(FungusFarmer f) {
@@ -96,16 +92,16 @@ public abstract class Tecton implements IRoundFollower{
         view.sporeRemoved(s);
     }
 
-    public void removeConnection(Tecton t) throws Exception { 
+    public void removeConnection(Tecton t) throws Exception {
 
-        isNeighbour(t);
+        if(!isNeighbour(t)) throw new Exception(view.notNeighbour(t));
+        if (!isConnectedTo(t)) throw new Exception(view.notConnectedByMycelium(t));
 
-        neighbours.put(t, noMyceliumConnectionVal);
-        t.neighbours.put(this, noMyceliumConnectionVal);
+        neighbours.put(t, false);
+        t.neighbours.put(this, false);
 
         view.removeConnection(t);
     }
-
 
     public boolean isNeighbour(Tecton t) {
         List<Tecton> neighbourList = new ArrayList<>(neighbours.keySet());
@@ -127,17 +123,14 @@ public abstract class Tecton implements IRoundFollower{
         return isNeighboursNeighbourBoolean;
     }
 
-    public boolean isConnectedTo(Tecton t) throws Exception {
-        if (!isNeighbour(t)) return false; //Felesleges if()-be rakni, ha false úgyis exceptiont dob, de a szépség miatt beleírom
-
-        int myceliumSurvivalTimeVal = neighbours.get(t);
-        if (myceliumSurvivalTimeVal == noMyceliumConnectionVal) { throw new Exception(view.notConnectedByMycelium(this, t)); }
-        return true;
+    public boolean isConnectedTo(Tecton t) {
+        if(!neighbours.containsKey(t))
+            return false;
+        return neighbours.get(t);
     }
 
-    public abstract boolean canPlaceBody() throws Exception;
+    public abstract boolean canPlaceBody();
 
-    //Kód duplikálás miatt
     protected boolean canPlaceBodyHelper() {
 
         for (Mycelium m : myceliumList){
@@ -147,8 +140,8 @@ public abstract class Tecton implements IRoundFollower{
         return true;
     }
 
-    public boolean hasSpores(Spore spore) throws Exception { 
-        if (sporeList.isEmpty()) { throw new Exception(view.tectonHasNoSpores()); }
+    public boolean hasSpores(Spore spore) {
+        if (sporeList.isEmpty()) { return false; }
         for (Spore s : sporeList) {
             if (s.equals(spore)) {
                 return true;
@@ -160,16 +153,6 @@ public abstract class Tecton implements IRoundFollower{
     public abstract Tecton breakTecton();
 
     public abstract void vanishMycelium() throws Exception;
-
-    protected void callRoundPasseds() {
-        for (Insect i : insectList) {
-            i.roundPassed();
-        }
-
-        for (Mycelium m : myceliumList) {
-            m.roundPassed();
-        }
-    }
 
     protected void manageNeighboursAtBreak(Tecton newTecton) {
 
@@ -224,11 +207,10 @@ public abstract class Tecton implements IRoundFollower{
 
     public String getName() { return name; }
 
-    @Override
-    public String toString() {
+    protected String tectonToString(String tectonType) {
 
         String returnString = "\n--------------------------------------------------------------------------------------------------------";
-        
+
         returnString += "\nTecton name: ";
 
         returnString += name;
@@ -240,26 +222,40 @@ public abstract class Tecton implements IRoundFollower{
         returnString += "\n---------------------------";
         returnString += "\nSpores on tecton: ";
 
+        Collections.sort(sporeList, new Comparator<Spore>() {
+            @Override
+            public int compare(Spore s1, Spore s2) {
+                return s1.getName().compareTo(s2.getName());
+            }
+        });
+
         if (!sporeList.isEmpty()) {
             for (Spore s : sporeList){
                 returnString += "\n" + s.toString() + "\n";
             }
         }
-        else { 
-            returnString += "-\n"; 
+        else {
+            returnString += "-\n";
         }
         returnString += "---------------------------";
         returnString += "\nNeigbours of tecton: ";
 
         List<Tecton> neighbourList = new ArrayList<>(neighbours.keySet());
 
+        Collections.sort(neighbourList, new Comparator<Tecton>() {
+            @Override
+            public int compare(Tecton t1, Tecton t2) {
+                return t1.getName().compareTo(t2.getName());
+            }
+        });
+
         if (!neighbourList.isEmpty()) {
             for (Tecton t : neighbourList){
                 returnString += t.name + ", ";
             }
         }
-        else { 
-            returnString += "-\n"; 
+        else {
+            returnString += "-\n";
         }
 
         returnString += "\n---------------------------";
@@ -269,39 +265,53 @@ public abstract class Tecton implements IRoundFollower{
 
         if (!neighbourList.isEmpty()) {
             for (Tecton t : neighbourList) {
-                if (neighbours.get(t) != 0) { 
-                    returnString += t.name + ", "; 
+                if (neighbours.get(t)) {
+                    returnString += t.name + ", ";
                     foundAtLeastOne = true;
                 }
             }
             if (!foundAtLeastOne) { returnString += "-\n"; }
         }
-        else { 
-            returnString += "-\n"; 
+        else {
+            returnString += "-\n";
         }
 
         returnString += "\n---------------------------";
         returnString+= "\nMycelia on tecton: ";
+
+        Collections.sort(myceliumList, new Comparator<Mycelium>() {
+            @Override
+            public int compare(Mycelium e1, Mycelium e2) {
+                return e1.getName().compareTo(e2.getName());
+            }
+        });
 
         if (!myceliumList.isEmpty()) {
             for (Mycelium m : myceliumList){
                 returnString += "\n" + m.toString() + "\n";
             }
         }
-        else { 
-            returnString += "-\n"; 
+        else {
+            returnString += "-\n";
         }
 
         returnString += "---------------------------";
         returnString += "\nInsects on tecton: ";
+
+        Collections.sort(insectList, new Comparator<Insect>() {
+            @Override
+            public int compare(Insect i1, Insect i2) {
+                return i1.getName().compareTo(i2.getName());
+            }
+        });
 
         if (!insectList.isEmpty()){
             for (Insect i : insectList) {
                 returnString += "\n" + i.toString() + "\n";
             }
         }
-        else { 
-            returnString += "-\n"; 
+        else {
+            returnString += "-\n";
         }
 
         returnString += "---------------------------";
@@ -310,12 +320,6 @@ public abstract class Tecton implements IRoundFollower{
         returnString += "\n--------------------------------------------------------------------------------------------------------\n";
 
         return returnString;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        Tecton t = (Tecton)obj;
-        return name.equals(t.getName());
     }
 
     public static <M, V> boolean areNeighbourMapsEqual(Map<M, V> map1, Map<M, V> map2) {
@@ -341,12 +345,8 @@ public abstract class Tecton implements IRoundFollower{
     }
 
     public boolean isEqual(Tecton t) {
-        return tectonType.equals(t.tectonType) && areNeighbourMapsEqual(neighbours, t.neighbours) && sporeList.equals(t.sporeList) &&
-        insectList.equals(t.insectList) && myceliumList.equals(t.myceliumList) && name.equals(t.name) &&
-        breakPrecent == t.breakPrecent;
+        return toString().equals(t.toString());
     }
-
-    public Map<Tecton, Integer> getNeighbours() { return neighbours; }
 
     public List<Spore> getSporeList() { return sporeList; }
 

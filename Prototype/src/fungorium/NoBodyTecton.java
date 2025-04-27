@@ -2,15 +2,13 @@ package fungorium;
 
 public class NoBodyTecton extends Tecton {
 
-    private static final String type = "no body tecton";
-
-    public NoBodyTecton(int precentToBreak, String tectonName) { super(precentToBreak, tectonName, type); }
+    public NoBodyTecton(int precentToBreak, String tectonName) { super(precentToBreak, tectonName); }
 
     @Override
-    public void addMycelium(Mycelium m) throws Exception { 
-        myceliumList.add(m); 
+    public void addMycelium(Mycelium m) throws Exception {
+        myceliumList.add(m);
 
-        view.myceliumAdded(m);
+        view.myceliumAdded( m);
     }
 
     @Override
@@ -21,9 +19,7 @@ public class NoBodyTecton extends Tecton {
     }
 
     @Override
-    public boolean canPlaceBody() throws Exception { 
-        throw new Exception(view.noBodyTectonCannotPlaceBody());
-     }
+    public boolean canPlaceBody() { return false; }
 
     @Override
     public Tecton breakTecton() {
@@ -32,12 +28,16 @@ public class NoBodyTecton extends Tecton {
         manageNeighboursAtBreak(newTecton);
 
         view.tectonBreaks(newTecton);
-        callRoundPasseds();
 
         return newTecton;
     }
 
     @Override
     public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton()); }
+
+    @Override
+    public String toString() {
+        return tectonToString("no body tecton");
+    }
 
 }

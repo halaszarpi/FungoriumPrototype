@@ -17,9 +17,9 @@ public class FungusFarmer extends Player {
     }
 
     @Override
-    public void turn(List<Tecton> map, Scanner in){
+    public void turn(TectonMap map, Scanner in){
 
-        while(actionPoints > 0 && inGame){
+        while(actionPoints > 0 && inGame) {
 
             view.chooseAction();
 
@@ -31,52 +31,50 @@ public class FungusFarmer extends Player {
                 continue;
             }
 
-            String action = args[0].toUpperCase();
-            String myceliumName= args[1];
-            Mycelium mycelium;
             try {
-                mycelium = findMyceliumByName(myceliumName, map);
-            }
-            catch (Exception e) {
-                System.out.println("Mycelium not found");
-                continue;
-            }
-            String targetName = args.length > 2 ? args[2] : null;
-
-            try {
-                switch(action) {
-                    case "GROWMYC":
-                        Tecton targetTecton1 = findTectonByName(targetName,map);
-                        mycelium.spreadTo(targetTecton1);
-                        break;
-                    case"GROWBOD":
-                        Spore targetSpore1 = findSporeByName(targetName, map);
-                        mycelium.growBody(targetSpore1); // ez az a spora, amit felhasznal a noveszteshez
-                        break;
-                    case "SCATTERSP":
-                        Tecton targetTecton2 = findTectonByName(targetName,map);
-                        mycelium.scatterSpore(targetTecton2);
-                        break;
-                    case "EATINS":
-                        Insect targetInsect = findInsectByName(targetName,map);
-                        mycelium.eatInsect(targetInsect);
-                        break;
-                    case "SKIP":
-                        break;
-                    default:
-                        view.invalidActionMessage();
-                        break;
-                }
+                changeMapBasedOnCommands(map, args);
 
             } catch(Exception e){
                 e.printStackTrace();
             }
-
-            if (myceliums.isEmpty()){
-                inGame = false;
-            }
         }
 
+    }
+
+    public void changeMapBasedOnCommands(TectonMap map, String[] args) throws Exception {
+
+        if (myceliums.isEmpty()) {
+            inGame = false;
+        }
+
+        String action = args[0].toUpperCase();
+        String myceliumName = args[1];
+        Mycelium mycelium = map.findMycelium(myceliumName);
+        String targetName = args.length > 2 ? args[2] : null;
+
+        switch(action) {
+            case "GROWMYC":
+                Tecton targetTecton1 = map.findTecton(targetName);
+                mycelium.spreadTo(targetTecton1);
+                break;
+            case"GROWBOD":
+                Spore targetSpore1 = map.findSpore(targetName);
+                mycelium.growBody(targetSpore1); // ez az a spora, amit felhasznal a noveszteshez
+                break;
+            case "SCATTERSP":
+                Tecton targetTecton2 = map.findTecton(targetName);
+                mycelium.scatterSpore(targetTecton2);
+                break;
+            case "EATINS":
+                Insect targetInsect = map.findInsect(targetName);
+                mycelium.eatInsect(targetInsect);
+                break;
+            case "SKIP":
+                break;
+            default:
+                view.invalidActionMessage();
+                break;
+        }
     }
 
     public List<Spore> getSpores() { return this.spores; }
@@ -104,11 +102,12 @@ public class FungusFarmer extends Player {
     public void addMycelium(Mycelium mycelium){
         myceliums.add(mycelium);
     }
+
     public void addSpore(Spore spore){
         spores.add(spore);
     }
 
     public String getNewMyceliumName() {
-        return (this.name + "-m" + myceliums.size() + 1);
+        return (this.name + "-m" + (myceliums.size() + 1));
     }
 }

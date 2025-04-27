@@ -2,13 +2,13 @@ package fungorium;
 
 public class MyceliumSustainerTecton extends Tecton{
 
-private static final String type = "mycelium sustainer tecton";
-
-    public MyceliumSustainerTecton(int precentToBreak, String tectonName) { super(precentToBreak, tectonName, type); }
+    public MyceliumSustainerTecton(int precentToBreak, String tectonName) {
+        super(precentToBreak, tectonName);
+    }
 
     @Override
-    public void addMycelium(Mycelium m) throws Exception { 
-        myceliumList.add(m); 
+    public void addMycelium(Mycelium m) throws Exception {
+        myceliumList.add(m);
 
         view.myceliumAdded(m);
     }
@@ -24,9 +24,8 @@ private static final String type = "mycelium sustainer tecton";
     }
 
     @Override
-    public boolean canPlaceBody() throws Exception{
-        if (!canPlaceBodyHelper()) throw new Exception(view.alreadyHasFungusbody());
-        return true;
+    public boolean canPlaceBody() {
+        return canPlaceBodyHelper();
     }
 
     @Override
@@ -36,12 +35,16 @@ private static final String type = "mycelium sustainer tecton";
         manageNeighboursAtBreak(newTecton);
 
         view.tectonBreaks(newTecton);
-        callRoundPasseds();
 
         return newTecton;
     }
 
     @Override
     public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton()); }
-    
+
+    @Override
+    public String toString() {
+        return tectonToString("mycelium sustainer tecton");
+    }
+
 }

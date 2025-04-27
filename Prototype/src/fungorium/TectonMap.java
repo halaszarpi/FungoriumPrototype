@@ -155,7 +155,7 @@ public class TectonMap {
         }
     }
 
-    private Spore findSpore(String sporeName) throws Exception {
+    public Spore findSpore(String sporeName) throws Exception {
 
         for (Tecton t : tectons) {
             List<Spore> sporeList = t.getSporeList();
@@ -169,7 +169,7 @@ public class TectonMap {
         throw new Exception(view.couldntFindSpore(sporeName));
     }
 
-    private Insect findInsect(String insectName) throws Exception {
+    public Insect findInsect(String insectName) throws Exception {
 
         for (Tecton t : tectons) {
             List<Insect> myceliumList = t.getInsectList();
@@ -183,7 +183,7 @@ public class TectonMap {
         throw new Exception(view.couldntFindInsect(insectName));
     }
 
-    private Mycelium findMycelium(String myceliumName) throws Exception{
+    public Mycelium findMycelium(String myceliumName) throws Exception{
 
         for (Tecton t : tectons) {
             List<Mycelium> myceliumList = t.getMyceliumList();
@@ -198,7 +198,7 @@ public class TectonMap {
 
     }
 
-    private Tecton findTecton(String name) throws Exception {
+    public Tecton findTecton(String name) throws Exception {
 
         for (Tecton t : tectons) {
             if (name.equals(t.getName())) return t;
@@ -251,43 +251,6 @@ public class TectonMap {
         }
     }
 
-    private void eatInsect(String insectName, String myceliumName) throws Exception {
-
-        Insect foundInsect = findInsect(insectName);
-        Mycelium foundMycelium = findMycelium(myceliumName);
-
-        foundMycelium.eatInsect(foundInsect);
-
-    }
-
-    private void scatterSpore(String myceliumName, String tectonName) throws Exception {
-        Mycelium foundMycelium = findMycelium(myceliumName);
-        Tecton foundTecton = findTecton(tectonName);
-
-        foundMycelium.scatterSpore(foundTecton);
-    }
-
-    private void moveToTecton(String insectName, String tectonName) throws Exception {
-        Insect foundInsect = findInsect(insectName);
-        Tecton foundTecton = findTecton(tectonName);
-
-        foundInsect.stepToTecton(foundTecton);
-    }
-
-    private void cutMycelium(String insectName, String tectonName) throws Exception {
-        Insect foundInsect = findInsect(insectName);
-        Tecton foundTecton = findTecton(tectonName);
-
-        foundInsect.cutMycelium(foundTecton);
-    }
-
-    private void eatSpore(String insectName, String sporeName) throws Exception{
-        Insect foundInsect = findInsect(insectName);
-        Spore foundSpore = findSpore(sporeName);
-
-        foundInsect.eatSpore(foundSpore);
-    }
-
     private void breakTecton(String tectonName) throws Exception {
         Tecton foundTecton = findTecton(tectonName);
 
@@ -309,15 +272,14 @@ public class TectonMap {
 
     private void processInputCommand(String command) throws Exception {
         String[] commandParts = command.split(" ");
-
         switch (commandParts[0]) {
-            case "GROWMYC" -> addMycelium(commandParts[1], commandParts[2]);
-            case "GROWBOD" -> addBody(commandParts[1], commandParts[2]);
-            case "EATINS" -> eatInsect(commandParts[1], commandParts[2]);
-            case "SCATTERSP" -> scatterSpore(commandParts[1], commandParts[2]);
-            case "MOVETOTECTON" -> moveToTecton(commandParts[1], commandParts[2]);
-            case "CUTMYC" -> cutMycelium(commandParts[1], commandParts[2]);
-            case "EATSPORE" -> eatSpore(commandParts[1], commandParts[2]);
+            case "GROWMYC" -> testerFarmer.changeMapBasedOnCommands(this, commandParts);
+            case "GROWBOD" -> testerFarmer.changeMapBasedOnCommands(this, commandParts);
+            case "EATINS" -> testerFarmer.changeMapBasedOnCommands(this, commandParts);
+            case "SCATTERSP" -> testerFarmer.changeMapBasedOnCommands(this, commandParts);
+            case "MOVETOTECTON" -> testerKeeper.changeMapBasedOnCommands(this, commandParts);
+            case "CUTMYC" -> testerKeeper.changeMapBasedOnCommands(this, commandParts);
+            case "EATSPORE" -> testerKeeper.changeMapBasedOnCommands(this, commandParts);
             case "BREAKTEC" -> breakTecton(commandParts[1]);
             case "VANISHMYC" -> vanishMycelium(commandParts[1]);
             case "ROUND" -> roundPassed();

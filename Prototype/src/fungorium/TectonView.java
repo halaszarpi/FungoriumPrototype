@@ -8,11 +8,11 @@ public class TectonView {
         this.t = tecton;
     }
 
-    public String notNeighbour(Tecton t1, Tecton t2) { return "The tectons ("+ t1.getName() + ", " + t2.getName() + ") are not neighbours!"; }
+    public String notNeighbour(Tecton t2) { return "The tectons ("+ t.getName() + ", " + t2.getName() + ") are not neighbours!"; }
 
-    public String notNeighbourOrNeigboursNeighbour(Tecton t1, Tecton t2) { return "The tectons ("+ t1.getName() + ", " + t2.getName() + ") are not neighbours and not neighbour to any neighbour!"; }
+    public String notNeighbourOrNeigboursNeighbour(Tecton t2) { return "The tectons ("+ t.getName() + ", " + t2.getName() + ") are not neighbours and not neighbour to any neighbour!"; }
 
-    public String notConnectedByMycelium(Tecton t1, Tecton t2) { return "The tectons ("+ t1.getName() + ", " + t2.getName() + ") are not connected by mycelium!"; }
+    public String notConnectedByMycelium(Tecton t2) { return "The tectons ("+ t.getName() + ", " + t2.getName() + ") are not connected by mycelium!"; }
 
     public String tectonHasNoSpores() { return "The tecton (" + t.getName() + ") does not have spores!";}
 

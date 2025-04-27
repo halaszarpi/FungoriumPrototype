@@ -82,7 +82,7 @@ public class GameController {
         for (int round = 0; round < numberOfRounds; round++) {
             for (Player player : players) {
                 if (player.isInGame()) {
-                    player.turn(tectonMap.map(), scanner);
+                    player.turn(tectonMap, scanner);
                     tectonMap.refreshMap();
                 }
             }
