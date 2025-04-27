@@ -199,7 +199,7 @@ public abstract class Tecton implements IRoundFollower{
     }
 
     protected boolean generatedNumWithinBound(int chance) {
-        int num = gen.nextInt(100);
+        int num = gen.nextInt(100) + 1;
         return num < chance;
     }
 

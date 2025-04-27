@@ -17,16 +17,8 @@ public class MyceliumVanisherTecton extends Tecton {
 
     @Override
     public void roundPassed() {
-        boolean myceliumVanishes = generatedNumWithinBound(vanishPrecent);
         boolean tectonBreaks = generatedNumWithinBound(breakPrecent);
-
-        if (myceliumVanishes) {
-
-            try { vanishMycelium(); }
-            catch(Exception e) { e.printStackTrace(); }
-
-        }
-
+        vanishMycelium();
         if (tectonBreaks) { breakTecton(); }
     }
 
@@ -52,10 +44,10 @@ public class MyceliumVanisherTecton extends Tecton {
             "\n--------------------------------------------------------------------------------------------------------\n"; }
 
     @Override
-    public void vanishMycelium() throws Exception {
-        int randomMyceliumIndex = gen.nextInt(myceliumList.size());
-        Mycelium randomMycelium = myceliumList.get(randomMyceliumIndex);
-        removeMycelium(randomMycelium);
+    public void vanishMycelium(){
+        for (Mycelium m : myceliumList) {
+            m.decreaseRoundsToLive();
+        }
     }
 
 }

@@ -18,15 +18,15 @@ public class FungusFarmer extends Player {
 
     @Override
     public void turn(TectonMap map, Scanner in){
+        actionPoints = 4;
 
         while(actionPoints > 0 && inGame) {
-
             view.chooseAction();
 
             String command = in.nextLine();
             String[] args = command.split(" ");
 
-            if((args.length != 3) && !args[0].equals("SKIP") ) {
+            if((args.length != 3) && !args[0].equalsIgnoreCase("SKIP") && !args[0].equalsIgnoreCase("INFO")) {
                 view.invalidActionMessage();
                 continue;
             }
@@ -48,8 +48,7 @@ public class FungusFarmer extends Player {
         }
 
         String action = args[0].toUpperCase();
-        String myceliumName = args[1];
-        Mycelium mycelium = map.findMycelium(myceliumName);
+        Mycelium mycelium = args.length > 1 ? map.findMycelium(args[1]): null;
         String targetName = args.length > 2 ? args[2] : null;
 
         switch(action) {
@@ -73,6 +72,7 @@ public class FungusFarmer extends Player {
                 view.info();
                 break;
             case "SKIP":
+                actionPoints = 0;
                 break;
             default:
                 view.invalidActionMessage();
@@ -95,6 +95,9 @@ public class FungusFarmer extends Player {
         myceliums.add(mycelium);
         try {
             startingTecton.addMycelium(mycelium);
+            OrdinarySpore s = new OrdinarySpore(this,0,0,"initSpore");
+            startingTecton.addSpore(s);
+            mycelium.growBody(s);
             view.myceliumInitialized(startingTecton);
         }
         catch (Exception e) {
@@ -112,6 +115,10 @@ public class FungusFarmer extends Player {
 
     public String getNewMyceliumName() {
         return (this.name + "-m" + (myceliums.size() + 1));
+    }
+
+    public String getNewSporeName() {
+        return (this.name + "-s" + (spores.size() + 1));
     }
 
     public List<Mycelium> getMyceliums() {

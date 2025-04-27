@@ -33,11 +33,11 @@ public class InsectView {
     }
 
     public void insectSteppedToTecton() {
-        System.out.println("Insect (" + insect.getName() + ") stepped to (" + insect.getTecton() + ") tecton!");
+        System.out.println("Insect (" + insect.getName() + ") stepped to (" + insect.getTecton().getName() + ") tecton!");
     }
 
     public void insectCutMycelium(Tecton targetTecton) {
-        System.out.println("Insect (" + insect.getName() + ") cut mycelium between tectons (" + insect.getTecton() + ") and " + targetTecton.getName() + "!");
+        System.out.println("Insect (" + insect.getName() + ") cut mycelium between tectons (" + insect.getTecton().getName() + ") and " + targetTecton.getName() + "!");
 
     }
 

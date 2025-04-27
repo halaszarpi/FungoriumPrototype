@@ -12,11 +12,6 @@ public class InsectKeeperView {
         System.out.println("Enter command: \n\tMOVETOTECTON(1-3) [INSNAME] [TECNAME]\n\t CUTMYC(1) [INSNAME] [TECNAME]\n\t EATSPORE(1) [INSNAME] [SPONAME]\n\t INFO\n\t SKIP");
     }
 
-    public void insectInitialized(Tecton startingTecton) {
-        System.out.println("Starting insect for (" + insectKeeper.getName() + ") has been initialized on tecton ("
-                + startingTecton.getName() + ") !");
-    }
-
     public void invalidActionMessage() {
         System.out.println("Invalid action!");
     }
@@ -25,8 +20,8 @@ public class InsectKeeperView {
         System.out.println("INSECTKEEPER INFO:");
         System.out.println("-------------------");
         System.out.println("\tNAME:"+insectKeeper.getName());
-        System.out.println("\tACTIONPOINTS:"+insectKeeper.getActionPoints());
-        System.out.println("\tSCORE:"+insectKeeper.getScore());
+        System.out.println("\n\tACTIONPOINTS:"+insectKeeper.getActionPoints());
+        System.out.println("\n\tSCORE:"+insectKeeper.getScore());
         System.out.println("\nINSECT'S");
         for(Insect insect:insectKeeper.getInsects()){
             System.out.println("\t"+insect.getName());                                                                                                                                                                                                                                                        }

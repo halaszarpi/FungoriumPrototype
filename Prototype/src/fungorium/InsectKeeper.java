@@ -16,15 +16,15 @@ public class InsectKeeper extends Player {
 
     @Override
     public void turn(TectonMap map, Scanner in) {
+        actionPoints = 4;
 
         while (actionPoints > 0 && inGame) {
-            System.out.println("Enter name: " + name + "actionPoints" + actionPoints);
-            System.out.println("Enter command:MOVETOTECTON(1-3)\n CUTMYC(1)\n EATSPORE(1)\n SKIP");
+            view.chooseAction();
 
             String command = in.nextLine();
             String[] args = command.split(" ");
 
-            if ((args.length < 3 || args.length > 4) && !args[0].equals("SKIP")) {
+            if ((args.length != 3) && !args[0].equalsIgnoreCase("SKIP") && !args[0].equalsIgnoreCase("INFO")) {
                 System.out.println("Invalid command");
                 continue;
             }
@@ -46,30 +46,34 @@ public class InsectKeeper extends Player {
     public void changeMapBasedOnCommands(TectonMap map, String[] args) throws Exception {
 
         String action = args[0].toUpperCase();
-        String insectName = args[1];
-        Insect insect = map.findInsect(insectName);
+        String insectName = args.length > 1 ? args[1] : null;
+        Insect insect;
         String targetName = args.length > 2 ? args[2] : null;
 
         switch (action) {
             case "MOVETOTECTON":
                 Tecton targetTecton1 = map.findTecton(targetName);
+                insect = map.findInsect(insectName);
                 insect.stepToTecton(targetTecton1);
                 break;
             case "CUTMYC":
                 Tecton targetTecton2 = map.findTecton(targetName);
+                insect = map.findInsect(insectName);
                 insect.cutMycelium(targetTecton2);
                 break;
             case "EATSPORE":
                 Spore targetSpore = map.findSpore(targetName);
+                insect = map.findInsect(insectName);
                 insect.eatSpore(targetSpore);
                 break;
             case "INFO":
                 view.info();
                 break;
             case "SKIP":
+                actionPoints=0;
                 break;
             default:
-                System.out.println("Invalid command");
+                view.invalidActionMessage();
         }
     }
 
@@ -96,7 +100,6 @@ public class InsectKeeper extends Player {
         insects.add(insect);
         try {
             startingTecton.addInsect(insect);
-            view.insectInitialized(startingTecton);
         } catch (Exception e) {
             System.out.println("Error while adding insect to tecton: " + e.getMessage());
         }

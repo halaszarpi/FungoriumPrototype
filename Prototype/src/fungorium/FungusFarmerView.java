@@ -10,7 +10,7 @@ public class FungusFarmerView {
 
     public void chooseAction() {
         System.out.println(fungusFarmer.toString());
-        System.out.println("Enter command:\n\tGROWMYC(2) [MYCNAME] [TECNAME]\n\tGROWBOD(1) [MYCNAME]\n\tSCATTERSP(1) [MYCNAME] [TECNAME]\n\tEATINS(3) [MYCNAME] [INSNAME]\n\tINFO\n\tSKIP");
+        System.out.println("Enter command:\n\tGROWMYC(2) [MYCNAME] [TECNAME]\n\tGROWBOD(1) [MYCNAME] [SPONAME]\n\tSCATTERSP(1) [MYCNAME] [TECNAME]\n\tEATINS(3) [MYCNAME] [INSNAME]\n\tINFO\n\tSKIP");
     }
 
     public void myceliumInitialized(Tecton startingTecton) {

@@ -11,7 +11,7 @@ public class FungusBody {
     public FungusBody(Mycelium mycelium) {
         this.mycelium = mycelium;
         this.remainingSpores = 5;
-        this.scatteringCooldown = 2;
+        this.scatteringCooldown = 0;
         this.view = new FungusBodyView(this);
     }
 
@@ -20,30 +20,18 @@ public class FungusBody {
 
         int nutrientContent = rand.nextInt(5) + 1;
         int effectDuration = rand.nextInt(3) + 1;
-        
-        // Uj spora elnevezese
-        String farmerName = mycelium.getOwner().getName();
-        int farmerSporeCount = mycelium.getOwner().getSpores().size();
-        String sporeName = farmerName + "-" + "s" + farmerSporeCount + 1;
 
         int sporeType = rand.nextInt(6);
 
-        switch (sporeType) {
-            case 0:
-                return new OrdinarySpore(owner, nutrientContent, 0, sporeName);
-            case 1:
-                return new SlowingSpore(owner, nutrientContent, effectDuration, sporeName);
-            case 2:
-                return new StunningSpore(owner,nutrientContent, effectDuration, sporeName);
-            case 3:
-                return new BoosterSpore(owner, nutrientContent, effectDuration, sporeName);
-            case 4:
-                return new AntiSeverSpore(owner, nutrientContent, effectDuration, sporeName);
-            case 5:
-                return new InsectDuplicatorSpore(owner, nutrientContent, 1, sporeName);
-            default:
-                return new OrdinarySpore(owner, nutrientContent, 0, sporeName);
-        }
+        return switch (sporeType) {
+            case 0 -> new OrdinarySpore(owner, nutrientContent, 0, owner.getNewSporeName());
+            case 1 -> new SlowingSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+            case 2 -> new StunningSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+            case 3 -> new BoosterSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+            case 4 -> new AntiSeverSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+            case 5 -> new InsectDuplicatorSpore(owner, nutrientContent, 1, owner.getNewSporeName());
+            default -> new OrdinarySpore(owner, nutrientContent, 0, owner.getNewSporeName());
+        };
     }
 
     public Mycelium getMycelium() {
