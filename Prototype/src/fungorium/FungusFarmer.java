@@ -69,6 +69,9 @@ public class FungusFarmer extends Player {
                 Insect targetInsect = map.findInsect(targetName);
                 mycelium.eatInsect(targetInsect);
                 break;
+            case "INFO":
+                view.info();
+                break;
             case "SKIP":
                 break;
             default:
@@ -109,5 +112,9 @@ public class FungusFarmer extends Player {
 
     public String getNewMyceliumName() {
         return (this.name + "-m" + (myceliums.size() + 1));
+    }
+
+    public List<Mycelium> getMyceliums() {
+        return myceliums;
     }
 }

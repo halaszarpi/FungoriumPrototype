@@ -63,6 +63,9 @@ public class InsectKeeper extends Player {
                 Spore targetSpore = map.findSpore(targetName);
                 insect.eatSpore(targetSpore);
                 break;
+            case "INFO":
+                view.info();
+                break;
             case "SKIP":
                 break;
             default:
@@ -101,5 +104,9 @@ public class InsectKeeper extends Player {
 
     public String getNewInsectName() {
         return (this.name + "-i" + (insects.size() + 1));
+    }
+
+    public List<Insect> getInsects() {
+        return insects;
     }
 }

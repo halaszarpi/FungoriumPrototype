@@ -62,7 +62,7 @@ public class GameController {
 
                 Tecton startingTecton;
                 try {
-                    startingTecton = player.findTectonByName(tectonName, tectonMap.map());
+                    startingTecton = tectonMap.findTecton(tectonName);
                 } catch (Exception e) {
                     System.out.println("Error while choosing starting Tecton: " + e.getMessage());
                     continue;
