@@ -10,7 +10,7 @@ public class FungusFarmerView {
 
     public void chooseAction() {
         System.out.println(fungusFarmer.toString());
-        System.out.println("Enter command:\n\tGROWMYC(2) [MYCNAME] [TECNAME]\n\tGROWBOD(1) [MYCNAME] [SPONAME]\n\tSCATTERSP(1) [MYCNAME] [TECNAME]\n\tEATINS(3) [MYCNAME] [INSNAME]\n\tINFO\n\tSKIP");
+        System.out.println("Enter command:\n\tGROWMYC(2) [MYCNAME] [TECNAME]\n\tGROWBOD(1) [MYCNAME] [SPONAME]\n\tSCATTERSP(1) [MYCNAME] [TECNAME]\n\tEATINS(3) [MYCNAME] [INSNAME]\n\tINFO\n\tSHOWMAP\n\tSKIP");
     }
 
     public void myceliumInitialized(Tecton startingTecton) {
@@ -31,7 +31,7 @@ public class FungusFarmerView {
         System.out.println("\nMYCELIUMS:");
 
         for(Mycelium mycelium : fungusFarmer.getMyceliums()){
-            System.out.println("\t"+mycelium.getName());
+            System.out.println("\t" + mycelium.getName() + "on tecton (" + mycelium.getTecton().getName() + ")");
         }
 
         System.out.println("\nFUNGUSBODY'S:");
@@ -40,9 +40,10 @@ public class FungusFarmerView {
                 mycelium.getBody().toString();
             }
         }
+        
         System.out.println("\nSPORES:");
         for(Spore spore:fungusFarmer.getSpores()){
-            System.out.println("\t"+spore.getName());
+            System.out.println("\t" + spore.getName());
         }
 
         System.out.println("--------------------------");

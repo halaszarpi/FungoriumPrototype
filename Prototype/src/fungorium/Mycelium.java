@@ -57,8 +57,10 @@ public class Mycelium implements IRoundFollower{
         if (tecton.hasSpores(spore) && tecton.canPlaceBody()) {
             body = new FungusBody(this);
             tecton.removeSpore(spore);
+            owner.removeSpore(spore);
             view.hasGrownBody();
             owner.useActionPoints(1);
+            owner.increaseScore(1);
             return true;
         }
         return false;
