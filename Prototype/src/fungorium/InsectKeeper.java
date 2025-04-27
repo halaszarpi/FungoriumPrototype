@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class InsectKeeper extends Player {
     private List<Insect> insects;
-    private InsectKeeperView view;
+    private final InsectKeeperView view;
 
     public InsectKeeper(String name) {
         super(name);

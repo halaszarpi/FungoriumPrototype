@@ -1,12 +1,12 @@
 package fungorium;
 
 public class Mycelium implements IRoundFollower{
-    private String name;
-    private FungusFarmer owner;
+    private final String name;
+    private final FungusFarmer owner;
     private Tecton tecton;
     private FungusBody body;
     private int roundsToLive;
-    private MyceliumView view;
+    private final MyceliumView view;
     private final int maxRoundsToLive = 3;
 
     public Mycelium(String name, FungusFarmer owner, Tecton tecton) {
@@ -45,7 +45,7 @@ public class Mycelium implements IRoundFollower{
 
 
     /*ha nincsen gombatest noveszt egyet es true ertekkel ter vissza, ha pedig mar van false-al ter vissza */
-    public boolean growBody(Spore spore) throws Exception {
+    public void growBody(Spore spore) throws Exception {
         if (body != null) {
             throw new Exception("This mycelium already has a body.");
         }
@@ -59,9 +59,7 @@ public class Mycelium implements IRoundFollower{
             tecton.removeSpore(spore);
             view.hasGrownBody();
             owner.useActionPoints(1);
-            return true;
         }
-        return false;
     }
 
     public void spreadTo(Tecton targetTecton) throws Exception {

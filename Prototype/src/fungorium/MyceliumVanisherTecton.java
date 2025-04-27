@@ -3,7 +3,7 @@ package fungorium;
 public class MyceliumVanisherTecton extends Tecton {
 
     private static final String type = "mycelium vanisher tecton";
-    private int vanishPrecent;
+    private final int vanishPrecent;
 
     public MyceliumVanisherTecton(int precentToBreak, int precentToVanish, String tectonName) {
         super(precentToBreak, tectonName, type);

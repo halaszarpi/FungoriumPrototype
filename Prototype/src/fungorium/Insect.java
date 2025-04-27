@@ -2,10 +2,10 @@ package fungorium;
 
 public class Insect implements IRoundFollower{
 
-    private String name;
+    private final String name;
     private Tecton tecton;
-    private InsectKeeper owner;
-    private InsectView view;
+    private final InsectKeeper owner;
+    private final InsectView view;
     private int antiSeveredForRounds;
     private int stunnedForRounds;
     private int slowedForRounds;

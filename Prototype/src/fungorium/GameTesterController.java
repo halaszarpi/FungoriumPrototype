@@ -12,8 +12,8 @@ import java.util.Scanner;
 public class GameTesterController {
 
     private static final String workingDir = System.getProperty("user.dir");
-    private Scanner scanner;
-    private GameTesterView view;
+    private final Scanner scanner;
+    private final GameTesterView view;
     private ArrayList<String> mapBuildingCommands;
     private ArrayList<String> playerCommands;
     private ArrayList<String> controllerCommands;
