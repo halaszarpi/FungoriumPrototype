@@ -263,10 +263,11 @@ public class TectonMap {
         foundTecton.vanishMycelium();
     }
 
-    private void roundPassed() {
+    public void roundPassed() {
         for (Tecton t : tectons){
             t.roundPassed();
         }
+        refreshMapAfterRoundPassed();
     }
 
     private void processInputCommand(String command) throws Exception {

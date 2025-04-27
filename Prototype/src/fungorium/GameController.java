@@ -91,10 +91,7 @@ public class GameController {
                 player.roundPassed();
             }
 
-            for (Tecton tecton : tectonMap.getTectons()) {
-                tecton.roundPassed();
-            }
-            tectonMap.refreshMapAfterRoundPassed();
+            tectonMap.roundPassed();
 
             tectonMap.refreshMap();
             numberOfRounds--;
