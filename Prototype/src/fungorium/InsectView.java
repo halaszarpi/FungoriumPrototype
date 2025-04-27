@@ -2,52 +2,56 @@ package fungorium;
 
 public class InsectView {
 
-    // Biztos fog valami belole kimaradni
+    Insect insect;
 
-    public void insectInitialized(String insectName, String tectonName) {
-        System.out.println("Insect (" + insectName + ") is initialized on (" + tectonName + ") tecton!");
+    public InsectView(Insect insect) {
+        this.insect = insect;
     }
 
-    public void insectIsAntiSevered(String insectName, int numberOfRounds) {
-        System.out.println("Insect (" + insectName + ") is anti-severed for " + numberOfRounds + " rounds!");
+    public void insectInitialized() {
+        System.out.println("Insect (" + insect.getName() + ") is initialized on (" + insect.getTecton() + ") tecton!");
     }
 
-    public void insectIsStunned(String insectName, int numberOfRounds) {
-        System.out.println("Insect (" + insectName + ") is stunned for " + numberOfRounds + " rounds!");
+    public void insectIsAntiSevered() {
+        System.out.println("Insect (" + insect.getName() + ") is anti-severed for " + insect.getAntiSeveredForRounds() + " rounds!");
     }
 
-    public void insectIsSlowed(String insectName, int numberOfRounds) {
-        System.out.println("Insect (" + insectName + ") is slowed for " + numberOfRounds + " rounds!");
+    public void insectIsStunned() {
+        System.out.println("Insect (" + insect.getName() + ") is stunned for " + insect.getStunnedForRounds() + " rounds!");
     }
 
-    public void insectIsBoosted(String insectName, int numberOfRounds) {
-        System.out.println("Insect (" + insectName + ") is an boosted for " + numberOfRounds + " rounds!");
+    public void insectIsSlowed() {
+        System.out.println("Insect (" + insect.getName() + ") is slowed for " + insect.getSlowedForRounds() + " rounds!");
     }
 
-    public void insectAteSpore(String insectName, String sporeName) {
-        System.out.println("Insect (" + insectName + ") ate (" + sporeName + ") spore!");
+    public void insectIsBoosted() {
+        System.out.println("Insect (" + insect.getName() + ") is an boosted for " + insect.getSlowedForRounds() + " rounds!");
     }
 
-    public void insectSteppedToTecton(String insectName, String targetTectonName) {
-        System.out.println("Insect (" + insectName + ") stepped to (" + targetTectonName + ") tecton!");
+    public void insectAteSpore(Spore spore) {
+        System.out.println("Insect (" + insect.getName() + ") ate (" + spore.getName() + ") spore!");
     }
 
-    public void insectCutMycelium(String insectName, String sourceTectonName, String targetTectonName) {
-        System.out.println("Insect (" + insectName + ") cut mycelium between tectons (" + sourceTectonName + ") and " + targetTectonName + "!");
+    public void insectSteppedToTecton() {
+        System.out.println("Insect (" + insect.getName() + ") stepped to (" + insect.getTecton() + ") tecton!");
+    }
+
+    public void insectCutMycelium(Tecton targetTecton) {
+        System.out.println("Insect (" + insect.getName() + ") cut mycelium between tectons (" + insect.getTecton() + ") and " + targetTecton.getName() + "!");
 
     }
 
-    public void insectEffectsReduced(String insectName) {
-        System.out.println("Active effects on insect (" + insectName + ") were reduced by 1!");
+    public void insectEffectsReduced() {
+        System.out.println("Active effects on insect (" + insect.getName() + ") were reduced by 1!");
     }
 
-    public void insectGotEaten(String insectName) {
-        System.out.println("Insect (" + insectName + ") got eaten!");
+    public void insectGotEaten() {
+        System.out.println("Insect (" + insect.getName() + ") got eaten!");
     }
 
     // Ide esetleg nem kellene az uj insect neve?
-    public void insectDuplicated(String insectName) {
-        System.out.println("Insect (" + insectName + ") is duplicated!");
+    public void insectDuplicated() {
+        System.out.println("Insect (" + insect.getName() + ") is duplicated!");
     }
 
 }

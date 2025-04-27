@@ -11,6 +11,18 @@ public class Insect implements IRoundFollower{
     private int slowedForRounds;
     private int boostedForRounds;
 
+    public Insect(String insectName, Tecton tecton, InsectKeeper owner) {
+        this.name = insectName;
+        this.tecton = tecton;
+        this.owner = owner;
+        this.view = new InsectView(this);
+        antiSeveredForRounds = 0;
+        stunnedForRounds = 0;
+        slowedForRounds = 0;
+        boostedForRounds = 0;
+        view.insectInitialized();
+    }
+
     private boolean hasEnoughActionPointsForStepping() {
         if (slowedForRounds > 0 && owner.getActionPoints() >= 3) { return true; }
         else if (boostedForRounds > 0 && owner.getActionPoints() >= 1) { return true; }
@@ -24,18 +36,6 @@ public class Insect implements IRoundFollower{
         else { return 2; }
     }
 
-    public Insect(String insectName, Tecton tecton, InsectKeeper owner) {
-        this.name = insectName;
-        this.tecton = tecton;
-        this.owner = owner;
-        this.view = new InsectView();
-        antiSeveredForRounds = 0;
-        stunnedForRounds = 0;
-        slowedForRounds = 0;
-        boostedForRounds = 0;
-        view.insectInitialized(name, this.tecton.getName());
-    }
-
     public int getAntiSeveredForRounds() { return this.antiSeveredForRounds; }
     public int getStunnedForRounds() { return this.stunnedForRounds; }
     public int getSlowedForRounds() { return this.slowedForRounds; }
@@ -43,22 +43,22 @@ public class Insect implements IRoundFollower{
 
     public void setAntiSeveredForRounds(int numberOfRounds) {
         this.antiSeveredForRounds = numberOfRounds;
-        view.insectIsAntiSevered(name, numberOfRounds);
+        view.insectIsAntiSevered();
     }
 
     public void setStunnedForRounds(int numberOfRounds) {
         this.stunnedForRounds = numberOfRounds;
-        view.insectIsStunned(name, numberOfRounds);
+        view.insectIsStunned();
     }
 
     public void setSlowedForRounds(int numberOfRounds) {
         this.slowedForRounds = numberOfRounds;
-        view.insectIsSlowed(name, numberOfRounds);
+        view.insectIsSlowed();
     }
 
     public void setBoostedForRounds(int numberOfRounds) {
         this.boostedForRounds = numberOfRounds;
-        view.insectIsBoosted(name, numberOfRounds);
+        view.insectIsBoosted();
     }
 
     // Spora megevese 1-be kerul (?)
@@ -67,22 +67,22 @@ public class Insect implements IRoundFollower{
             return -1;
         }
         int nutrientContent = spore.gotEatenBy(this);
+        view.insectAteSpore(spore);
         tecton.removeSpore(spore);
         owner.useActionPoints(1);
-        view.insectAteSpore(name, spore.getName());
         return nutrientContent;
     }
 
     public void gotEaten() {
         if (stunnedForRounds > 0) {
             owner.insectDied(this);
-            view.insectGotEaten(name);
+            view.insectGotEaten();
         }
     }
 
     public void duplicate() {
         owner.duplicateInsect(this);
-        view.insectDuplicated(name);
+        view.insectDuplicated();
     }
 
     // TODO: Milyen exception az, amit dob?
@@ -96,7 +96,7 @@ public class Insect implements IRoundFollower{
             this.tecton = targetTecton;
             int actionPointsUsed = actionPointsForStepping();
             this.owner.useActionPoints(actionPointsUsed);
-            view.insectSteppedToTecton(name, targetTecton.getName());
+            view.insectSteppedToTecton();
             return true;
         }
         else {
@@ -112,7 +112,7 @@ public class Insect implements IRoundFollower{
         else if (this.tecton.isConnectedTo(targetTecton)) {
             this.tecton.removeConnection(targetTecton);
             this.owner.useActionPoints(1);
-            view.insectCutMycelium(name, this.tecton.getName(), targetTecton.getName());
+            view.insectCutMycelium(targetTecton);
             return true;
         }
         else {
@@ -147,7 +147,7 @@ public class Insect implements IRoundFollower{
         if (stunnedForRounds > 0) { stunnedForRounds--; }
         if (slowedForRounds > 0) { stunnedForRounds--; }
         if (boostedForRounds > 0) { stunnedForRounds--; }
-        view.insectEffectsReduced(name);
+        view.insectEffectsReduced();
     }
 
     @Override
