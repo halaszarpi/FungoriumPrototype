@@ -45,7 +45,7 @@ public class Mycelium implements IRoundFollower{
 
 
     /*ha nincsen gombatest noveszt egyet es true ertekkel ter vissza, ha pedig mar van false-al ter vissza */
-    public boolean growBody(Spore spore) throws Exception {
+    public void growBody(Spore spore) throws Exception {
         if (body != null) {
             throw new Exception("This mycelium already has a body.");
         }
@@ -54,16 +54,18 @@ public class Mycelium implements IRoundFollower{
         }
 
         // Ha rakhatunk ra gombatestet es rajta van a noveszteshez hasznalando spora a tektonok akkor oke
-        if (tecton.hasSpores(spore) && tecton.canPlaceBody()) {
-            body = new FungusBody(this);
-            tecton.removeSpore(spore);
-            owner.removeSpore(spore);
-            view.hasGrownBody();
-            owner.useActionPoints(1);
-            owner.increaseScore(1);
-            return true;
+        if(!tecton.hasSpores(spore))
+            throw new Exception("No spores on the tecton to grow a body.");
+        if (!tecton.canPlaceBody()) {
+            throw new Exception("Cannot place body on this tecton.");
         }
-        return false;
+
+        body = new FungusBody(this);
+        tecton.removeSpore(spore);
+        owner.removeSpore(spore);
+        view.hasGrownBody();
+        owner.useActionPoints(1);
+        owner.increaseScore(1);
     }
 
     public void spreadTo(Tecton targetTecton) throws Exception {
