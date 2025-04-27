@@ -255,6 +255,7 @@ public class TectonMap {
 
         // ezt le kellene tarolni, ami letrejott tekton, majd berakni a map tektonlistajaba
         foundTecton.breakTecton();
+        refreshMapAfterRoundPassed();
     }
 
     private void vanishMycelium(String tectonName) throws Exception {
@@ -296,6 +297,8 @@ public class TectonMap {
 
         TectonMap map = outputMap.getTectons().size() > tectons.size() ? outputMap : this;
         TectonMap otherMap = outputMap == map ? this : outputMap;
+        map.testerFarmer.actionPoints = map.testerKeeper.actionPoints = 100;
+        otherMap.testerFarmer.actionPoints = map.testerKeeper.actionPoints = 100;
 
         for (Tecton t1 : map.getTectons()) {
             boolean foundName = false;
