@@ -35,7 +35,11 @@ public class FungusBody {
             default -> resultSporeTypeString = "ORD";
         }
 
-        if (sporeTypeString != null && sporeName != null) { resultSporeTypeString = sporeTypeString; }
+        if (sporeTypeString != null && sporeName != null) { 
+            resultSporeTypeString = sporeTypeString; 
+            nutrientContent = 5;
+            effectDuration = 3;
+        }
 
         return switch (resultSporeTypeString) {
             case "ORD" -> new OrdinarySpore(owner, nutrientContent, 0, owner.getNewSporeName());
