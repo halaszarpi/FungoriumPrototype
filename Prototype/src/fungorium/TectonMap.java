@@ -8,7 +8,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class TectonMap {
-    List<Tecton> tectons;
+    private List<Tecton> tectons;
+    private List<Tecton> tmpTectons;
     private TectonMapView view;
     private Random rand;
     private boolean isTest;
@@ -23,21 +24,19 @@ public class TectonMap {
         rand = new Random();
         this.isTest = isTest;
         tectons = new ArrayList<>();
+        tmpTectons = new ArrayList<>();
     }
 
     private void addTecton(String tectonName, String tectonType) throws Exception {
-        int percentToBreak = isTest ? 100 : rand.nextInt(100) + 1;
+        int percentToBreak = isTest ? 100 : rand.nextInt(10) + 1;
         Tecton tecton = null;
 
         switch (tectonType) {
-            case "ORD" -> tecton = new OrdinaryTecton(100, tectonName);
-            case "NOB" -> tecton = new NoBodyTecton(percentToBreak, tectonName);
-            case "SIN" -> tecton = new SingleMyceliumTecton(percentToBreak, tectonName);
-            case "VAN" -> {
-                int percentToVanish = isTest ? 100 : rand.nextInt(100) + 1;
-                tecton = new MyceliumVanisherTecton(percentToBreak, percentToVanish, tectonName);
-            }
-            case "SUS" -> tecton = new MyceliumSustainerTecton(percentToBreak, tectonName);
+            case "ORD" -> tecton = new OrdinaryTecton(percentToBreak, tectonName, this);
+            case "NOB" -> tecton = new NoBodyTecton(percentToBreak, tectonName, this);
+            case "SIN" -> tecton = new SingleMyceliumTecton(percentToBreak, tectonName, this);
+            case "VAN" -> tecton = new MyceliumVanisherTecton(percentToBreak, tectonName, this);
+            case "SUS" -> tecton = new MyceliumSustainerTecton(percentToBreak, tectonName, this);
             default -> throw new Exception(view.noSuchTecton(tectonName));
         }
         tectons.add(tecton);
@@ -255,7 +254,7 @@ public class TectonMap {
         Tecton foundTecton = findTecton(tectonName);
 
         // ezt le kellene tarolni, ami letrejott tekton, majd berakni a map tektonlistajaba
-        tectons.add(foundTecton.breakTecton());
+        foundTecton.breakTecton();
     }
 
     private void vanishMycelium(String tectonName) throws Exception {
@@ -329,5 +328,12 @@ public class TectonMap {
     }
 
     public List<Tecton> getTectons() { return tectons; }
+
+    public void add(Tecton t) { tmpTectons.add(t); }
+
+    public void refreshMapAfterRoundPassed() { 
+        tectons.addAll(tmpTectons); 
+        tmpTectons.clear();
+    }
 
 }

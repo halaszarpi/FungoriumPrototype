@@ -1,12 +1,8 @@
 package fungorium;
 
 public class MyceliumVanisherTecton extends Tecton {
-    private int vanishPrecent;
 
-    public MyceliumVanisherTecton(int precentToBreak, int precentToVanish, String tectonName) {
-        super(precentToBreak, tectonName);
-        vanishPrecent = precentToVanish;
-    }
+    public MyceliumVanisherTecton(int precentToBreak, String tectonName, TectonMap map) { super(precentToBreak, tectonName, map); }
 
     @Override
     public void addMycelium(Mycelium m) throws Exception {
@@ -28,20 +24,21 @@ public class MyceliumVanisherTecton extends Tecton {
     }
 
     @Override
-    public Tecton breakTecton() {
-        Tecton newTecton = new MyceliumVanisherTecton(breakPrecent, vanishPrecent, name + "-2");
+    public void breakTecton() {
+        Tecton newTecton = new MyceliumVanisherTecton(breakPrecent, name + "-2", map);
+        name += "-1";
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton);
 
         view.tectonBreaks(newTecton);
 
-        return newTecton;
+        map.add(newTecton);
     }
 
     @Override
-    public String toString() { return tectonToString("mycelium vanisher tectontype") + "\n---------------------------" +
-            "\nMycelium vanish chance: " + Integer.toString(vanishPrecent) + "%" +
-            "\n--------------------------------------------------------------------------------------------------------\n"; }
+    public String toString() {
+        return tectonToString("mycelium vanisher tecton");
+    }
 
     @Override
     public void vanishMycelium(){

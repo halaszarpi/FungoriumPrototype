@@ -3,7 +3,7 @@ package fungorium;
 import java.util.*;
 
 public abstract class Tecton implements IRoundFollower{
-    private String tectonType;
+    TectonMap map;
     private Map<Tecton, Boolean> neighbours;
     private List<Spore> sporeList;
     private List<Insect> insectList;
@@ -13,7 +13,7 @@ public abstract class Tecton implements IRoundFollower{
     protected Random gen;
     protected TectonView view;
 
-    protected Tecton(int percentToBreak, String tectonName) {
+    protected Tecton(int percentToBreak, String tectonName, TectonMap m) {
         sporeList = new ArrayList<>();
         neighbours = new HashMap<>();
         insectList = new ArrayList<>();
@@ -22,6 +22,7 @@ public abstract class Tecton implements IRoundFollower{
         gen = new Random();
         myceliumList = new ArrayList<>();
         view = new TectonView(this);
+        map = m;
 
         view.tectonCreated();
     }
@@ -150,7 +151,7 @@ public abstract class Tecton implements IRoundFollower{
         return false;
     }
 
-    public abstract Tecton breakTecton();
+    public abstract void breakTecton();
 
     public abstract void vanishMycelium() throws Exception;
 
@@ -200,10 +201,33 @@ public abstract class Tecton implements IRoundFollower{
 
     protected boolean generatedNumWithinBound(int chance) {
         int num = gen.nextInt(100) + 1;
-        return num < chance;
+        return num <= chance;
     }
 
-    public boolean findBody(FungusFarmer f, List<Tecton> observedTectons) { System.out.println("Not implemented yet!"); return false; }
+    public boolean findBody(FungusFarmer owner, List<Tecton> checkedTectons) {
+        checkedTectons.add(this);
+        for (Mycelium mycelium : myceliumList) {
+            if (mycelium.hasBody() && mycelium.getOwner().equals(owner)) {
+                return true;
+            } else {
+                List<Tecton> newCheckedTectons = new ArrayList<>();
+                for (Tecton neighbour : neighbours.keySet()) {
+                    if (!checkedTectons.contains(neighbour)) {
+                        newCheckedTectons.add(neighbour);
+                    }
+                }
+                if (newCheckedTectons.isEmpty()) {
+                    return false;
+                }
+                for (Tecton neighbour : newCheckedTectons) {
+                    if (neighbour.findBody(owner, checkedTectons)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     public String getName() { return name; }
 

@@ -36,7 +36,7 @@ public class GameController {
         scanner.nextLine();
 
         for (int i = 0; i < numPlayers; i++) {
-            if(i%2 == 0){
+            if(i % 2 == 0){
                 System.out.println("Player " + (i + 1) + " is a Fungus Farmer. Please choose a name:");
                 String playerName = scanner.nextLine();
                 players.add(new FungusFarmer(playerName));
@@ -91,9 +91,10 @@ public class GameController {
                 player.roundPassed();
             }
 
-            for (Tecton tecton : tectonMap.map()) {
+            for (Tecton tecton : tectonMap.getTectons()) {
                 tecton.roundPassed();
             }
+            tectonMap.refreshMapAfterRoundPassed();
 
             tectonMap.refreshMap();
             numberOfRounds--;

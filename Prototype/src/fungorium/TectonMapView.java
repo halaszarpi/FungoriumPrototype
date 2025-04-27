@@ -14,7 +14,7 @@ public class TectonMapView {
 
     public void showMap() {
         System.out.println("Current map state:\n");
-        for (Tecton tecton : tectonMap.tectons) {
+        for (Tecton tecton : tectonMap.getTectons()) {
             System.out.println(tecton.toString() + "\n");
         }
     }

@@ -2,9 +2,7 @@ package fungorium;
 
 public class MyceliumSustainerTecton extends Tecton{
 
-    public MyceliumSustainerTecton(int precentToBreak, String tectonName) {
-        super(precentToBreak, tectonName);
-    }
+    public MyceliumSustainerTecton(int precentToBreak, String tectonName, TectonMap map) { super(precentToBreak, tectonName, map); }
 
     @Override
     public void addMycelium(Mycelium m) throws Exception {
@@ -29,14 +27,15 @@ public class MyceliumSustainerTecton extends Tecton{
     }
 
     @Override
-    public Tecton breakTecton() {
-        Tecton newTecton = new OrdinaryTecton(breakPrecent, name + "-2");
+    public void breakTecton() {
+        Tecton newTecton = new OrdinaryTecton(breakPrecent, name + "-2", map);
+        name += "-1";
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton);
 
         view.tectonBreaks(newTecton);
 
-        return newTecton;
+        map.add(newTecton);
     }
 
     @Override

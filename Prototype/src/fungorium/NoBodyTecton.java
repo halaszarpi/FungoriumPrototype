@@ -2,7 +2,7 @@ package fungorium;
 
 public class NoBodyTecton extends Tecton {
 
-    public NoBodyTecton(int precentToBreak, String tectonName) { super(precentToBreak, tectonName); }
+    public NoBodyTecton(int precentToBreak, String tectonName, TectonMap map) { super(precentToBreak, tectonName, map); }
 
     @Override
     public void addMycelium(Mycelium m) throws Exception {
@@ -22,14 +22,15 @@ public class NoBodyTecton extends Tecton {
     public boolean canPlaceBody() { return false; }
 
     @Override
-    public Tecton breakTecton() {
-        Tecton newTecton = new NoBodyTecton(breakPrecent, name + "-2");
+    public void breakTecton() {
+        Tecton newTecton = new NoBodyTecton(breakPrecent, name + "-2", map);
+        name += "-1";
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton);
 
         view.tectonBreaks(newTecton);
 
-        return newTecton;
+        map.add(newTecton);
     }
 
     @Override
