@@ -7,13 +7,14 @@ public class Mycelium implements IRoundFollower{
     private FungusBody body;
     private int roundsToLive;
     private MyceliumView view;
+    private final int maxRoundsToLive = 3;
 
-    public Mycelium(String name, FungusFarmer owner, Tecton tecton, int live) {
+    public Mycelium(String name, FungusFarmer owner, Tecton tecton) {
         this.name = name;
         this.owner = owner;
         this.tecton = tecton;
         this.body = null;
-        this.roundsToLive = live;
+        this.roundsToLive = maxRoundsToLive;
         this.view = new MyceliumView();
     }
 
@@ -72,7 +73,7 @@ public class Mycelium implements IRoundFollower{
         } catch(Exception e) {
             e.printStackTrace();
         }
-        
+
         // Ellenorzi, hogy van-e mar kapcsolat a ketto kozott
         try {
             if (tecton.isConnectedTo(targetTecton)) {
@@ -82,7 +83,7 @@ public class Mycelium implements IRoundFollower{
             e.printStackTrace();
         }
 
-        Mycelium newMycelium = new Mycelium(name, owner, targetTecton, roundsToLive);
+        Mycelium newMycelium = new Mycelium(name, owner, targetTecton);
         targetTecton.addMycelium(newMycelium);
         targetTecton.addConnection(tecton);
         owner.useActionPoints(2);
@@ -119,7 +120,7 @@ public class Mycelium implements IRoundFollower{
     public void increaseRoundsToLive() {
         if (roundsToLive < 3) {
             roundsToLive++;
-            view.myceliumSustained(name);    
+            view.myceliumSustained(name);
         }
     }
 

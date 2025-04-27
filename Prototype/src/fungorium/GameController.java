@@ -14,7 +14,8 @@ public class GameController {
     public GameController(Scanner _scanner) {
         this.scanner = _scanner;
         this.tectonMap = new TectonMap(scanner, false);
-        File gameMap = new File("src/fungorium/Map.txt");
+        String workingDir = System.getProperty("user.dir");
+        File gameMap = new File(workingDir+ "\\Prototype\\src\\tests\\maps\\map1.txt");
 
         try {
             this.tectonMap.processAllMapCreatingCommands(gameMap);

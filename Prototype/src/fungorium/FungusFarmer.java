@@ -13,14 +13,14 @@ public class FungusFarmer extends Player {
         super(name);
         myceliums = new ArrayList<>();
         spores = new ArrayList<>();
+        view = new FungusFarmerView(this);
     }
 
     @Override
     public void turn(List<Tecton> map, Scanner in){
 
         while(actionPoints > 0 && inGame){
-            
-            this.toString();
+
             view.chooseAction();
 
             String command = in.nextLine();
