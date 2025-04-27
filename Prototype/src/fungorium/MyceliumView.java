@@ -16,6 +16,10 @@ public class MyceliumView {
         System.out.println("Mycelium (" + mycelium.getName() + ") has spread to tecton (" + targetTecton.getName() + ")!");
     }
 
+    public String invalidTarget(Tecton targetTecton){
+        return ("Tecton (" + targetTecton.getName() + "does not exist or not a neighbour to tecton (" + mycelium.getTecton().getName() + ")!");
+    }
+
     public void bodyHasDied() {
         System.out.println("Mycelium's (" + mycelium.getName() + ") FungusBody has died!");
     }
@@ -40,4 +44,11 @@ public class MyceliumView {
         System.out.println("Mycelium (" + mycelium.getName() + ") ate insect (" + insect.getName() + ")!");
     }
 
+    public String targetAlreadyHasMycelium(Tecton targetTecton) {
+        return ("Tecton (" + targetTecton.getName() + ") already has mycelium on it and there is a connection between them!");
+    }
+
+    public void connectionAddedTo(Tecton newTecton) {
+        System.out.println("Tecton (" + mycelium.getTecton().getName() + ") is reconnected to (" + newTecton.getName() + ")!");
+    }
 }

@@ -29,9 +29,18 @@ public class InsectKeeper extends Player {
                 continue;
 
             }
-            String action = args[0];
+            String action = args[0].toUpperCase();
             String insectName = args[1];
-            Insect insect = findInsectByName(insectName, map);
+            Insect insect;
+
+            try{
+                insect = findInsectByName(insectName, map);
+            }
+            catch (Exception e){
+                System.out.println("Insect not found");
+                continue;
+            }
+
             String targetName = args.length > 2 ? args[2] : null;
 
             try {
@@ -71,8 +80,7 @@ public class InsectKeeper extends Player {
     }
 
     public void duplicateInsect(Insect insect) {
-        String duplicatedInsectName = this.name + "-i" + insects.size() + 1;
-        Insect duplicatedInsect = new Insect(duplicatedInsectName, insect.getTecton(), insect.getOwner());
+        Insect duplicatedInsect = new Insect(getNewInsectName(), insect.getTecton(), insect.getOwner());
         insects.add(duplicatedInsect);
     }
 
@@ -85,7 +93,7 @@ public class InsectKeeper extends Player {
 
     @Override
     public void initializePlayer(Tecton startingTecton) {
-        Insect insect = new Insect("I1", startingTecton, this);
+        Insect insect = new Insect(getNewInsectName(), startingTecton, this);
         insects.add(insect);
         try {
             startingTecton.addInsect(insect);
@@ -93,5 +101,9 @@ public class InsectKeeper extends Player {
         } catch (Exception e) {
             System.out.println("Error while adding insect to tecton: " + e.getMessage());
         }
+    }
+
+    public String getNewInsectName() {
+        return (this.name + "-i" + insects.size() + 1);
     }
 }

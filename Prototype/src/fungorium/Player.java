@@ -16,7 +16,7 @@ public abstract class Player {
         this.inGame = true;
     }
 
-    protected Tecton findTectonByName(String tectonName, List<Tecton> tectonList) {
+    protected Tecton findTectonByName(String tectonName, List<Tecton> tectonList) throws Exception{
 
         for (Tecton tecton : tectonList) {
 
@@ -24,10 +24,10 @@ public abstract class Player {
 
         }
 
-        return null;
+        throw new Exception("Tecton not found");
     }
 
-    protected Mycelium findMyceliumByName(String myceliumName, List<Tecton> tectonList) {
+    protected Mycelium findMyceliumByName(String myceliumName, List<Tecton> tectonList) throws Exception{
 
         for (Tecton tecton : tectonList) {
 
@@ -38,10 +38,10 @@ public abstract class Player {
             }
         }
 
-        return null;
+        throw new Exception("Mycelium not found");
     }
 
-    protected Spore findSporeByName(String sporeName, List<Tecton> tectonList) {
+    protected Spore findSporeByName(String sporeName, List<Tecton> tectonList) throws Exception{
 
         for (Tecton tecton : tectonList) {
 
@@ -52,10 +52,10 @@ public abstract class Player {
             }
         }
 
-        return null;
+        throw new Exception("Spore not found");
     }
 
-    protected Insect findInsectByName(String insectName, List<Tecton> tectonList) {
+    protected Insect findInsectByName(String insectName, List<Tecton> tectonList) throws Exception{
 
         for (Tecton tecton : tectonList) {
 
@@ -66,7 +66,7 @@ public abstract class Player {
             }
         }
 
-        return null;
+        throw new Exception("Insect not found");
     }
 
     public abstract void turn(List<Tecton> map, Scanner in);

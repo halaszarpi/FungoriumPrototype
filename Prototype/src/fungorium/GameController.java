@@ -15,7 +15,7 @@ public class GameController {
         this.scanner = _scanner;
         this.tectonMap = new TectonMap(scanner, false);
         String workingDir = System.getProperty("user.dir");
-        File gameMap = new File(workingDir+ "\\Prototype\\src\\tests\\maps\\map1.txt");
+        File gameMap = new File(workingDir+ "\\Prototype\\src\\gamemaps\\startingMap.txt");
 
         try {
             this.tectonMap.processAllMapCreatingCommands(gameMap);
@@ -55,7 +55,7 @@ public class GameController {
         tectonMap.showMap();
 
         for (Player player : players) {
-            System.out.println("Player " + player.getName() + "is choosing a starting Tecton:");
+            System.out.println("Player " + player.getName() + " is choosing a starting Tecton:");
             String tectonName = scanner.nextLine();
             Tecton startingTecton = player.findTectonByName(tectonName, tectonMap.map());
             player.initializePlayer(startingTecton);

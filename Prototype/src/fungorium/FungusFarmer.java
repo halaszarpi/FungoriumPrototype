@@ -7,8 +7,8 @@ import java.util.Scanner;
 public class FungusFarmer extends Player {
     private List<Mycelium> myceliums;
     private List<Spore> spores;
-    private final FungusFarmerView view;
-    
+    private FungusFarmerView view;
+
     public FungusFarmer(String name){
         super(name);
         myceliums = new ArrayList<>();
@@ -31,9 +31,16 @@ public class FungusFarmer extends Player {
                 continue;
             }
 
-            String action = args[0];
+            String action = args[0].toUpperCase();
             String myceliumName= args[1];
-            Mycelium mycelium = findMyceliumByName(myceliumName, map);
+            Mycelium mycelium;
+            try {
+                mycelium = findMyceliumByName(myceliumName, map);
+            }
+            catch (Exception e) {
+                System.out.println("Mycelium not found");
+                continue;
+            }
             String targetName = args.length > 2 ? args[2] : null;
 
             try {
@@ -64,7 +71,7 @@ public class FungusFarmer extends Player {
             } catch(Exception e){
                 e.printStackTrace();
             }
-        
+
             if (myceliums.isEmpty()){
                 inGame = false;
             }
@@ -83,7 +90,7 @@ public class FungusFarmer extends Player {
 
     @Override
     public void initializePlayer(Tecton startingTecton) {
-        Mycelium mycelium = new Mycelium("M1", this, startingTecton);
+        Mycelium mycelium = new Mycelium(getNewMyceliumName(), this, startingTecton);
         myceliums.add(mycelium);
         try {
             startingTecton.addMycelium(mycelium);
@@ -94,4 +101,14 @@ public class FungusFarmer extends Player {
         }
     }
 
+    public void addMycelium(Mycelium mycelium){
+        myceliums.add(mycelium);
+    }
+    public void addSpore(Spore spore){
+        spores.add(spore);
+    }
+
+    public String getNewMyceliumName() {
+        return (this.name + "-m" + myceliums.size() + 1);
+    }
 }

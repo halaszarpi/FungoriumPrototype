@@ -9,7 +9,7 @@ public class InsectView {
     }
 
     public void insectInitialized() {
-        System.out.println("Insect (" + insect.getName() + ") is initialized on (" + insect.getTecton() + ") tecton!");
+        System.out.println("Insect (" + insect.getName() + ") is initialized on (" + insect.getTecton().getName() + ") tecton!");
     }
 
     public void insectIsAntiSevered() {

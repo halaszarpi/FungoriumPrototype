@@ -52,7 +52,7 @@ public class FungusBody {
 
     public void scatterTo(Tecton targetTecton) throws Exception {
         FungusFarmer farmer = mycelium.getOwner();
-        
+
         if(scatteringCooldown > 0) {
             throw new Exception(view.noAvailableSpore());
         }
@@ -65,11 +65,12 @@ public class FungusBody {
         boolean grownBody = remainingSpores <= 3;
         Tecton currentTecton = mycelium.getTecton();
         boolean neigbour = currentTecton.isNeighbour(targetTecton);
-        
+
         boolean neighbourOrNeighboursNeigbour = currentTecton.isNeighbourOrNeighboursNeighbour(targetTecton);
-        
+
         if ((!grownBody && neigbour) || (grownBody && neighbourOrNeighboursNeigbour)) {
             targetTecton.addSpore(newSpore);
+            farmer.addSpore(newSpore);
             remainingSpores--;
             scatteringCooldown = 2;
         }

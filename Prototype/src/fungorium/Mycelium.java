@@ -1,12 +1,12 @@
 package fungorium;
 
 public class Mycelium implements IRoundFollower{
-    private final String name;
-    private final FungusFarmer owner;
+    private String name;
+    private FungusFarmer owner;
     private Tecton tecton;
     private FungusBody body;
     private int roundsToLive;
-    private final MyceliumView view;
+    private MyceliumView view;
     private final int maxRoundsToLive = 3;
 
     public Mycelium(String name, FungusFarmer owner, Tecton tecton) {
@@ -45,7 +45,7 @@ public class Mycelium implements IRoundFollower{
 
 
     /*ha nincsen gombatest noveszt egyet es true ertekkel ter vissza, ha pedig mar van false-al ter vissza */
-    public void growBody(Spore spore) throws Exception {
+    public boolean growBody(Spore spore) throws Exception {
         if (body != null) {
             throw new Exception("This mycelium already has a body.");
         }
@@ -59,34 +59,36 @@ public class Mycelium implements IRoundFollower{
             tecton.removeSpore(spore);
             view.hasGrownBody();
             owner.useActionPoints(1);
+            return true;
         }
+        return false;
     }
 
     public void spreadTo(Tecton targetTecton) throws Exception {
         // Szomszedos tekton-e, ahova akar terjedni
-        try {
-            if (targetTecton == null || !tecton.isNeighbour(targetTecton)) {
-                return;
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
+        if (targetTecton == null || !tecton.isNeighbour(targetTecton)) {
+            throw new Exception(view.invalidTarget(targetTecton));
         }
 
-        // Ellenorzi, hogy van-e mar kapcsolat a ketto kozott
-        try {
-            if (tecton.isConnectedTo(targetTecton)) {
-                return;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        // Van-e mar mycelium a tektonon
+        if (targetTecton.hasMycelium(owner) && this.getTecton().isConnectedTo(targetTecton)) {
+            throw new Exception(view.targetAlreadyHasMycelium(targetTecton));
         }
 
-        Mycelium newMycelium = new Mycelium(name, owner, targetTecton);
-        targetTecton.addMycelium(newMycelium);
-        targetTecton.addConnection(tecton);
-        owner.useActionPoints(2);
+        if(targetTecton.hasMycelium(owner)){
+            targetTecton.addConnection(tecton);
+            owner.useActionPoints(2);
+            view.connectionAddedTo(targetTecton);
+        }
+        else {
+            Mycelium newMycelium = new Mycelium(owner.getNewMyceliumName(), owner, targetTecton);
+            targetTecton.addMycelium(newMycelium);
+            targetTecton.addConnection(tecton);
+            owner.useActionPoints(2);
+            owner.addMycelium(newMycelium);
 
-        view.hasSpreadTo(targetTecton);
+            view.hasSpreadTo(targetTecton);
+        }
     }
 
 
