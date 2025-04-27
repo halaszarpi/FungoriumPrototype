@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class FungusFarmer extends Player {
     private List<Mycelium> myceliums;
     private List<Spore> spores;
-    private FungusFarmerView view;
+    private final FungusFarmerView view;
 
     public FungusFarmer(String name){
         super(name);

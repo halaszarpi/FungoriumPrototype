@@ -25,7 +25,7 @@ public class InsectView {
     }
 
     public void insectIsBoosted() {
-        System.out.println("Insect (" + insect.getName() + ") is an boosted for " + insect.getSlowedForRounds() + " rounds!");
+        System.out.println("Insect (" + insect.getName() + ") is an boosted for " + insect.getBoostedForRounds() + " rounds!");
     }
 
     public void insectAteSpore(Spore spore) {

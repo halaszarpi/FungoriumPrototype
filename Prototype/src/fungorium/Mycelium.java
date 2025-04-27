@@ -1,12 +1,12 @@
 package fungorium;
 
 public class Mycelium implements IRoundFollower{
-    private String name;
-    private FungusFarmer owner;
+    private final String name;
+    private final FungusFarmer owner;
     private Tecton tecton;
     private FungusBody body;
     private int roundsToLive;
-    private MyceliumView view;
+    private final MyceliumView view;
     private final int maxRoundsToLive = 3;
 
     public Mycelium(String name, FungusFarmer owner, Tecton tecton) {
