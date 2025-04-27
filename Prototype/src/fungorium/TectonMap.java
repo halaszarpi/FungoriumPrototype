@@ -14,7 +14,6 @@ public class TectonMap {
     private TectonMapView view;
     private Random rand;
     private boolean isTest;
-    private TectonView tectonView;
     private ArrayList<String> playerCommands;
     private ArrayList<String> controllerCommands;
     private final int maxSporeNutrientContent = 5;
@@ -35,14 +34,14 @@ public class TectonMap {
         Tecton tecton = null;
 
         switch (tectonType) {
-            case "ORD" -> tecton = new OrdinaryTecton(100, tectonName, tectonView);
-            case "NOB" -> tecton = new NoBodyTecton(percentToBreak, tectonName, tectonView);
-            case "SIN" -> tecton = new SingleMyceliumTecton(percentToBreak, tectonName, tectonView);
+            case "ORD" -> tecton = new OrdinaryTecton(100, tectonName);
+            case "NOB" -> tecton = new NoBodyTecton(percentToBreak, tectonName);
+            case "SIN" -> tecton = new SingleMyceliumTecton(percentToBreak, tectonName);
             case "VAN" -> {
                 int percentToVanish = isTest ? 100 : rand.nextInt(100) + 1;
-                tecton = new MyceliumVanisherTecton(percentToBreak, percentToVanish, tectonName, tectonView);
+                tecton = new MyceliumVanisherTecton(percentToBreak, percentToVanish, tectonName);
             }
-            case "SUS" -> tecton = new MyceliumSustainerTecton(percentToBreak, tectonName, tectonView);
+            case "SUS" -> tecton = new MyceliumSustainerTecton(percentToBreak, tectonName);
             default -> throw new Exception(view.noSuchTecton(tectonName));
         }
         tectons.add(tecton);

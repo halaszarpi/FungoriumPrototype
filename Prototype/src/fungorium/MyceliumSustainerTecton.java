@@ -4,13 +4,13 @@ public class MyceliumSustainerTecton extends Tecton{
 
 private static final String type = "mycelium sustainer tecton";
 
-    public MyceliumSustainerTecton(int precentToBreak, String tectonName, TectonView view) { super(precentToBreak, tectonName, type, view); }
+    public MyceliumSustainerTecton(int precentToBreak, String tectonName, TectonView view) { super(precentToBreak, tectonName, type); }
 
     @Override
     public void addMycelium(Mycelium m) throws Exception { 
         myceliumList.add(m); 
 
-        view.myceliumAdded(this, m);
+        view.myceliumAdded(m);
     }
 
     @Override
@@ -25,7 +25,7 @@ private static final String type = "mycelium sustainer tecton";
 
     @Override
     public boolean canPlaceBody() throws Exception{
-        if (!canPlaceBodyHelper()) throw new Exception(view.alreadyHasFungusbody(this));
+        if (!canPlaceBodyHelper()) throw new Exception(view.alreadyHasFungusbody());
         return true;
     }
 
@@ -35,13 +35,13 @@ private static final String type = "mycelium sustainer tecton";
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton);
 
-        view.tectonBreaks(this, newTecton);
+        view.tectonBreaks(newTecton);
         callRoundPasseds();
 
         return newTecton;
     }
 
     @Override
-    public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton(this)); }
+    public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton()); }
     
 }

@@ -6,7 +6,7 @@ public class MyceliumVanisherTecton extends Tecton {
     private int vanishPrecent;
 
     public MyceliumVanisherTecton(int precentToBreak, int precentToVanish, String tectonName, TectonView view) { 
-        super(precentToBreak, tectonName, type, view); 
+        super(precentToBreak, tectonName, type);
         vanishPrecent = precentToVanish;
     }
 
@@ -14,7 +14,7 @@ public class MyceliumVanisherTecton extends Tecton {
     public void addMycelium(Mycelium m) throws Exception { 
         myceliumList.add(m); 
 
-        view.myceliumAdded(this, m);
+        view.myceliumAdded(m);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class MyceliumVanisherTecton extends Tecton {
 
     @Override
     public boolean canPlaceBody() throws Exception {
-        if (!canPlaceBodyHelper()) throw new Exception(view.alreadyHasFungusbody(this));
+        if (!canPlaceBodyHelper()) throw new Exception(view.alreadyHasFungusbody());
         return true;
     }
 
@@ -44,7 +44,7 @@ public class MyceliumVanisherTecton extends Tecton {
         removeConnectionAtBreak();
          manageNeighboursAtBreak(newTecton);
 
-        view.tectonBreaks(this, newTecton);
+        view.tectonBreaks(newTecton);
         callRoundPasseds();
 
         return newTecton;
