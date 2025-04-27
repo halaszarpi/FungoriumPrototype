@@ -43,7 +43,7 @@ public class FungusBody {
         this.mycelium = mycelium;
         this.remainingSpores = 5;
         this.scatteringCooldown = 2;
-        this.view = new FungusBodyView();
+        this.view = new FungusBodyView(this);
     }
 
     public Mycelium getMycelium() {
@@ -58,7 +58,7 @@ public class FungusBody {
         }
 
         if (farmer.getActionPoints() <= 0) {
-            throw new Exception(view.noAvailableActionPoint(farmer));
+            throw new Exception(view.noAvailableActionPoint());
         }
 
         Spore newSpore = createRandomSpore(farmer);
@@ -95,5 +95,9 @@ public class FungusBody {
         returnString += "\nScatteringCooldown: ";
         returnString += scatteringCooldown;
         return returnString;
+    }
+
+    public Player getOwner() {
+        return mycelium.getOwner();
     }
 }

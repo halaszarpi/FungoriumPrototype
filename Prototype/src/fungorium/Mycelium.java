@@ -15,7 +15,7 @@ public class Mycelium implements IRoundFollower{
         this.tecton = tecton;
         this.body = null;
         this.roundsToLive = maxRoundsToLive;
-        this.view = new MyceliumView();
+        this.view = new MyceliumView(this);
     }
 
     // Getterek
@@ -57,7 +57,7 @@ public class Mycelium implements IRoundFollower{
         if (tecton.hasSpores(spore) && tecton.canPlaceBody()) {
             body = new FungusBody(this);
             tecton.removeSpore(spore);
-            view.hasGrownBody(this.name);
+            view.hasGrownBody();
             owner.useActionPoints(1);
             return true;
         }
@@ -88,19 +88,19 @@ public class Mycelium implements IRoundFollower{
         targetTecton.addConnection(tecton);
         owner.useActionPoints(2);
 
-        view.hasSpreadTo(this.name, targetTecton.name);
+        view.hasSpreadTo(targetTecton);
     }
 
 
     public void bodyDied() {
         this.body = null;
-        view.bodyHasDied(this.name);
+        view.bodyHasDied();
     }
 
     public void scatterSpore(Tecton targetTecton) throws Exception {
         if (body == null) {
             // view hivas!
-            throw new Exception(view.hasNoFungusBody(name));
+            throw new Exception(view.hasNoFungusBody());
         }
         body.scatterTo(targetTecton);
         owner.useActionPoints(1);
@@ -109,7 +109,7 @@ public class Mycelium implements IRoundFollower{
     public void roundPassed() {
         if (body != null) {
             body.reduceCooldown();
-            view.cooldownReduced(name);
+            view.cooldownReduced();
         }
     }
 
@@ -120,7 +120,7 @@ public class Mycelium implements IRoundFollower{
     public void increaseRoundsToLive() {
         if (roundsToLive < 3) {
             roundsToLive++;
-            view.myceliumSustained(name);
+            view.myceliumSustained();
         }
     }
 
@@ -128,14 +128,14 @@ public class Mycelium implements IRoundFollower{
         if (roundsToLive > 0) { roundsToLive--; }
         if (roundsToLive == 0) {
             tecton.removeMycelium(this);
-            view.myceliumHasDied(name);
+            view.myceliumHasDied();
         }
     }
 
     public void eatInsect(Insect insect){
         insect.gotEaten();
         owner.useActionPoints(3);
-        view.ateInsect(name, insect.getName());
+        view.ateInsect(insect);
     }
 
     public String toString() {
