@@ -10,7 +10,7 @@ public class FungusFarmerView {
 
     public void chooseAction() {
         System.out.println(fungusFarmer.toString());
-        System.out.println("Enter command:\n\tGROWMYC(2) [MYCNAME] [TECNAME]\n\tGROWBOD(1) [MYCNAME] [SPONAME]\n\tSCATTERSP(1) [MYCNAME] [TECNAME]\n\tEATINS(3) [MYCNAME] [INSNAME]\n\tINFO\n\tSHOWMAP\n\tSKIP");
+        System.out.println("Enter command:\n\tGROWMYC(2) [MYCNAME] [TECNAME]\n\tGROWBOD(2) [MYCNAME] [SPONAME]\n\tSCATTERSP(1) [MYCNAME] [TECNAME]\n\tEATINS(3) [MYCNAME] [INSNAME]\n\tINFO\n\tSHOWMAP\n\tSKIP");
     }
 
     public void myceliumInitialized(Tecton startingTecton) {
@@ -25,16 +25,16 @@ public class FungusFarmerView {
     public void info() {
         System.out.println("FUNGUS FARMER INFO");
         System.out.println("--------------------------");
-        System.out.println("\tNAME:"+fungusFarmer.getName());
-        System.out.println("\tACTIONPOINTS:"+fungusFarmer.getActionPoints());
-        System.out.println("\tSCORE:"+fungusFarmer.getScore());
-        System.out.println("\nMYCELIUMS:");
+        System.out.println("\tNAME: "+fungusFarmer.getName());
+        System.out.println("\tACTIONPOINTS: "+fungusFarmer.getActionPoints());
+        System.out.println("\tSCORE: "+fungusFarmer.getScore());
+        System.out.println("\nMYCELIUMS: ");
 
         for(Mycelium mycelium : fungusFarmer.getMyceliums()){
-            System.out.println("\t" + mycelium.getName() + "on tecton (" + mycelium.getTecton().getName() + ")");
+            System.out.println("\t" + mycelium.getName() + " on tecton (" + mycelium.getTecton().getName() + ")");
         }
 
-        System.out.println("\nFUNGUSBODY'S:");
+        System.out.println("\nFUNGUSBODYS:");
         for(Mycelium mycelium: fungusFarmer.getMyceliums()){
             if(mycelium.hasBody()){
                 mycelium.getBody().toString();

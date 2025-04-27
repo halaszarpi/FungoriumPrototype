@@ -64,7 +64,7 @@ public class Mycelium implements IRoundFollower{
         tecton.removeSpore(spore);
         owner.removeSpore(spore);
         view.hasGrownBody();
-        owner.useActionPoints(1);
+        owner.useActionPoints(2);
         owner.increaseScore(1);
     }
 

@@ -19,12 +19,12 @@ public class InsectKeeperView {
     public void info(){
         System.out.println("INSECTKEEPER INFO:");
         System.out.println("-------------------");
-        System.out.println("\tNAME:"+insectKeeper.getName());
-        System.out.println("\n\tACTIONPOINTS:"+insectKeeper.getActionPoints());
-        System.out.println("\n\tSCORE:"+insectKeeper.getScore());
-        System.out.println("\nINSECT'S");
+        System.out.println("\tNAME: "+insectKeeper.getName());
+        System.out.println("\n\tACTIONPOINTS: "+insectKeeper.getActionPoints());
+        System.out.println("\n\tSCORE: "+insectKeeper.getScore());
+        System.out.println("\nINSECTS ");
         for(Insect insect:insectKeeper.getInsects()){
-            System.out.println("\t"+insect.getName() + "on tecton (" + insect.getTecton().getName() + ")");                                                                                                                                                                                                                                                        }
+            System.out.println("\t"+insect.getName() + " on tecton (" + insect.getTecton().getName() + ")");                                                                                                                                                                                                                                                        }
         System.out.println("-------------------");
 
     }

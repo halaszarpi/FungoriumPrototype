@@ -24,7 +24,7 @@ public class InsectKeeper extends Player {
             String command = in.nextLine();
             String[] args = command.split(" ");
 
-            if ((args.length != 3) && !args[0].equalsIgnoreCase("SKIP") && !args[0].equalsIgnoreCase("INFO")) {
+            if ((args.length != 3) && !args[0].equalsIgnoreCase("SKIP") && !args[0].equalsIgnoreCase("INFO") && !args[0].equalsIgnoreCase("SHOWMAP")) {
                 System.out.println("Invalid command");
                 continue;
             }

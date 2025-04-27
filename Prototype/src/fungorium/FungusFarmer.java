@@ -26,7 +26,7 @@ public class FungusFarmer extends Player {
             String command = in.nextLine();
             String[] args = command.split(" ");
 
-            if((args.length != 3) && !args[0].equalsIgnoreCase("SKIP") && !args[0].equalsIgnoreCase("INFO")) {
+            if((args.length != 3) && !args[0].equalsIgnoreCase("SKIP") && !args[0].equalsIgnoreCase("INFO") && !args[0].equalsIgnoreCase("SHOWMAP")) {
                 view.invalidActionMessage();
                 continue;
             }
@@ -96,11 +96,20 @@ public class FungusFarmer extends Player {
     public void initializePlayer(Tecton startingTecton) throws Exception {
         Mycelium mycelium = new Mycelium(getNewMyceliumName(), this, startingTecton);
         myceliums.add(mycelium);
-
         startingTecton.addMycelium(mycelium);
+
         OrdinarySpore s = new OrdinarySpore(this,0,0,"initSpore");
         startingTecton.addSpore(s);
-        mycelium.growBody(s);
+
+        try {
+            mycelium.growBody(s);
+        }
+        catch (Exception e){
+            startingTecton.removeMycelium(mycelium);
+            startingTecton.removeSpore(s);
+            myceliums.remove(mycelium);
+            throw e;
+        }
         view.myceliumInitialized(startingTecton);
     }
 
