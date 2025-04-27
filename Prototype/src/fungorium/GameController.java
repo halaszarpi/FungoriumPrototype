@@ -46,9 +46,20 @@ public class GameController {
                 players.add(new InsectKeeper(playerName));
             }
         }
+
         System.out.println("Please enter the number of rounds:");
         numberOfRounds = scanner.nextInt();
         scanner.nextLine();
+
+        System.out.println("The game map is ready!");
+        tectonMap.showMap();
+
+        for (Player player : players) {
+            System.out.println("Player " + player.getName() + "is choosing a starting Tecton:");
+            String tectonName = scanner.nextLine();
+            Tecton startingTecton = player.findTectonByName(tectonName, tectonMap.map());
+            player.initializePlayer(startingTecton);
+        }
 
         System.out.println("Game initialized!");
         runGame();

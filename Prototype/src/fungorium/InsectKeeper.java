@@ -6,10 +6,12 @@ import java.util.Scanner;
 
 public class InsectKeeper extends Player {
         private List<Insect> insects;
+        private InsectKeeperView view;
 
         public InsectKeeper(String name) {
             super(name);
             insects = new ArrayList<>();
+            view = new InsectKeeperView(this);
         }
 
         @Override
@@ -80,4 +82,16 @@ public class InsectKeeper extends Player {
                 insect.roundPassed();
             }
         }
+
+    @Override
+    public void initializePlayer(Tecton startingTecton) {
+        Insect insect = new Insect("I1", startingTecton, this);
+        insects.add(insect);
+        try {
+            startingTecton.addInsect(insect);
+            view.insectInitialized(startingTecton);
+        } catch (Exception e) {
+            System.out.println("Error while adding insect to tecton: " + e.getMessage());
+        }
+    }
 }

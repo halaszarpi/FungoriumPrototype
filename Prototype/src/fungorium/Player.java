@@ -72,6 +72,8 @@ public abstract class Player {
     public abstract void turn(List<Tecton> map, Scanner in);
     public abstract void roundPassed();
 
+    public abstract void initializePlayer(Tecton startingTecton);
+
     public void useActionPoints(int amount) {
         this.actionPoints -= amount;
     }
