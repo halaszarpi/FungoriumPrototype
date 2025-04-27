@@ -30,9 +30,8 @@ public class Main {
         GameController gamecontroller = new GameController(scanner);
     }
 
-    /// TODO
     private static void gameTester(Scanner scanner) {
-        //TesterController testercontroller = new TesterController(scanner);
+        GameTesterController testercontroller = new GameTesterController(scanner);
     }
 
     private static void clearScreen() {
