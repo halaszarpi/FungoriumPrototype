@@ -5,7 +5,7 @@ public class MyceliumVanisherTecton extends Tecton {
     private static final String type = "mycelium vanisher tecton";
     private int vanishPrecent;
 
-    public MyceliumVanisherTecton(int precentToBreak, int precentToVanish, String tectonName, TectonView view) { 
+    public MyceliumVanisherTecton(int precentToBreak, int precentToVanish, String tectonName) {
         super(precentToBreak, tectonName, type);
         vanishPrecent = precentToVanish;
     }
@@ -40,7 +40,7 @@ public class MyceliumVanisherTecton extends Tecton {
 
     @Override
     public Tecton breakTecton() {
-        Tecton newTecton = new MyceliumVanisherTecton(breakPrecent, vanishPrecent, name + "-2", view);
+        Tecton newTecton = new MyceliumVanisherTecton(breakPrecent, vanishPrecent, name + "-2");
         removeConnectionAtBreak();
          manageNeighboursAtBreak(newTecton);
 

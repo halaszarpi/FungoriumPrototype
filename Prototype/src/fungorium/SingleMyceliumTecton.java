@@ -4,7 +4,7 @@ public class SingleMyceliumTecton extends Tecton {
 
     private static final String type = "single mycelium tecton";
 
-    public SingleMyceliumTecton(int precentToBreak, String tectonName, TectonView view) { super(precentToBreak, tectonName, type); }
+    public SingleMyceliumTecton(int precentToBreak, String tectonName) { super(precentToBreak, tectonName, type); }
 
     @Override
     public void addMycelium(Mycelium m) throws Exception{ 
@@ -28,7 +28,7 @@ public class SingleMyceliumTecton extends Tecton {
 
     @Override
     public Tecton breakTecton() {
-        Tecton newTecton = new SingleMyceliumTecton(breakPrecent, name + "-2", view);
+        Tecton newTecton = new SingleMyceliumTecton(breakPrecent, name + "-2");
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton);
 
