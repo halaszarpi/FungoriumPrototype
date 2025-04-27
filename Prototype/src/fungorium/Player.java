@@ -20,7 +20,7 @@ public abstract class Player {
 
     public abstract void roundPassed();
 
-    public abstract void initializePlayer(Tecton startingTecton);
+    public abstract void initializePlayer(Tecton startingTecton) throws Exception;
 
     public void useActionPoints(int amount) {
         this.actionPoints -= amount;

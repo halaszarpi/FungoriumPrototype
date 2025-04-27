@@ -67,7 +67,15 @@ public class GameController {
                     System.out.println("Error while choosing starting Tecton: " + e.getMessage());
                     continue;
                 }
-                player.initializePlayer(startingTecton);
+
+                try{
+                    player.initializePlayer(startingTecton);
+                }
+                catch (Exception e) {
+                    System.out.println("Error while initializing player: " + e.getMessage());
+                    continue;
+                }
+
                 valid = true;
             }
         }

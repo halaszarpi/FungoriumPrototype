@@ -93,19 +93,15 @@ public class FungusFarmer extends Player {
     }
 
     @Override
-    public void initializePlayer(Tecton startingTecton) {
+    public void initializePlayer(Tecton startingTecton) throws Exception {
         Mycelium mycelium = new Mycelium(getNewMyceliumName(), this, startingTecton);
         myceliums.add(mycelium);
-        try {
-            startingTecton.addMycelium(mycelium);
-            OrdinarySpore s = new OrdinarySpore(this,0,0,"initSpore");
-            startingTecton.addSpore(s);
-            mycelium.growBody(s);
-            view.myceliumInitialized(startingTecton);
-        }
-        catch (Exception e) {
-            System.out.println("Error while adding mycelium to tecton: " + e.getMessage());
-        }
+
+        startingTecton.addMycelium(mycelium);
+        OrdinarySpore s = new OrdinarySpore(this,0,0,"initSpore");
+        startingTecton.addSpore(s);
+        mycelium.growBody(s);
+        view.myceliumInitialized(startingTecton);
     }
 
     public void addMycelium(Mycelium mycelium){
