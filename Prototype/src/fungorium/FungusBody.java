@@ -2,12 +2,23 @@ package fungorium;
 
 import java.util.Random;
 
+/**
+ * Represents a FungusBody in the Fungorium game.
+ *
+ * A FungusBody is attached to a Mycelium and is responsible for creating and scattering spores
+ * to nearby tectons. It manages the available spores and scattering cooldowns.
+ */
 public class FungusBody {
     private final Mycelium mycelium;
     private int remainingSpores;
     private int scatteringCooldown;
     private final FungusBodyView view;
 
+    /**
+     * Constructs a new FungusBody associated with a specific Mycelium.
+     *
+     * @param mycelium the Mycelium this FungusBody is attached to
+     */
     public FungusBody(Mycelium mycelium) {
         this.mycelium = mycelium;
         this.remainingSpores = 5;
@@ -15,6 +26,15 @@ public class FungusBody {
         this.view = new FungusBodyView(this);
     }
 
+    /**
+     * Creates a random Spore. If sporeTypeString and sporeName are provided,
+     * creates a specific type of Spore with fixed nutrient content and effect duration.
+     *
+     * @param owner the FungusFarmer who owns the new Spore
+     * @param sporeTypeString the desired type of the Spore (optional)
+     * @param sporeName the desired name of the Spore (optional)
+     * @return a new Spore instance
+     */
     private Spore createRandomSpore(FungusFarmer owner, String sporeTypeString, String sporeName) {
         Random rand = new Random();
 
@@ -52,10 +72,25 @@ public class FungusBody {
         };
     }
 
+    /**
+     * Gets the Mycelium associated with this FungusBody.
+     *
+     * @return the Mycelium instance
+     */
     public Mycelium getMycelium() {
         return this.mycelium;
     }
 
+    /**
+     * Attempts to scatter a spore onto a target Tecton.
+     *
+     * Throws an exception if scattering is not allowed (e.g., cooldown active or no action points).
+     *
+     * @param targetTecton the Tecton to scatter to
+     * @param sporeType the type of Spore to scatter (optional)
+     * @param sporeName the name of the Spore (optional)
+     * @throws Exception if scattering cannot be performed
+     */
     public void scatterTo(Tecton targetTecton, String sporeType, String sporeName) throws Exception {
         FungusFarmer farmer = mycelium.getOwner();
 
@@ -87,12 +122,20 @@ public class FungusBody {
         }
     }
 
+    /**
+     * Reduces the scattering cooldown by one round if it is active.
+     */
     public void reduceCooldown() {
         if (scatteringCooldown > 0) {
             scatteringCooldown--;
         }
     }
 
+    /**
+     * Returns a string representation of the FungusBody, including its state.
+     *
+     * @return a string describing the FungusBody
+     */
     @Override
     public String toString() {
         String returnString = "FungusBody: ";
@@ -105,6 +148,11 @@ public class FungusBody {
         return returnString;
     }
 
+    /**
+     * Gets the owner (player) of this FungusBody.
+     *
+     * @return the Player who owns the Mycelium
+     */
     public Player getOwner() {
         return mycelium.getOwner();
     }

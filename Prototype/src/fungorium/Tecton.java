@@ -2,6 +2,11 @@ package fungorium;
 
 import java.util.*;
 
+/**
+ * Abstract class representing a Tecton in the Fungorium world.
+ * A Tecton can have neighbours, spores, insects, and mycelia.
+ * It also manages connections and breaking behavior.
+ */
 public abstract class Tecton implements IRoundFollower{
     TectonMap map;
     private Map<Tecton, Boolean> neighbours;
@@ -13,6 +18,13 @@ public abstract class Tecton implements IRoundFollower{
     protected Random gen;
     protected TectonView view;
 
+    /**
+     * Constructs a Tecton with a break chance, name, and associated map.
+     *
+     * @param percentToBreak The percentage chance for the tecton to break.
+     * @param tectonName The name of the tecton.
+     * @param m The map the tecton belongs to.
+     */
     protected Tecton(int percentToBreak, String tectonName, TectonMap m) {
         sporeList = new ArrayList<>();
         neighbours = new HashMap<>();
@@ -27,6 +39,11 @@ public abstract class Tecton implements IRoundFollower{
         view.tectonCreated();
     }
 
+    /**
+     * Adds a tecton as a neighbour.
+     *
+     * @param t The tecton to add as a neighbour.
+     */
     public void addNeighbour(Tecton t) { 
         neighbours.put(t, false);
         t.neighbours.put(this, false);
@@ -34,6 +51,12 @@ public abstract class Tecton implements IRoundFollower{
         view.neighbourAdded(t);
     }
 
+    /**
+     * Creates a mycelium connection with a neighbouring tecton.
+     *
+     * @param t The tecton to connect to.
+     * @throws Exception if the tecton is not a neighbour.
+     */
     public void addConnection(Tecton t) throws Exception{
 
         if (!isNeighbour(t)) throw new Exception(view.notNeighbour(t));
@@ -44,6 +67,12 @@ public abstract class Tecton implements IRoundFollower{
         view.connectionAdded(t);
     }
 
+    /**
+     * Checks if the tecton has any mycelium owned by the given farmer.
+     *
+     * @param f The fungus farmer.
+     * @return True if the farmer owns a mycelium on this tecton.
+     */
     public boolean hasMycelium(FungusFarmer f) {
         for (Mycelium m : myceliumList) {
             if (m.getOwner() == f) {
@@ -53,20 +82,41 @@ public abstract class Tecton implements IRoundFollower{
         return false;
     }
 
+    /**
+     * Adds a mycelium to the tecton.
+     *
+     * @param m The mycelium to add.
+     * @throws Exception if not allowed to add.
+     */
     public abstract void addMycelium(Mycelium m) throws Exception;
 
+    /**
+     * Adds a spore to the tecton.
+     *
+     * @param s The spore to add.
+     */
     public void addSpore(Spore s) { 
         sporeList.add(s);
 
         view.sporeAdded(s);
      }
 
+    /**
+     * Adds an insect to the tecton.
+     *
+     * @param i The insect to add.
+     */
     public void addInsect(Insect i) {
         insectList.add(i); 
 
         view.insectAdded(i);
     }
 
+    /**
+     * Removes a neighbouring tecton without removing a connection.
+     *
+     * @param t The neighbour to remove.
+     */
     private void removeNeighbour(Tecton t) {
 
         neighbours.remove(t); 
@@ -75,24 +125,45 @@ public abstract class Tecton implements IRoundFollower{
         view.neighbourRemoved(t);
     }
 
+    /**
+     * Removes a mycelium from the tecton.
+     *
+     * @param m The mycelium to remove.
+     */
     public void removeMycelium(Mycelium m) { 
         myceliumList.remove(m); 
 
         view.myceliumRemoved(m);
     }
 
+    /**
+     * Removes an insect from the tecton.
+     *
+     * @param i The insect to remove.
+     */
     public void removeInsect(Insect i) { 
         insectList.remove(i); 
 
         view.insectRemoved(i);
     }
 
+    /**
+     * Removes a spore from the tecton.
+     *
+     * @param s The spore to remove.
+     */
     public void removeSpore(Spore s) { 
         sporeList.remove(s); 
 
         view.sporeRemoved(s);
     }
 
+    /**
+     * Removes a mycelium connection with a neighbour.
+     *
+     * @param t The neighbour tecton.
+     * @throws Exception if no connection exists.
+     */
     public void removeConnection(Tecton t) throws Exception {
 
         if(!isNeighbour(t)) throw new Exception(view.notNeighbour(t));
@@ -104,11 +175,23 @@ public abstract class Tecton implements IRoundFollower{
         view.removeConnection(t);
     }
 
+    /**
+     * Checks if a tecton is a neighbour.
+     *
+     * @param t The tecton to check.
+     * @return True if neighbour.
+     */
     public boolean isNeighbour(Tecton t) {
         List<Tecton> neighbourList = new ArrayList<>(neighbours.keySet());
         return neighbourList.contains(t);
     }
 
+    /**
+     * Checks if a tecton is a direct neighbour or a neighbour's neighbour.
+     *
+     * @param t The tecton to check.
+     * @return True if neighbour or neighbour's neighbour.
+     */
     public boolean isNeighbourOrNeighboursNeighbour(Tecton t) {
         boolean isNeighbourBoolean = isNeighbour(t);
         if(isNeighbourBoolean) return true;
@@ -124,14 +207,30 @@ public abstract class Tecton implements IRoundFollower{
         return isNeighboursNeighbourBoolean;
     }
 
+    /**
+     * Checks if the tecton is connected by mycelium to another tecton.
+     *
+     * @param t The tecton to check.
+     * @return True if connected.
+     */
     public boolean isConnectedTo(Tecton t) {
         if(!neighbours.containsKey(t))
             return false;
         return neighbours.get(t);
     }
 
+    /**
+     * Checks if a body can be placed on this tecton.
+     *
+     * @return True if possible.
+     */
     public abstract boolean canPlaceBody();
 
+    /**
+     * Helper method to check if placing a body is allowed (no body already exists).
+     *
+     * @return True if no body is present.
+     */
     protected boolean canPlaceBodyHelper() {
 
         for (Mycelium m : myceliumList){
@@ -141,6 +240,12 @@ public abstract class Tecton implements IRoundFollower{
         return true;
     }
 
+    /**
+     * Checks if a specific spore exists on the tecton.
+     *
+     * @param spore The spore to search for.
+     * @return True if found.
+     */
     public boolean hasSpores(Spore spore) {
         if (sporeList.isEmpty()) { return false; }
         for (Spore s : sporeList) {
@@ -151,10 +256,23 @@ public abstract class Tecton implements IRoundFollower{
         return false;
     }
 
+    /**
+     * Defines how the tecton breaks into new tectons.
+     */
     public abstract void breakTecton();
 
+    /**
+     * Removes all mycelium from the tecton.
+     *
+     * @throws Exception if removal fails.
+     */
     public abstract void vanishMycelium() throws Exception;
 
+    /**
+     * Manages neighbour relationships when a tecton breaks.
+     *
+     * @param newTecton The new tecton created from breaking.
+     */
     protected void manageNeighboursAtBreak(Tecton newTecton) {
 
         List<Tecton> neighbourList = new ArrayList<>(neighbours.keySet());
@@ -186,6 +304,9 @@ public abstract class Tecton implements IRoundFollower{
 
     }
 
+    /**
+     * Removes all connections (mycelium) when breaking.
+     */
     protected void removeConnectionAtBreak() {
 
         try {
@@ -199,11 +320,24 @@ public abstract class Tecton implements IRoundFollower{
         
     }
 
+    /**
+     * Generates a random number and checks if it falls within a chance boundary.
+     *
+     * @param chance The success chance (1-100).
+     * @return True if successful.
+     */
     protected boolean generatedNumWithinBound(int chance) {
         int num = gen.nextInt(100) + 1;
         return num <= chance;
     }
 
+    /**
+     * Recursively searches for a body belonging to a specific farmer.
+     *
+     * @param owner The fungus farmer.
+     * @param checkedTectons Already checked tectons to avoid loops.
+     * @return True if found.
+     */
     public boolean findBody(FungusFarmer owner, List<Tecton> checkedTectons) {
         checkedTectons.add(this);
         for (Mycelium mycelium : myceliumList) {
@@ -229,8 +363,19 @@ public abstract class Tecton implements IRoundFollower{
         return false;
     }
 
+    /**
+     * Returns the name of the tecton.
+     *
+     * @return The tecton's name.
+     */
     public String getName() { return name; }
 
+    /**
+     * Converts the tecton into a human-readable string format.
+     *
+     * @param tectonType The type of the tecton.
+     * @return The formatted tecton string.
+     */
     protected String tectonToString(String tectonType) {
 
         String returnString = "\n--------------------------------------------------------------------------------------------------------";
@@ -346,35 +491,34 @@ public abstract class Tecton implements IRoundFollower{
         return returnString;
     }
 
-    public static <M, V> boolean areNeighbourMapsEqual(Map<M, V> map1, Map<M, V> map2) {
-        List<M> map1KeySet = new ArrayList<>(map1.keySet());
-        List<M> map2KeySet = new ArrayList<>(map2.keySet());
-
-        if (map1KeySet.size() != map2KeySet.size()) return false;
-
-        for (M map1Key : map1KeySet) {
-
-            boolean foundVal = false;
-            for (M map2Key : map2KeySet) {
-                if (map2Key.equals(map1Key)) { 
-
-                    foundVal = true; 
-                    if (map1.get(map1Key) != map2.get(map2Key)) { return false; }
-                }
-            }
-            if (!foundVal) { return false; }
-        }
-
-        return true;
-    }
-
+    /**
+     * Checks if two tectons are completely equal (deep comparison).
+     *
+     * @param t The other tecton.
+     * @return True if tectons are equal.
+     */
     public boolean isEqual(Tecton t) {
         return toString().equals(t.toString());
     }
 
+    /**
+     * Returns the list of spores on the tecton.
+     *
+     * @return List of spores.
+     */
     public List<Spore> getSporeList() { return sporeList; }
 
+    /**
+     * Returns the list of insects on the tecton.
+     *
+     * @return List of insects.
+     */
     public List<Insect> getInsectList() { return insectList; }
 
+    /**
+     * Returns the list of mycelia on the tecton.
+     *
+     * @return List of mycelia.
+     */
     public List<Mycelium> getMyceliumList() { return myceliumList; }
 }

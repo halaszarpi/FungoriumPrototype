@@ -5,12 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * This class is responsible for controlling the game flow, managing players,
+ * rounds, and the game map.
+ * It orchestrates the initialization of the game, handles the rounds, and ends the game.
+ */
 public class GameController {
     private final Scanner scanner;
     private final TectonMap tectonMap;
     private List<Player> players;
     private int numberOfRounds;
 
+    /**
+     * Constructor for GameController. Initializes the scanner and the game map.
+     * Loads the map from a file and creates the tecton map using the commands in the file.
+     *
+     * @param _scanner the scanner used for input
+     */
     public GameController(Scanner _scanner) {
         this.scanner = _scanner;
         this.tectonMap = new TectonMap(scanner, false);
@@ -29,6 +40,10 @@ public class GameController {
         initializeGame();
     }
 
+    /**
+     * Initializes the game by setting up the players, the number of rounds,
+     * and the starting tectons for each player. Then it starts the game.
+     */
     public void initializeGame() {
         System.out.println("New game started!");
         System.out.println("Please enter the number of players:");
@@ -41,7 +56,7 @@ public class GameController {
                 String playerName = scanner.nextLine();
                 players.add(new FungusFarmer(playerName));
             } else {
-                System.out.println("Player " + (i + 1) + " is a Insect Keeper. Please choose a name:");
+                System.out.println("Player " + (i + 1) + " is an Insect Keeper. Please choose a name:");
                 String playerName = scanner.nextLine();
                 players.add(new InsectKeeper(playerName));
             }
@@ -84,6 +99,10 @@ public class GameController {
         runGame();
     }
 
+    /**
+     * Runs the game for the given number of rounds. In each round, each player takes their turn.
+     * The game state is refreshed after each turn.
+     */
     public void runGame() {
         tectonMap.showMap();
 
@@ -108,6 +127,9 @@ public class GameController {
         endGame();
     }
 
+    /**
+     * Ends the game by showing the final map and displaying the scores of all players.
+     */
     public void endGame() {
         System.out.println("Game ended!");
         tectonMap.showMap();
