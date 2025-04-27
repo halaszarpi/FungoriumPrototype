@@ -9,7 +9,7 @@ public class FungusBodyView {
     }
 
     public String noAvailableSpore() {
-        return "Fungus body has no spore to scatter!";
+        return "Fungus body on (" + fungusBody.getMycelium().getName()+ ") has no spore to scatter!";
     }
 
     public String noAvailableActionPoint() {
