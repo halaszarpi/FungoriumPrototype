@@ -47,6 +47,15 @@ public abstract class Tecton implements IRoundFollower{
         return true;
     }
 
+    public boolean hasMycelium(FungusFarmer f) {
+        for (Mycelium m : myceliumList) {
+            if (m.getOwner() == f) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public abstract void addMycelium(Mycelium m) throws Exception;
 
     public void addSpore(Spore s) { 
@@ -97,19 +106,16 @@ public abstract class Tecton implements IRoundFollower{
         view.removeConnection(t);
     }
 
-    //Kód duplikálás miatt
-    private boolean isNeighbourHelper(Tecton t) {
+
+    public boolean isNeighbour(Tecton t) {
         List<Tecton> neighbourList = new ArrayList<>(neighbours.keySet());
         return neighbourList.contains(t);
     }
 
-    public boolean isNeighbour(Tecton t) throws Exception {
-        if (!isNeighbourHelper(t)) throw new Exception(view.notNeighbour(this, t));
-        return true;
-    }
+    public boolean isNeighbourOrNeighboursNeighbour(Tecton t) {
+        boolean isNeighbourBoolean = isNeighbour(t);
+        if(isNeighbourBoolean) return true;
 
-    public boolean isNeighbourOrNeighboursNeighbour(Tecton t) throws Exception {
-        boolean isNeighbourBoolean = isNeighbourHelper(t);
         boolean isNeighboursNeighbourBoolean = false;
 
         List<Tecton> neighbourList = new ArrayList<>(neighbours.keySet());
@@ -118,9 +124,7 @@ public abstract class Tecton implements IRoundFollower{
             List<Tecton> neighboursNeigbourList = new ArrayList<>(tecton.neighbours.keySet());
             if (neighboursNeigbourList.contains(t)) { isNeighboursNeighbourBoolean = true; }
         }
-
-        if (!isNeighbourBoolean && !isNeighboursNeighbourBoolean) throw new Exception(view.notNeighbourOrNeigboursNeighbour(this, t));
-        return true;
+        return isNeighboursNeighbourBoolean;
     }
 
     public boolean isConnectedTo(Tecton t) throws Exception {
@@ -221,7 +225,7 @@ public abstract class Tecton implements IRoundFollower{
     public String getName() { return name; }
 
     @Override
-    public String toString() { 
+    public String toString() {
 
         String returnString = "\n--------------------------------------------------------------------------------------------------------";
         

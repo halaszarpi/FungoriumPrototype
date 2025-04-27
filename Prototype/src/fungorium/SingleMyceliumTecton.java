@@ -42,5 +42,5 @@ public class SingleMyceliumTecton extends Tecton {
     public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton()); }
 
     @Override
-    public String toString() { return super.toString("Single Mycelium Tecton");}
+    public String toString() { return super.toString();}
 }
