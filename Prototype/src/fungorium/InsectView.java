@@ -54,4 +54,8 @@ public class InsectView {
         System.out.println("Insect (" + insect.getName() + ") is duplicated!");
     }
 
+    public String insectNotAbleToStep(String insectName, String targetTectonName) {
+        return "Insect " + insectName + " is not able to step to tecton (" + targetTectonName + ")!";
+    }
+
 }

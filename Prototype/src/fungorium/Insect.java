@@ -89,7 +89,7 @@ public class Insect implements IRoundFollower{
     // TODO: Milyen exception az, amit dob?
     public boolean stepToTecton(Tecton targetTecton) throws Exception {
         if (!hasEnoughActionPointsForStepping() || stunnedForRounds > 0) {
-            throw new Exception();
+            throw new Exception(view.insectNotAbleToStep(this.name, targetTecton.getName()));
         }
         else if (this.tecton.isConnectedTo(targetTecton)) {
             this.tecton.removeInsect(this);
@@ -101,7 +101,7 @@ public class Insect implements IRoundFollower{
             return true;
         }
         else {
-            throw new Exception();
+            throw new Exception(view.insectNotAbleToStep(this.name, targetTecton.getName()));
         }
     }
 
