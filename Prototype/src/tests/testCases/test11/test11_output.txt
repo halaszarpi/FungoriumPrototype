@@ -1,0 +1,7 @@
+ADD_TEC t0 ORD
+ADD_MYC m0 t0
+ADD_SPO testerFarmer-s1 ORD t0
+ADD_SPO testerFarmer-s2 ORD t0
+ADD_SPO testerFarmer-s3 ORD t0
+ADD_SPO testerFarmer-s4 ORD t0
+ADD_SPO testerFarmer-s5 ORD t0

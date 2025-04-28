@@ -388,7 +388,7 @@ public class GameTesterController {
 
         try {
 
-            view.runnungInputCommands();
+            view.runningInputCommands();
             maps[0].runAllInputCommands(inputCommands);
             maps[0].mapsAreEqual(maps[1]);
         }

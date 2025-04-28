@@ -31,6 +31,7 @@ public class TectonMap {
         tectons = new ArrayList<>();
     }
 
+    // Teszt eseten egyelore legyen a percentToBreak 0.
     private void addTecton(String tectonName, String tectonType) throws Exception {
         int percentToBreak = isTest ? 100 : rand.nextInt(10) + 1;
         Tecton tecton = null;
@@ -272,11 +273,17 @@ public class TectonMap {
         foundTecton.vanishMycelium();
     }
 
+    // Hiba: tecton.size() futásidőben kérődik le, így mindig növekszik a tectons lista...
     public void roundPassed() {
-        for (int i = 0; i < tectons.size(); ++i){
+        int initialTectonsSize = tectons.size();
+
+        for (int i = 0; i < initialTectonsSize; i++){
             Tecton t = tectons.get(i);
             t.roundPassed();
         }
+
+        testerFarmer.roundPassed();
+        testerKeeper.roundPassed();
     }
 
     private void processInputCommand(String command) throws Exception {
