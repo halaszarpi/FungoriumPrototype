@@ -15,7 +15,7 @@ public class MyceliumVanisherTecton extends Tecton {
     public void roundPassed() {
         boolean tectonBreaks = generatedNumWithinBound(breakPrecent);
         vanishMycelium();
-        if (tectonBreaks) { breakTecton(); }
+        if (tectonBreaks) { breakTecton(null); }
     }
 
     @Override
@@ -24,11 +24,14 @@ public class MyceliumVanisherTecton extends Tecton {
     }
 
     @Override
-    public void breakTecton() {
+    public void breakTecton(String oneNeighbourNameOfTecton) {
+
+        Tecton randomTecton = generateRandomTectonNeighbour(oneNeighbourNameOfTecton);
+
         Tecton newTecton = new MyceliumVanisherTecton(breakPrecent, name + "-2", map);
         name += "-1";
         removeConnectionAtBreak();
-        manageNeighboursAtBreak(newTecton);
+        manageNeighboursAtBreak(newTecton, randomTecton);
 
         view.tectonBreaks(newTecton);
 

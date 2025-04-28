@@ -1,5 +1,7 @@
 package fungorium;
 
+import java.util.ArrayList;
+
 public class Mycelium implements IRoundFollower{
     private final String name;
     private final FungusFarmer owner;
@@ -113,6 +115,9 @@ public class Mycelium implements IRoundFollower{
     public void roundPassed() {
         if (body != null) {
             body.reduceCooldown();
+            if (!tecton.findBody(owner, new ArrayList<>())) {
+                decreaseRoundsToLive();
+            }
             view.cooldownReduced();
         }
     }

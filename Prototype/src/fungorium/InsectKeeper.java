@@ -115,4 +115,13 @@ public class InsectKeeper extends Player {
     public List<Insect> getInsects() {
         return insects;
     }
+
+    public void addInsect(Insect insect) {
+        insects.add(insect);
+    }
+
+    public void removeInsect(Insect insect) {
+        insects.remove(insect);
+    }
+    
 }

@@ -1,5 +1,7 @@
 package fungorium;
 
+import java.util.ArrayList;
+
 public class SingleMyceliumTecton extends Tecton {
 
     public SingleMyceliumTecton(int precentToBreak, String tectonName, TectonMap map) { super(precentToBreak, tectonName, map); }
@@ -15,7 +17,7 @@ public class SingleMyceliumTecton extends Tecton {
     public void roundPassed() {
         boolean tectonBreaks = generatedNumWithinBound(breakPrecent);
 
-        if (tectonBreaks) { breakTecton(); }
+        if (tectonBreaks) { breakTecton(null); }
     }
 
     @Override
@@ -24,11 +26,14 @@ public class SingleMyceliumTecton extends Tecton {
     }
 
     @Override
-    public void breakTecton() {
+    public void breakTecton(String oneNeighbourNameOfTecton) {
+
+        Tecton randomTecton = generateRandomTectonNeighbour(oneNeighbourNameOfTecton);
+
         Tecton newTecton = new SingleMyceliumTecton(breakPrecent, name + "-2", map);
         name += "-1";
         removeConnectionAtBreak();
-        manageNeighboursAtBreak(newTecton);
+        manageNeighboursAtBreak(newTecton, randomTecton);
 
         view.tectonBreaks(newTecton);
 

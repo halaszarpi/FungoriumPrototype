@@ -57,7 +57,7 @@ public class FungusFarmer extends Player {
             }
 
             try {
-                changeMapBasedOnCommands(map, args);
+                changeMapBasedOnCommands(map, args, false);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -71,12 +71,12 @@ public class FungusFarmer extends Player {
      * @param args the command arguments
      * @throws Exception if an invalid action occurs
      */
-    public void changeMapBasedOnCommands(TectonMap map, String[] args) throws Exception {
+    public void changeMapBasedOnCommands(TectonMap map, String[] args, boolean isTest) throws Exception {
         String action = args[0].toUpperCase();
         Mycelium mycelium = args.length > 1 ? map.findMycelium(args[1]) : null;
         String targetName = args.length > 2 ? args[2] : null;
-        String sporeType = args.length > 3 ? args[3] : null;
-        String sporeName = args.length > 4 ? args[4] : null;
+        String sporeType = (args.length > 3  && isTest) ? args[3] : null;
+        String sporeName = (args.length > 4 && isTest) ? args[4] : null;
 
         switch(action) {
             case "GROWMYC":
@@ -182,6 +182,10 @@ public class FungusFarmer extends Player {
         spores.remove(spore);
     }
 
+    public void removeMycelium(Mycelium mycelium) {
+        myceliums.remove(mycelium);
+    }
+
     /**
      * Generates a new name for a mycelium belonging to the player.
      *
@@ -207,5 +211,11 @@ public class FungusFarmer extends Player {
      */
     public List<Mycelium> getMyceliums() {
         return myceliums;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        FungusFarmer otherFarmer = (FungusFarmer) obj;
+        return this.name.equals(otherFarmer.getName());
     }
 }

@@ -70,6 +70,7 @@ public class TectonMap {
 
         Tecton foundTecton = findTecton(tectonName);
         Mycelium newMycelium = new Mycelium(myceliumName, testerFarmer, foundTecton);
+        testerFarmer.addMycelium(newMycelium);
         foundTecton.addMycelium(newMycelium);
 
     }
@@ -87,6 +88,7 @@ public class TectonMap {
         Tecton foundTecton = findTecton(tectonName);
         Insect newInsect = new Insect(insectName, foundTecton, testerKeeper);
         foundTecton.addInsect(newInsect);
+        testerKeeper.addInsect(newInsect);
 
     }
 
@@ -133,6 +135,7 @@ public class TectonMap {
 
             if (t.getMyceliumList().contains(foundMycelium)) {
                 t.removeMycelium(foundMycelium);
+                testerFarmer.removeMycelium(foundMycelium);
             }
         }
     }
@@ -150,6 +153,7 @@ public class TectonMap {
 
             if (t.getInsectList().contains(foundInsect)) {
                 t.removeInsect(foundInsect);
+                testerKeeper.removeInsect(foundInsect);
             }
         }
     }
@@ -260,11 +264,11 @@ public class TectonMap {
         }
     }
 
-    private void breakTecton(String tectonName) throws Exception {
+    private void breakTecton(String tectonName, String oneNeighbourNameOfTecton) throws Exception {
         Tecton foundTecton = findTecton(tectonName);
 
         // ezt le kellene tarolni, ami letrejott tekton, majd berakni a map tektonlistajaba
-        foundTecton.breakTecton();
+        foundTecton.breakTecton(oneNeighbourNameOfTecton);
     }
 
     private void vanishMycelium(String tectonName) throws Exception {
@@ -274,12 +278,15 @@ public class TectonMap {
     }
 
     // Hiba: tecton.size() futásidőben kérődik le, így mindig növekszik a tectons lista...
-    public void roundPassed() {
+    public void roundPassed(String allTectonBreakChance) {
+
         int initialTectonsSize = tectons.size();
 
         for (int i = 0; i < initialTectonsSize; i++){
             Tecton t = tectons.get(i);
+            if (allTectonBreakChance != null) { t.setBreakPercent(Integer.parseInt(allTectonBreakChance)); }
             t.roundPassed();
+            if (allTectonBreakChance != null) { t.setBreakPercent(100); }
         }
 
         testerFarmer.roundPassed();
@@ -289,16 +296,16 @@ public class TectonMap {
     private void processInputCommand(String command) throws Exception {
         String[] commandParts = command.split(" ");
         switch (commandParts[0]) {
-            case "GROWMYC" -> testerFarmer.changeMapBasedOnCommands(this, commandParts);
-            case "GROWBOD" -> testerFarmer.changeMapBasedOnCommands(this, commandParts);
-            case "EATINS" -> testerFarmer.changeMapBasedOnCommands(this, commandParts);
-            case "SCATTERSP" -> testerFarmer.changeMapBasedOnCommands(this, commandParts);
+            case "GROWMYC" -> testerFarmer.changeMapBasedOnCommands(this, commandParts, true);
+            case "GROWBOD" -> testerFarmer.changeMapBasedOnCommands(this, commandParts, true);
+            case "EATINS" -> testerFarmer.changeMapBasedOnCommands(this, commandParts, true);
+            case "SCATTERSP" -> testerFarmer.changeMapBasedOnCommands(this, commandParts, true);
             case "MOVETOTECTON" -> testerKeeper.changeMapBasedOnCommands(this, commandParts);
             case "CUTMYC" -> testerKeeper.changeMapBasedOnCommands(this, commandParts);
             case "EATSPORE" -> testerKeeper.changeMapBasedOnCommands(this, commandParts);
-            case "BREAKTEC" -> breakTecton(commandParts[1]);
+            case "BREAKTEC" -> breakTecton(commandParts[1], commandParts[2]);
             case "VANISHMYC" -> vanishMycelium(commandParts[1]);
-            case "ROUND" -> roundPassed();
+            case "ROUND" -> roundPassed(commandParts[1]);
         }
     }
 
@@ -312,8 +319,8 @@ public class TectonMap {
 
         TectonMap map = outputMap.getTectons().size() > tectons.size() ? outputMap : this;
         TectonMap otherMap = outputMap == map ? this : outputMap;
-        map.testerFarmer.actionPoints = map.testerKeeper.actionPoints = 100;
-        otherMap.testerFarmer.actionPoints = map.testerKeeper.actionPoints = 100;
+        map.testerFarmer.actionPoints = map.testerFarmer.score = map.testerKeeper.actionPoints = map.testerKeeper.score = 100;
+        otherMap.testerFarmer.actionPoints = otherMap.testerKeeper.actionPoints = otherMap.testerKeeper.score = otherMap.testerFarmer.score = 100;
 
         for (Tecton t1 : map.getTectons()) {
             boolean foundName = false;

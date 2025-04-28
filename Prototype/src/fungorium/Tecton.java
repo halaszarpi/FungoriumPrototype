@@ -9,7 +9,7 @@ import java.util.*;
  */
 public abstract class Tecton implements IRoundFollower{
     TectonMap map;
-    private Map<Tecton, Boolean> neighbours;
+    protected Map<Tecton, Boolean> neighbours;
     private List<Spore> sporeList;
     private List<Insect> insectList;
     protected List<Mycelium> myceliumList;
@@ -259,7 +259,7 @@ public abstract class Tecton implements IRoundFollower{
     /**
      * Defines how the tecton breaks into new tectons.
      */
-    public abstract void breakTecton();
+    public abstract void breakTecton(String oneNeighbourNameOfTecton);
 
     /**
      * Removes all mycelium from the tecton.
@@ -273,15 +273,17 @@ public abstract class Tecton implements IRoundFollower{
      *
      * @param newTecton The new tecton created from breaking.
      */
-    protected void manageNeighboursAtBreak(Tecton newTecton) {
+    protected void manageNeighboursAtBreak(Tecton newTecton, Tecton randomNeighbour) {
 
         List<Tecton> neighbourList = new ArrayList<>(neighbours.keySet());
 
         if (neighbourList.isEmpty()) return;
 
-        int randomNeighbourIndex = gen.nextInt(neighbourList.size());
-        Tecton randomNeighbour = neighbourList.get(randomNeighbourIndex);
-
+        if (randomNeighbour == null) {
+            int randomNeighbourIndex = gen.nextInt(neighbourList.size());
+            randomNeighbour = neighbourList.get(randomNeighbourIndex);
+        }
+        
         List<Tecton> randomTectonNeighbourList = new ArrayList<>(randomNeighbour.neighbours.keySet());
         List<Tecton> commonNeighbours = new ArrayList<>();
 
@@ -339,20 +341,31 @@ public abstract class Tecton implements IRoundFollower{
      * @return True if found.
      */
     public boolean findBody(FungusFarmer owner, List<Tecton> checkedTectons) {
+
         checkedTectons.add(this);
+
+        // Vizsgalat: tektonon levo fonalaknak van e test osszekottetese vhol
         for (Mycelium mycelium : myceliumList) {
+
             if (mycelium.hasBody() && mycelium.getOwner().equals(owner)) {
                 return true;
             } else {
                 List<Tecton> newCheckedTectons = new ArrayList<>();
-                for (Tecton neighbour : neighbours.keySet()) {
+
+                List<Tecton> neighbourList = new ArrayList<>(neighbours.keySet());
+
+                for (Tecton neighbour : neighbourList) {
+                    
                     if (!checkedTectons.contains(neighbour)) {
                         newCheckedTectons.add(neighbour);
                     }
+
                 }
+
                 if (newCheckedTectons.isEmpty()) {
                     return false;
                 }
+
                 for (Tecton neighbour : newCheckedTectons) {
                     if (neighbour.findBody(owner, checkedTectons)) {
                         return true;
@@ -360,6 +373,7 @@ public abstract class Tecton implements IRoundFollower{
                 }
             }
         }
+
         return false;
     }
 
@@ -521,4 +535,25 @@ public abstract class Tecton implements IRoundFollower{
      * @return List of mycelia.
      */
     public List<Mycelium> getMyceliumList() { return myceliumList; }
+
+    public void setBreakPercent(int percentage) {
+        this.breakPrecent = percentage;
+    }
+
+    protected Tecton generateRandomTectonNeighbour(String oneNeighbourNameOfTecton) {
+        
+        ArrayList<Tecton> neighbourList = new ArrayList<>(neighbours.keySet());
+        int randomTectonIndex = gen.nextInt(neighbourList.size());
+        Tecton randomTecton = neighbourList.get(randomTectonIndex);
+
+        try {
+            if (oneNeighbourNameOfTecton != null && map.findTecton(oneNeighbourNameOfTecton) != null) {
+                randomTecton = map.findTecton(oneNeighbourNameOfTecton);
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return randomTecton;
+    }
 }

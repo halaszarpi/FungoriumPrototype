@@ -15,7 +15,7 @@ public class OrdinaryTecton extends Tecton {
     public void roundPassed() {
         boolean tectonBreaks = generatedNumWithinBound(breakPrecent);
 
-        if (tectonBreaks) { breakTecton(); }
+        if (tectonBreaks) { breakTecton(null); }
     }
 
     @Override
@@ -24,11 +24,14 @@ public class OrdinaryTecton extends Tecton {
     }
 
     @Override
-    public void breakTecton() {
+    public void breakTecton(String oneNeighbourNameOfTecton) {
+
+        Tecton randomTecton = generateRandomTectonNeighbour(oneNeighbourNameOfTecton);
+
         Tecton newTecton = new OrdinaryTecton(breakPrecent, name + "-2", map);
         name += "-1";
         removeConnectionAtBreak();
-        manageNeighboursAtBreak(newTecton);
+        manageNeighboursAtBreak(newTecton, randomTecton);
 
         view.tectonBreaks(newTecton);
 
