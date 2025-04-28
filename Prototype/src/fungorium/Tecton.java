@@ -340,41 +340,27 @@ public abstract class Tecton implements IRoundFollower{
      * @param checkedTectons Already checked tectons to avoid loops.
      * @return True if found.
      */
-    public boolean findBody(FungusFarmer owner, List<Tecton> checkedTectons) {
+    public boolean findBody(FungusFarmer owner, List<Tecton> checkedTectons, Tecton currentTecton) {
+        checkedTectons.add(currentTecton);
 
-        checkedTectons.add(this);
+        for(Mycelium m : currentTecton.getMyceliumList()) {
+            if (m.hasBody() && owner.equals(m.getOwner())) { return true; }
+        }
 
-        // Vizsgalat: tektonon levo fonalaknak van e test osszekottetese vhol
-        for (Mycelium mycelium : myceliumList) {
+        List<Tecton> newCheckedTectons = new ArrayList<>();
+        Map<Tecton, Boolean> neighbourMap = currentTecton.getNeighbourMap();
+        List<Tecton> neighbourList = new ArrayList<>(neighbourMap.keySet());
 
-            if (mycelium.hasBody() && mycelium.getOwner().equals(owner)) {
-                return true;
-            } else {
-                List<Tecton> newCheckedTectons = new ArrayList<>();
+        for (Tecton t : neighbourList) {
+            if (neighbourMap.get(t) && !checkedTectons.contains(t)) { newCheckedTectons.add(t); }
+        }
 
-                List<Tecton> neighbourList = new ArrayList<>(neighbours.keySet());
-
-                for (Tecton neighbour : neighbourList) {
-                    
-                    if (!checkedTectons.contains(neighbour)) {
-                        newCheckedTectons.add(neighbour);
-                    }
-
-                }
-
-                if (newCheckedTectons.isEmpty()) {
-                    return false;
-                }
-
-                for (Tecton neighbour : newCheckedTectons) {
-                    if (neighbour.findBody(owner, checkedTectons)) {
-                        return true;
-                    }
-                }
-            }
+        for (Tecton t : newCheckedTectons) {
+            if(findBody(owner, checkedTectons, t)) return true;
         }
 
         return false;
+
     }
 
     /**
@@ -535,6 +521,8 @@ public abstract class Tecton implements IRoundFollower{
      * @return List of mycelia.
      */
     public List<Mycelium> getMyceliumList() { return myceliumList; }
+
+    public Map<Tecton, Boolean> getNeighbourMap() { return neighbours; }
 
     public void setBreakPercent(int percentage) {
         this.breakPrecent = percentage;

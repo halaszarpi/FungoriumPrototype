@@ -113,11 +113,13 @@ public class Mycelium implements IRoundFollower{
     }
 
     public void roundPassed() {
+
+        if (!tecton.findBody(owner, new ArrayList<>(), tecton)) {
+            decreaseRoundsToLive();
+        }
+
         if (body != null) {
             body.reduceCooldown();
-            if (!tecton.findBody(owner, new ArrayList<>())) {
-                decreaseRoundsToLive();
-            }
             view.cooldownReduced();
         }
     }
