@@ -15,6 +15,7 @@ public class GameController {
     private final TectonMap tectonMap;
     private List<Player> players;
     private int numberOfRounds;
+    private GameControllerView view;
 
     /**
      * Constructor for GameController. Initializes the scanner and the game map.
@@ -25,6 +26,7 @@ public class GameController {
     public GameController(Scanner _scanner) {
         this.scanner = _scanner;
         this.tectonMap = new TectonMap(scanner, false);
+        this.view = new GameControllerView();
         String workingDir = System.getProperty("user.dir");
         File gameMap = new File(workingDir+ "\\Prototype\\src\\gamemaps\\startingMap.txt");
 
@@ -32,7 +34,7 @@ public class GameController {
             this.tectonMap.processAllMapCreatingCommands(gameMap);
         }
         catch (Exception e) {
-            System.out.println("Error while creating map: " + e.getMessage());
+            view.ErrorCreatingMap(e);
             return;
         }
 
@@ -45,41 +47,40 @@ public class GameController {
      * and the starting tectons for each player. Then it starts the game.
      */
     public void initializeGame() {
-        System.out.println("New game started!");
-        System.out.println("Please enter the number of players:");
+        view.Startedprint();
         int numPlayers = scanner.nextInt();
         scanner.nextLine();
 
         for (int i = 0; i < numPlayers; i++) {
             if(i % 2 == 0){
-                System.out.println("Player " + (i + 1) + " is a Fungus Farmer. Please choose a name:");
+                view.PlayerisFungusFarmer(i);
                 String playerName = scanner.nextLine();
                 players.add(new FungusFarmer(playerName));
             } else {
-                System.out.println("Player " + (i + 1) + " is an Insect Keeper. Please choose a name:");
+                view.PlayerisInsectKeeper(i);
                 String playerName = scanner.nextLine();
                 players.add(new InsectKeeper(playerName));
             }
         }
 
-        System.out.println("Please enter the number of rounds:");
+        view.NumberofRounds();
         numberOfRounds = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.println("The game map is ready!");
+        view.MapisReady();
         tectonMap.showMap();
 
         for (Player player : players) {
             boolean valid = false;
             while (!valid) {
-                System.out.println("Player " + player.getName() + " is choosing a starting Tecton:");
+                view.ChoosingstartTecton(player.getName());
                 String tectonName = scanner.nextLine();
 
                 Tecton startingTecton;
                 try {
                     startingTecton = tectonMap.findTecton(tectonName);
                 } catch (Exception e) {
-                    System.out.println("Error while choosing starting Tecton: " + e.getMessage());
+                    view.ErrorChoosingstartTecton(e);
                     continue;
                 }
 
@@ -87,7 +88,7 @@ public class GameController {
                     player.initializePlayer(startingTecton);
                 }
                 catch (Exception e) {
-                    System.out.println("Error while initializing player: " + e.getMessage());
+                    view.ErrorInitializePlayer(e);
                     continue;
                 }
 
@@ -95,7 +96,7 @@ public class GameController {
             }
         }
 
-        System.out.println("Game initialized!");
+        view.Initializesuccessfull();
         runGame();
     }
 
@@ -131,7 +132,7 @@ public class GameController {
      * Ends the game by showing the final map and displaying the scores of all players.
      */
     public void endGame() {
-        System.out.println("Game ended!");
+        view.EndGame();
         tectonMap.showMap();
 
         for (Player player : players) {

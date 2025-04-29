@@ -1,9 +1,11 @@
 package fungorium;
 
 import java.util.Scanner;
+import javax.swing.text.View;
 
 public class Main {
     public static Scanner scanner;
+    public static MainView view = new MainView();
 
     public static void main(String[] args) {
 
@@ -12,15 +14,15 @@ public class Main {
         String input;
 
         while(!exit){
-            print_mainMenu();
+            view.print_mainMenu();
 
             input = scanner.nextLine().toUpperCase();
 
             switch (input) {
                 case "1" -> newGame(scanner);
                 case "2" -> gameTester(scanner);
-                case "E" -> {System.out.println("Goodbye!"); exit = true;}
-                default -> System.out.println("Invalid input!");
+                case "E" -> {view.Goodbye();exit = true;}
+                default -> view.InvalidInput();
             }
         }
         scanner.close();
@@ -34,25 +36,11 @@ public class Main {
         GameTesterController testercontroller = new GameTesterController(scanner);
     }
 
-    private static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
 
-    private static void print_Logo(){
-        System.out.println("---------------------------------------------------------------");
-        System.out.println("|  #####  #   #  #   #  #####  #####  #####  #  #   #  #   #  |");
-        System.out.println("|  #      #   #  ##  #  #      #   #  #   #  #  #   #  ## ##  |");
-        System.out.println("|  ####   #   #  # # #  #  ##  #   #  ###    #  #   #  # # #  |");
-        System.out.println("|  #      #   #  #  ##  #   #  #   #  #  ##  #  #   #  #   #  |");
-        System.out.println("|  #      #####  #   #  #####  #####  #   #  #  #####  #   #  |");
-        System.out.println("---------------------------------------------------------------");
-        System.out.println("\n");
-    }
 
     private static void print_mainMenu() {
-        clearScreen();
-        print_Logo();
+        view.clearScreen();
+        view.print_Logo();
         System.out.println("Main Menu:");
         System.out.println("1 - New Game");
         System.out.println("2 - Game Tester");
