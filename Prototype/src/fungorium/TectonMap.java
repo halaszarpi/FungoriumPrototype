@@ -76,11 +76,11 @@ public class TectonMap {
     }
 
     // ADD_BOD [mycelium_name] [spore_to_use_name]
-    private void addBody(String myceliumName, String sporeToUseName) throws Exception {
+    private void addBody(String myceliumName, String sporeToUseName, String sporeTypeToScatter) throws Exception {
 
         Mycelium foundMycelium = findMycelium(myceliumName);
         Spore foundSpore = findSpore(sporeToUseName);
-        foundMycelium.growBody(foundSpore);
+        foundMycelium.growBody(foundSpore, sporeTypeToScatter);
     }
 
     private void addInsect(String insectName, String tectonName) throws Exception {
@@ -241,7 +241,7 @@ public class TectonMap {
             case "SET_NGH" -> setNeighbour(commandParts);
             case "ADD_CON" -> addConnection(commandParts[1], commandParts[2]);
             case "ADD_MYC" -> addMycelium(commandParts[1], commandParts[2]);
-            case "ADD_BOD" -> addBody(commandParts[1], commandParts[2]);
+            case "ADD_BOD" -> addBody(commandParts[1], commandParts[2], commandParts[3]);
             case "ADD_INS" -> addInsect(commandParts[1], commandParts[2]);
             case "ADD_SPO" -> addSpore(commandParts[1], commandParts[2], commandParts[3]);
             case "RM_TEC" -> removeTecon(commandParts[1]);
@@ -296,10 +296,10 @@ public class TectonMap {
     private void processInputCommand(String command) throws Exception {
         String[] commandParts = command.split(" ");
         switch (commandParts[0]) {
-            case "GROWMYC" -> testerFarmer.changeMapBasedOnCommands(this, commandParts, true);
-            case "GROWBOD" -> testerFarmer.changeMapBasedOnCommands(this, commandParts, true);
-            case "EATINS" -> testerFarmer.changeMapBasedOnCommands(this, commandParts, true);
-            case "SCATTERSP" -> testerFarmer.changeMapBasedOnCommands(this, commandParts, true);
+            case "GROWMYC" -> testerFarmer.changeMapBasedOnCommands(this, commandParts);
+            case "GROWBOD" -> testerFarmer.changeMapBasedOnCommands(this, commandParts);
+            case "EATINS" -> testerFarmer.changeMapBasedOnCommands(this, commandParts);
+            case "SCATTERSP" -> testerFarmer.changeMapBasedOnCommands(this, commandParts);
             case "MOVETOTECTON" -> testerKeeper.changeMapBasedOnCommands(this, commandParts);
             case "CUTMYC" -> testerKeeper.changeMapBasedOnCommands(this, commandParts);
             case "EATSPORE" -> testerKeeper.changeMapBasedOnCommands(this, commandParts);
@@ -315,7 +315,7 @@ public class TectonMap {
         }
     }
 
-    public boolean mapsAreEqual(TectonMap outputMap) throws Exception {
+    public void mapsAreEqual(TectonMap outputMap) throws Exception {
 
         TectonMap map = outputMap.getTectons().size() > tectons.size() ? outputMap : this;
         TectonMap otherMap = outputMap == map ? this : outputMap;
@@ -336,8 +336,6 @@ public class TectonMap {
 
             if (!foundName) { throw new Exception(view.noTectonNamePair(t1.getName())); }
         }
-
-        return true;
 
     }
 

@@ -48,7 +48,7 @@ public class FungusFarmer extends Player {
             String command = in.nextLine();
             String[] args = command.split(" ");
 
-            if ((args.length < 3) &&
+            if ((args.length != 3) &&
                     !args[0].equalsIgnoreCase("SKIP") &&
                     !args[0].equalsIgnoreCase("INFO") &&
                     !args[0].equalsIgnoreCase("SHOWMAP")) {
@@ -57,7 +57,7 @@ public class FungusFarmer extends Player {
             }
 
             try {
-                changeMapBasedOnCommands(map, args, false);
+                changeMapBasedOnCommands(map, args);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -71,12 +71,10 @@ public class FungusFarmer extends Player {
      * @param args the command arguments
      * @throws Exception if an invalid action occurs
      */
-    public void changeMapBasedOnCommands(TectonMap map, String[] args, boolean isTest) throws Exception {
+    public void changeMapBasedOnCommands(TectonMap map, String[] args) throws Exception {
         String action = args[0].toUpperCase();
         Mycelium mycelium = args.length > 1 ? map.findMycelium(args[1]) : null;
         String targetName = args.length > 2 ? args[2] : null;
-        String sporeType = (args.length > 3  && isTest) ? args[3] : null;
-        String sporeName = (args.length > 4 && isTest) ? args[4] : null;
 
         switch(action) {
             case "GROWMYC":
@@ -89,7 +87,7 @@ public class FungusFarmer extends Player {
                 break;
             case "SCATTERSP":
                 Tecton targetTecton2 = map.findTecton(targetName);
-                mycelium.scatterSpore(targetTecton2, sporeType, sporeName);
+                mycelium.scatterSpore(targetTecton2);
                 break;
             case "EATINS":
                 Insect targetInsect = map.findInsect(targetName);

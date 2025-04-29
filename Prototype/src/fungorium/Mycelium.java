@@ -37,14 +37,6 @@ public class Mycelium implements IRoundFollower{
         return body;
     }
 
-    public int getRoundsToLive() {
-        return roundsToLive;
-    }
-
-    public void setRoundsToLive(int roundsToLive) {
-        this.roundsToLive = roundsToLive;
-    }
-
 
     /*ha nincsen gombatest noveszt egyet es true ertekkel ter vissza, ha pedig mar van false-al ter vissza */
     public void growBody(Spore spore) throws Exception {
@@ -69,6 +61,30 @@ public class Mycelium implements IRoundFollower{
         owner.useActionPoints(2);
         owner.increaseScore(1);
     }
+
+    public void growBody(Spore spore, String testSpore) throws Exception {
+        if (body != null) {
+            throw new Exception("This mycelium already has a body.");
+        }
+        if (owner.getActionPoints() < 1) {
+            throw new Exception("Not enough action points to grow body.");
+        }
+
+        // Ha rakhatunk ra gombatestet es rajta van a noveszteshez hasznalando spora a tektonok akkor oke
+        if(!tecton.hasSpores(spore))
+            throw new Exception("No spores on the tecton to grow a body.");
+        if (!tecton.canPlaceBody()) {
+            throw new Exception("Cannot place body on this tecton.");
+        }
+
+        body = new FungusBody(this, testSpore);
+        tecton.removeSpore(spore);
+        owner.removeSpore(spore);
+        view.hasGrownBody();
+        owner.useActionPoints(2);
+        owner.increaseScore(1);
+    }
+
 
     public void spreadTo(Tecton targetTecton) throws Exception {
         // Szomszedos tekton-e, ahova akar terjedni
@@ -103,12 +119,11 @@ public class Mycelium implements IRoundFollower{
         view.bodyHasDied();
     }
 
-    public void scatterSpore(Tecton targetTecton, String sporeType, String sporeName) throws Exception {
+    public void scatterSpore(Tecton targetTecton) throws Exception {
         if (body == null) {
-            // view hivas!
             throw new Exception(view.hasNoFungusBody());
         }
-        body.scatterTo(targetTecton, sporeType, sporeName);
+        body.scatterTo(targetTecton);
         owner.useActionPoints(1);
     }
 
