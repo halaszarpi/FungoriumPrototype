@@ -20,6 +20,8 @@ public class GameTesterController {
     private boolean saveToFile = false;
     private String testName = "";
     private String inputMapName = "";
+    
+    public static boolean SHOW_OUTPUT = true;
 
     private void initializeCommands() {
 
@@ -73,7 +75,8 @@ public class GameTesterController {
                 switch (option) {
                     case "1" -> createTest();
                     case "2" -> runTest();
-                    case "3" -> { return; }
+                    case "3" -> runAllTests();
+                    case "4" -> { return; }
                     default -> System.out.println("Invalid option");
                 }
             }
@@ -278,6 +281,7 @@ public class GameTesterController {
 
             testName = scanner.nextLine();
 
+            // kulon fuggveny: all = minden tesztre
 
             for (File f : files) {
                 if (f.getName().equals(testName)) {
@@ -401,4 +405,50 @@ public class GameTesterController {
 
         view.theGivenMapsAreEqual(maps[0], maps[1], testName);
     }
+
+    public void runAllTests() throws Exception {
+        
+        SHOW_OUTPUT = false;
+
+        String filePath = workingDir + "\\Prototype\\src\\tests\\testCases";
+        File inputMap = null;
+        List<String> inputCommands = null;
+        File outputMap = null;
+
+        File file = new File(filePath);
+        File[] testFiles = file.listFiles();
+
+        if (testFiles.length == 0) { throw new Exception(view.noTestToRun()); }
+
+        // Minden teszt file-t lefuttatjuk es kiirjuk
+        for (File testFile : testFiles) {
+
+            TectonMap[] maps = new TectonMap[2];
+
+            String currentFilePath = filePath + "\\" + testFile.getName() + "\\";
+            
+            inputMap = new File(currentFilePath + testFile.getName() + "_map.txt");
+            outputMap = new File(currentFilePath + testFile.getName() + "_output.txt");
+
+            try {
+                inputCommands = Files.readAllLines(new File(currentFilePath + "\\" + testFile.getName() + "_input.txt").toPath());
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
+
+            maps[0] = new TectonMap(scanner, true);
+            maps[1] = new TectonMap(scanner, true);
+
+            maps[0].processAllMapCreatingCommands(inputMap);
+            maps[1].processAllMapCreatingCommands(outputMap);
+
+            maps[0].runAllInputCommands(inputCommands);
+            boolean testSuccess = maps[0].mapsAreEqual(maps[1]);
+
+            view.printTestResultOnly(testFile.getName(), testSuccess);
+
+        }
+
+        SHOW_OUTPUT = true;
+    }   
 }

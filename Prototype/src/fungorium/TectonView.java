@@ -24,30 +24,69 @@ public class TectonView {
 
     public String  notMyceliumVanisherTecton() { return "Not Mycelium Vanisher Tecton (" + t.getName() + "), therefor cant vanish mycelium"; }
 
-    public void tectonCreated() { System.out.println("Tecton (" + t.getName() + ") is created!"); }
+    public void tectonCreated() {
+        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        System.out.println("Tecton (" + t.getName() + ") is created!"); 
+    }
 
-    public void tectonBreaks(Tecton newTecton) { System.out.println("Tecton (" + t.getName() + ") broke, new half tectons name: "+ newTecton.getName() + "!"); }
+    public void tectonBreaks(Tecton newTecton) {
+        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        System.out.println("Tecton (" + t.getName() + ") broke, new half tectons name: "+ newTecton.getName() + "!"); 
+    }
 
-    public void myceliumVanishes(Mycelium m) { System.out.println("Mycelium (" + m.getName() + ") vanished from mycelium vanisher tecton (" + t.getName() + ")!"); }
+    public void myceliumVanishes(Mycelium m) {
+        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        System.out.println("Mycelium (" + m.getName() + ") vanished from mycelium vanisher tecton (" + t.getName() + ")!"); 
+    }
 
-    public void neighbourAdded(Tecton newTecton) { System.out.println("Tecton (" + newTecton.getName() + ") is now a neighbour of (" + t.getName() + ")!"); }
+    public void neighbourAdded(Tecton newTecton) {
+        if (!GameTesterController.SHOW_OUTPUT) { return; }
+        System.out.println("Tecton (" + newTecton.getName() + ") is now a neighbour of (" + t.getName() + ")!"); 
+    }
 
-    public void connectionAdded(Tecton newTecton) { System.out.println("Tecton (" + newTecton.getName() + ") is connected to (" + t.getName() + ")!"); }
+    public void connectionAdded(Tecton newTecton) {
+        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        System.out.println("Tecton (" + newTecton.getName() + ") is connected to (" + t.getName() + ")!"); 
+    }
 
-    public void myceliumAdded(Mycelium m) { System.out.println("Mycelium (" + m.getName() + ") is added on tecton (" + t.getName() + ")!"); }
+    public void myceliumAdded(Mycelium m) {
+        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        System.out.println("Mycelium (" + m.getName() + ") is added on tecton (" + t.getName() + ")!"); 
+    }
 
-    public void sporeAdded(Spore s) { System.out.println("Spore (" + s.getName() + ") is added on tecton (" + t.getName() + ")!"); }
+    public void sporeAdded(Spore s) {
+        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        System.out.println("Spore (" + s.getName() + ") is added on tecton (" + t.getName() + ")!"); 
+    }
 
-    public void insectAdded(Insect i) { System.out.println("Insect (" + i.getName() + ") is added on tecton (" + t.getName() + ")!"); }
+    public void insectAdded(Insect i) {
+        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        System.out.println("Insect (" + i.getName() + ") is added on tecton (" + t.getName() + ")!"); 
+    }
 
-    public void neighbourRemoved(Tecton newTecton) { System.out.println("Tecton (" + newTecton.getName() + ") is no longer neighbour of (" + t.getName() + ")!"); }
+    public void neighbourRemoved(Tecton newTecton) {
+        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        System.out.println("Tecton (" + newTecton.getName() + ") is no longer neighbour of (" + t.getName() + ")!"); 
+    }
 
-    public void myceliumRemoved(Mycelium m) { System.out.println("Mycelium (" + m.getName() + ") is no longer on tecton (" + t.getName() + ")!"); }
+    public void myceliumRemoved(Mycelium m) {
+        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        System.out.println("Mycelium (" + m.getName() + ") is no longer on tecton (" + t.getName() + ")!"); 
+    }
 
-    public void insectRemoved(Insect i) { System.out.println("Insect (" + i.getName() + ") is no longer on tecton (" + t.getName() + ")!"); }
+    public void insectRemoved(Insect i) {
+        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        System.out.println("Insect (" + i.getName() + ") is no longer on tecton (" + t.getName() + ")!"); 
+    }
 
-    public void sporeRemoved(Spore s) { System.out.println("Spore (" + s.getName() + ") is no longer on tecton (" + t.getName() + ")!"); }
+    public void sporeRemoved(Spore s) {
+        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        System.out.println("Spore (" + s.getName() + ") is no longer on tecton (" + t.getName() + ")!"); 
+    }
 
-    public void removeConnection(Tecton newTecton) { System.out.println("Tecton (" + newTecton.getName() + ") is no longer connected to (" + t.getName() + ")!"); }
+    public void removeConnection(Tecton newTecton) {
+        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        System.out.println("Tecton (" + newTecton.getName() + ") is no longer connected to (" + t.getName() + ")!"); 
+    }
 
 }

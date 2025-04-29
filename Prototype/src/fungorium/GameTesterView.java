@@ -6,6 +6,10 @@ package fungorium;
  */
 public class GameTesterView {
 
+    private final String ANSI_RESET_COLOR = "\u001B[0m";
+    private final String ANSI_GREEN = "\u001B[32m";
+    private final String ANSI_RED = "\u001B[31m";
+
     /**
      * Returns a message when there are no tests available to run.
      *
@@ -30,7 +34,8 @@ public class GameTesterView {
     public void listGameTesterOptions() {
         System.out.println("\n1. CREATE TEST");
         System.out.println("2. RUN TEST");
-        System.out.println("3. BACK TO MAIN MENU");
+        System.out.println("3. RUN ALL TESTS");
+        System.out.println("4. BACK TO MAIN MENU");
     }
 
     /**
@@ -132,9 +137,9 @@ public class GameTesterView {
      * @param testName the name of the test
      */
     public void theGivenMapsAreEqual(TectonMap inputMap, TectonMap outputMap, String testName) {
-        System.out.println("\nThe input and output maps are equal: ");
+        System.out.println(ANSI_GREEN + "\nThe input and output maps are equal: " + ANSI_RESET_COLOR);
         printMaps(inputMap, outputMap, testName);
-        System.out.println("\nTest successful!\n");
+        System.out.println(ANSI_GREEN + "\nTest successful!\n" + ANSI_RESET_COLOR);
     }
 
     /**
@@ -145,9 +150,9 @@ public class GameTesterView {
      * @param testName the name of the test
      */
     public void theGivenMapsAreNotEqual(TectonMap inputMap, TectonMap outputMap, String testName) {
-        System.out.println("\nThe input and output maps are not equal: ");
+        System.out.println(ANSI_RED + "\nThe input and output maps are not equal: " + ANSI_RESET_COLOR);
         printMaps(inputMap, outputMap, testName);
-        System.out.println("\nTest unsuccessful!\n");
+        System.out.println(ANSI_RED + "\nTest unsuccessful!\n" + ANSI_RESET_COLOR);
     }
 
     /**
@@ -199,5 +204,13 @@ public class GameTesterView {
      */
     public void outputMapCommands() {
         System.out.println("\nOutput map commands:\n");
+    }
+
+    public void printTestResultOnly(String testName, boolean success) {
+        if (success) {
+            System.out.println(ANSI_GREEN + testName + ": successful!" + ANSI_RESET_COLOR);
+        } else {
+            System.out.println(ANSI_RED + testName + ": unsuccessful!" + ANSI_RESET_COLOR);
+        }
     }
 }

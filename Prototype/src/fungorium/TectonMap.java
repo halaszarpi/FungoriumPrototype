@@ -315,7 +315,7 @@ public class TectonMap {
         }
     }
 
-    public void mapsAreEqual(TectonMap outputMap) throws Exception {
+    public boolean mapsAreEqual(TectonMap outputMap) throws Exception {
 
         TectonMap map = outputMap.getTectons().size() > tectons.size() ? outputMap : this;
         TectonMap otherMap = outputMap == map ? this : outputMap;
@@ -337,6 +337,7 @@ public class TectonMap {
             if (!foundName) { throw new Exception(view.noTectonNamePair(t1.getName())); }
         }
 
+        return true;
     }
 
     public List<Tecton> map() {
