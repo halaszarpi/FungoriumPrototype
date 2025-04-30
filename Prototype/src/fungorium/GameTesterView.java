@@ -112,6 +112,7 @@ public class GameTesterView {
      * @param testMapName the name of the test map
      */
     public void showInputMapBeforeTest(String testMapName) {
+        if (!GameTesterController.SHOW_OUTPUT) return;
         System.out.println("\nMap: " + testMapName + "\nBefore test:");
     }
 
@@ -137,6 +138,7 @@ public class GameTesterView {
      * @param testName the name of the test
      */
     public void theGivenMapsAreEqual(TectonMap inputMap, TectonMap outputMap, String testName) {
+        if (!GameTesterController.SHOW_OUTPUT) return;
         System.out.println(ANSI_GREEN + "\nThe input and output maps are equal: " + ANSI_RESET_COLOR);
         printMaps(inputMap, outputMap, testName);
         System.out.println(ANSI_GREEN + "\nTest successful!\n" + ANSI_RESET_COLOR);
@@ -150,6 +152,7 @@ public class GameTesterView {
      * @param testName the name of the test
      */
     public void theGivenMapsAreNotEqual(TectonMap inputMap, TectonMap outputMap, String testName) {
+        if (!GameTesterController.SHOW_OUTPUT) return;
         System.out.println(ANSI_RED + "\nThe input and output maps are not equal: " + ANSI_RESET_COLOR);
         printMaps(inputMap, outputMap, testName);
         System.out.println(ANSI_RED + "\nTest unsuccessful!\n" + ANSI_RESET_COLOR);
@@ -182,6 +185,7 @@ public class GameTesterView {
      * Indicates that input commands are being executed.
      */
     public void runningInputCommands() {
+        if (!GameTesterController.SHOW_OUTPUT) return;
         System.out.println("Running input commands:\n");
     }
 
@@ -189,6 +193,7 @@ public class GameTesterView {
      * Indicates the process of building maps based on user inputs.
      */
     public void tryingToBuildMaps() {
+        if (!GameTesterController.SHOW_OUTPUT) return;
         System.out.println("\nIf all the inputs and logics were correct the map is built without getting exceptions:\n");
     }
 
@@ -196,6 +201,7 @@ public class GameTesterView {
      * Displays the message for input map commands.
      */
     public void inputMapCommands() {
+        if (!GameTesterController.SHOW_OUTPUT) return;
         System.out.println("Input map commands:\n");
     }
 
@@ -203,6 +209,7 @@ public class GameTesterView {
      * Displays the message for output map commands.
      */
     public void outputMapCommands() {
+        if (!GameTesterController.SHOW_OUTPUT) return;
         System.out.println("\nOutput map commands:\n");
     }
 

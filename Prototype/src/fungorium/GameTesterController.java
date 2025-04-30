@@ -74,7 +74,7 @@ public class GameTesterController {
             try {
                 switch (option) {
                     case "1" -> createTest();
-                    case "2" -> runTest();
+                    case "2" -> runTest(true);
                     case "3" -> runAllTests();
                     case "4" -> { return; }
                     default -> System.out.println("Invalid option");
@@ -190,6 +190,14 @@ public class GameTesterController {
             if (commandParts[0].equals("INIT_END")) {
 
                 if (commandParts.length == 3 && commandParts[1].equalsIgnoreCase("TRUE") && isCreatingMap) {
+
+                    String filePath = workingDir + "\\Prototype\\src\\tests\\maps";
+                    File file = new File(filePath);
+
+                    if (isMapNameFound(commandParts[2] + ".txt", file.listFiles())) {
+                        System.out.println("Map with the name " + commandParts[2] + " already exists!");
+                        continue;
+                    }
                     saveToFile = true;
                     inputMapName = commandParts[2];
                 }
@@ -207,12 +215,22 @@ public class GameTesterController {
             }
 
             else {
-                commands.add(command);
+                String tmpInputCommands = makeFirstPartUpperCase(commandParts);
+                commands.add(tmpInputCommands);
             }
         }
 
         return commands;
 
+    }
+
+    public boolean isMapNameFound(String mapName, File[] files) {
+
+        for (File f : files) {
+            if (f.getName().equals(mapName)) { return true; }
+        }
+
+        return false;
     }
 
     public ArrayList<String> copyExistingMapForNewTestCase() throws Exception {
@@ -260,16 +278,45 @@ public class GameTesterController {
         return new ArrayList<>(copiedMapBuildingCommands);
     }
 
-    public List<String> loadTestMaps(TectonMap[] maps) throws Exception {
+    public List<String> loadTestMaps(TectonMap[] maps, boolean askForInput) throws Exception {
         String filePath = workingDir + "\\Prototype\\src\\tests\\testCases";
+        File file = new File(filePath);
         File inputMap = null;
-        List<String> inputCommands = null;
         File outputMap = null;
+        File[] files = new File[3];
+        files[0] = file;
+        files[1] = inputMap;
+        files[2] = outputMap;
 
-        while (inputMap == null || inputCommands == null || outputMap == null) {
+        if(askForInput) {
+            askForInput(filePath);
+        }
 
-            File file = new File(filePath);
-            File[] files = file.listFiles();
+        List<String> inputCommands = readMapCommands(filePath, files);
+
+        view.tryingToBuildMaps();
+
+        maps[0] = new TectonMap(scanner, true);
+        maps[1] = new TectonMap(scanner, true);
+
+        view.inputMapCommands();
+
+        maps[0].processAllMapCreatingCommands(files[1]);
+
+        view.outputMapCommands();
+
+        maps[1].processAllMapCreatingCommands(files[2]);
+
+        return inputCommands;
+    }
+
+    public void askForInput(String filePath) throws Exception {
+        boolean foundName = false;
+        
+        File file = new File(filePath);
+        File[] files = file.listFiles();
+
+        while (!foundName) {
 
             if (files.length == 0) throw new Exception(view.noTestToRun());
 
@@ -284,36 +331,29 @@ public class GameTesterController {
             // kulon fuggveny: all = minden tesztre
 
             for (File f : files) {
-                if (f.getName().equals(testName)) {
-                    filePath += "\\" + testName + "\\" + testName;
-
-                    inputMap = new File(filePath + "_map.txt");
-                    outputMap = new File(filePath + "_output.txt");
-
-                    try { inputCommands = Files.readAllLines(new File(filePath + "_input.txt").toPath()); }
-                    catch(IOException e) { e.printStackTrace(); }
-
+                String fileName = f.getName();
+                if (fileName.equals(testName)) {
+                    testName = fileName;
+                    foundName = true;
                     break;
                 }
             }
 
-            if (inputMap == null || inputCommands == null ||  outputMap == null) {
+            if (!foundName) {
                 System.out.println("Test case not found!");
             }
         }
+    }
 
-        view.tryingToBuildMaps();
+    public List<String> readMapCommands(String filePath, File[] files) {
+        List<String> inputCommands = new ArrayList<>();
+        filePath += "\\" + testName + "\\" + testName;
 
-        maps[0] = new TectonMap(scanner, true);
-        maps[1] = new TectonMap(scanner, true);
+        files[1] = new File(filePath + "_map.txt");
+        files[2] = new File(filePath + "_output.txt");
 
-        view.inputMapCommands();
-
-        maps[0].processAllMapCreatingCommands(inputMap);
-
-        view.outputMapCommands();
-
-        maps[1].processAllMapCreatingCommands(outputMap);
+        try { inputCommands = Files.readAllLines(new File(filePath + "_input.txt").toPath()); }
+        catch(IOException e) { e.printStackTrace(); }
 
         return inputCommands;
     }
@@ -335,10 +375,24 @@ public class GameTesterController {
             }
 
             else {
-                returnInputCommands.add(inputCommand);
+                String tmpInputCommands = makeFirstPartUpperCase(inputCommandParts);
+                
+                returnInputCommands.add(tmpInputCommands);
             }
         }
         return returnInputCommands;
+    }
+
+    public String makeFirstPartUpperCase(String[] inputCommandParts) {
+        String tmpInputCommands = "";
+
+        for (int i = 0; i < inputCommandParts.length; ++i) {
+            String tmpCommand = inputCommandParts[i];
+            tmpInputCommands += i == 0 ? tmpCommand.toUpperCase() : tmpCommand;
+            if (i != inputCommandParts.length - 1) tmpInputCommands += " ";
+        }
+
+        return tmpInputCommands;
     }
 
     public void validateTestFiles(ArrayList<File> testTXTs, ArrayList<String>[] commands) {
@@ -370,85 +424,58 @@ public class GameTesterController {
         }
     }
 
-    public void runTest() {
+    public boolean runTest(boolean askForInput) {
 
         TectonMap[] maps = new TectonMap[2];
         List<String> inputCommands = null;
+        boolean wasTestSuccessful = false;
 
         try {
 
-            inputCommands = loadTestMaps(maps);
+            inputCommands = loadTestMaps(maps, askForInput);
 
             view.showInputMapBeforeTest(testName);
-
             maps[0].showMap();
         }
 
         catch(Exception e){
             view.getMessage(e);
             e.printStackTrace();
-            return;
+            return false;
         }
 
         try {
 
             view.runningInputCommands();
             maps[0].runAllInputCommands(inputCommands);
-            maps[0].mapsAreEqual(maps[1]);
+            wasTestSuccessful = maps[0].mapsAreEqual(maps[1]);
         }
 
         catch(Exception e) {
             view.getMessage(e);
             view.theGivenMapsAreNotEqual(maps[0], maps[1], testName);
-            return;
+            return false;
         }
 
         view.theGivenMapsAreEqual(maps[0], maps[1], testName);
+        return wasTestSuccessful;
     }
 
-    public void runAllTests() throws Exception {
-        
-        SHOW_OUTPUT = false;
-
+    public void runAllTests() throws Exception{
         String filePath = workingDir + "\\Prototype\\src\\tests\\testCases";
-        File inputMap = null;
-        List<String> inputCommands = null;
-        File outputMap = null;
-
         File file = new File(filePath);
         File[] testFiles = file.listFiles();
 
-        if (testFiles.length == 0) { throw new Exception(view.noTestToRun()); }
+        SHOW_OUTPUT = false;
 
-        // Minden teszt file-t lefuttatjuk es kiirjuk
-        for (File testFile : testFiles) {
-
-            TectonMap[] maps = new TectonMap[2];
-
-            String currentFilePath = filePath + "\\" + testFile.getName() + "\\";
-            
-            inputMap = new File(currentFilePath + testFile.getName() + "_map.txt");
-            outputMap = new File(currentFilePath + testFile.getName() + "_output.txt");
-
-            try {
-                inputCommands = Files.readAllLines(new File(currentFilePath + "\\" + testFile.getName() + "_input.txt").toPath());
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-
-            maps[0] = new TectonMap(scanner, true);
-            maps[1] = new TectonMap(scanner, true);
-
-            maps[0].processAllMapCreatingCommands(inputMap);
-            maps[1].processAllMapCreatingCommands(outputMap);
-
-            maps[0].runAllInputCommands(inputCommands);
-            boolean testSuccess = maps[0].mapsAreEqual(maps[1]);
-
-            view.printTestResultOnly(testFile.getName(), testSuccess);
-
+        for (File f : testFiles) {
+            testName = f.getName();
+            boolean testSuccess = runTest(false);
+            view.printTestResultOnly(f.getName(), testSuccess);
+            if (!testSuccess) return;
         }
 
         SHOW_OUTPUT = true;
-    }   
+
+    }
 }

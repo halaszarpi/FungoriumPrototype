@@ -317,7 +317,7 @@ public abstract class Tecton implements IRoundFollower{
             }
         }
         catch(Exception e) {
-            //A breakTecton lefutása mindig sikeres, tehát nem kell csinálni semmit
+            //The breakTecton call is always true, so there is nothing to do
         }
         
     }
