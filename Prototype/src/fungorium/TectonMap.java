@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * Handles the creation, management, and modification of a map consisting of Tectons in the Fungorium world.
+ * Supports both normal operation and test mode for easier testing.
+ */
 public class TectonMap {
     private List<Tecton> tectons;
     private TectonMapView view;
@@ -17,6 +21,12 @@ public class TectonMap {
     private final FungusFarmer testerFarmer;
     private final InsectKeeper testerKeeper;
 
+    /**
+     * Constructor to TectonMap with a scanner for input and a flag indicating if it's in test mode.
+     *
+     * @param _scanner Scanner to use for input
+     * @param isTest   whether the map is used for testing purposes
+     */
     public TectonMap(Scanner _scanner, boolean isTest) {
 
         this.view = new TectonMapView(this, _scanner);
@@ -31,7 +41,7 @@ public class TectonMap {
         tectons = new ArrayList<>();
     }
 
-    // Teszt eseten egyelore legyen a percentToBreak 0.
+    /** Adds a Tecton of specified type and name to the map. */
     private void addTecton(String tectonName, String tectonType) throws Exception {
         int percentToBreak = isTest ? 100 : rand.nextInt(10) + 1;
         Tecton tecton = null;
@@ -47,6 +57,7 @@ public class TectonMap {
         tectons.add(tecton);
     }
 
+    /** Sets neighboring Tectons for a given Tecton. */
     private void setNeighbour(String[] commandParts) throws Exception {
 
         Tecton foundTecton = findTecton(commandParts[1]);
@@ -57,6 +68,7 @@ public class TectonMap {
         }
     }
 
+    /** Adds a connection between two Tectons. */
     private void addConnection(String firstTectonName, String secondTectonName) throws Exception {
 
         Tecton firsTecton = findTecton(firstTectonName);
@@ -65,7 +77,7 @@ public class TectonMap {
         firsTecton.addConnection(secondTecton);
     }
 
-    // ADD_MYC [mycelium_name] [tecton_name]
+    /** Adds a Mycelium to a Tecton. */
     private void addMycelium(String myceliumName, String tectonName) throws Exception {
 
         Tecton foundTecton = findTecton(tectonName);
@@ -75,7 +87,7 @@ public class TectonMap {
 
     }
 
-    // ADD_BOD [mycelium_name] [spore_to_use_name]
+    /** Grows a body on a Mycelium using a Spore. */
     private void addBody(String myceliumName, String sporeToUseName, String sporeTypeToScatter) throws Exception {
 
         Mycelium foundMycelium = findMycelium(myceliumName);
@@ -83,6 +95,7 @@ public class TectonMap {
         foundMycelium.growBody(foundSpore, sporeTypeToScatter);
     }
 
+    /** Adds an Insect to a Tecton. */
     private void addInsect(String insectName, String tectonName) throws Exception {
 
         Tecton foundTecton = findTecton(tectonName);
@@ -92,6 +105,7 @@ public class TectonMap {
 
     }
 
+    /** Adds a Spore to a Tecton and gives it to the tester farmer. */
     private void addSpore(String sporeName, String sporeType, String tectonName) throws Exception {
 
         Tecton foundTecton = findTecton(tectonName);
@@ -115,11 +129,13 @@ public class TectonMap {
         testerFarmer.addSpore(s);
     }
 
+    /** Removes a Tecton from the map. */
     private void removeTecon(String tectonName) throws Exception {
         Tecton foundTecton = findTecton(tectonName);
         tectons.remove(foundTecton);
     }
 
+    /** Removes the connection between two Tectons. */
     private void removeConnection(String firstTectonName, String secondTectonName) throws Exception {
         Tecton firsTecton = findTecton(firstTectonName);
         Tecton secondTecton = findTecton(secondTectonName);
@@ -127,6 +143,7 @@ public class TectonMap {
         firsTecton.removeConnection(secondTecton);
     }
 
+    /** Removes a Mycelium from the map. */
     private void removeMycelium(String myceliumName) throws Exception {
 
         Mycelium foundMycelium = findMycelium(myceliumName);
@@ -140,11 +157,13 @@ public class TectonMap {
         }
     }
 
+    /** Removes the body of a Mycelium. */
     private void removeBody(String myceliumName) throws Exception {
         Mycelium foundMycelium = findMycelium(myceliumName);
         foundMycelium.bodyDied();
     }
 
+    /** Removes an Insect from the map. */
     private void removeInsect(String insectName) throws Exception {
 
         Insect foundInsect = findInsect(insectName);
@@ -158,6 +177,7 @@ public class TectonMap {
         }
     }
 
+    /** Removes a Spore from the map. */
     private void removeSpore(String sporeName) throws Exception {
 
         Spore foundSpore = findSpore(sporeName);
@@ -168,6 +188,7 @@ public class TectonMap {
         }
     }
 
+    /** Finds and returns a Spore by its name. */
     public Spore findSpore(String sporeName) throws Exception {
 
         for (Tecton t : tectons) {
@@ -182,6 +203,7 @@ public class TectonMap {
         throw new Exception(view.couldntFindSpore(sporeName));
     }
 
+    /** Finds and returns an Insect by its name. */
     public Insect findInsect(String insectName) throws Exception {
 
         for (Tecton t : tectons) {
@@ -196,6 +218,7 @@ public class TectonMap {
         throw new Exception(view.couldntFindInsect(insectName));
     }
 
+    /** Finds and returns a Mycelium by its name. */
     public Mycelium findMycelium(String myceliumName) throws Exception{
 
         for (Tecton t : tectons) {
@@ -211,6 +234,7 @@ public class TectonMap {
 
     }
 
+    /** Finds and returns a Tecton by its name. */
     public Tecton findTecton(String name) throws Exception {
 
         for (Tecton t : tectons) {
@@ -220,7 +244,7 @@ public class TectonMap {
         throw new Exception(view.couldntFindTectont(name));
     }
 
-    // DUP spora nem allit allapotot a rovaron, csak meghivja az owner duplicateInsect metodusat.
+    /** Sets an effect on an Insect using a specific effect name and duration. */
     private void setEffect(String insectName, String effectName, String duration) throws Exception {
         Insect foundInsect = findInsect(insectName);
         switch (effectName) {
@@ -232,6 +256,7 @@ public class TectonMap {
         }
     }
 
+    /** Processes a single command for creating or modifying the map structure. */
     private void processMapCreatingCommand(String command) throws Exception {
 
         String[] commandParts = command.split(" ");
@@ -254,6 +279,11 @@ public class TectonMap {
         }
     }
 
+    /**
+     * Reads a file containing multiple map creating commands and processes them.
+     *
+     * @param mapFile file containing the commands
+     */
     public void processAllMapCreatingCommands(File mapFile) throws Exception {
 
         List<String> commands = new ArrayList<>();
@@ -264,20 +294,21 @@ public class TectonMap {
         }
     }
 
+    /** Breaks a Tecton into smaller parts (according to its behavior). */
     private void breakTecton(String tectonName, String oneNeighbourNameOfTecton) throws Exception {
         Tecton foundTecton = findTecton(tectonName);
 
-        // ezt le kellene tarolni, ami letrejott tekton, majd berakni a map tektonlistajaba
         foundTecton.breakTecton(oneNeighbourNameOfTecton);
     }
 
+    /** Vanishes all Myceliums from a Tecton. */
     private void vanishMycelium(String tectonName) throws Exception {
         Tecton foundTecton = findTecton(tectonName);
 
         foundTecton.vanishMycelium();
     }
 
-    // Hiba: tecton.size() futásidőben kérődik le, így mindig növekszik a tectons lista...
+    /** Simulates a round passing for all Tectons. */
     public void roundPassed(String allTectonBreakChance) {
 
         int initialTectonsSize = tectons.size();
@@ -293,6 +324,7 @@ public class TectonMap {
         testerKeeper.roundPassed();
     }
 
+    /** Processes a single input command related to game actions. */
     private void processInputCommand(String command) throws Exception {
         String[] commandParts = command.split(" ");
         switch (commandParts[0]) {
@@ -309,12 +341,23 @@ public class TectonMap {
         }
     }
 
+    /**
+     * Processes multiple input commands, such as growing myceliums, moving insects, etc.
+     *
+     * @param commands list of input commands
+     */
     public void runAllInputCommands(List<String> commands) throws Exception{
         for (String command : commands){
             processInputCommand(command);
         }
     }
 
+    /**
+     * Checks if two TectonMaps are equivalent by comparing their Tectons.
+     *
+     * @param outputMap the map to compare against
+     * @return true if the maps are equal
+     */
     public boolean mapsAreEqual(TectonMap outputMap) throws Exception {
 
         TectonMap map = outputMap.getTectons().size() > tectons.size() ? outputMap : this;
@@ -340,20 +383,26 @@ public class TectonMap {
         return true;
     }
 
+    /** Returns the list of Tectons in the map. */
     public List<Tecton> map() {
         return tectons;
     }
 
+    /** Displays the current map state. */
     public void showMap() {
+        if (!GameTesterController.SHOW_OUTPUT) return;
         view.showMap();
     }
 
+    /** Asks if the user wants to refresh the displayed map and shows it if yes. */
     public void refreshMap() {
         view.refreshMap();
     }
 
+    /** Getter for the list of Tectons. */
     public List<Tecton> getTectons() { return tectons; }
 
+    /** Adds a Tecton to the map. */
     public void add(Tecton t) { tectons.add(t); }
 
 }

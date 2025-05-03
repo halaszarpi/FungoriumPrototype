@@ -4,16 +4,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * The InsectKeeper class represents a player who controls a collection of insects.
+ * This class extends the {@link Player} class and is responsible for managing
+ * the insect-related actions and commands in the game, as well as performing
+ * actions that affect the game state, such as moving insects or interacting with spores.
+ */
 public class InsectKeeper extends Player {
     private List<Insect> insects;
     private final InsectKeeperView view;
 
+    /**
+     * Constructor for creating a new InsectKeeper with the given name.
+     *
+     * @param name The name of the InsectKeeper.
+     */
     public InsectKeeper(String name) {
         super(name);
         insects = new ArrayList<>();
         view = new InsectKeeperView(this);
     }
 
+    /**
+     * The main method for handling a single turn of the InsectKeeper.
+     * The player can perform actions such as moving insects, cutting mycelium,
+     * or eating spores, as well as checking the map or skipping their turn.
+     *
+     * @param map The current TectonMap of the game.
+     * @param in The scanner for reading user input.
+     */
     @Override
     public void turn(TectonMap map, Scanner in) {
         if (insects.isEmpty()) {
@@ -43,6 +62,14 @@ public class InsectKeeper extends Player {
 
     }
 
+    /**
+     * Changes the game map state based on the given commands.
+     * Executes actions like moving an insect, cutting mycelium, or eating a spore.
+     *
+     * @param map The current TectonMap of the game.
+     * @param args The command arguments specifying the action and its parameters.
+     * @throws Exception If an invalid action is attempted or an error occurs during the action.
+     */
     public void changeMapBasedOnCommands(TectonMap map, String[] args) throws Exception {
 
         String action = args[0].toUpperCase();
@@ -80,16 +107,29 @@ public class InsectKeeper extends Player {
         }
     }
 
+    /**
+     * Removes an insect from the InsectKeeper's list and the tecton it's on when it dies.
+     *
+     * @param insect The insect that has died.
+     */
     public void insectDied(Insect insect) {
         insects.remove(insect);
         insect.getTecton().removeInsect(insect);
     }
 
+    /**
+     * Duplicates an insect, creating a new instance of it and adding it to the InsectKeeper's list.
+     *
+     * @param insect The insect to duplicate.
+     */
     public void duplicateInsect(Insect insect) {
         Insect duplicatedInsect = new Insect(getNewInsectName(), insect.getTecton(), insect.getOwner());
         insects.add(duplicatedInsect);
     }
 
+    /**
+     * Advances all insects controlled by the InsectKeeper by one round, reducing the duration of their effects.
+     */
     @Override
     public void roundPassed(){
         for(Insect insect: insects){
@@ -97,6 +137,11 @@ public class InsectKeeper extends Player {
         }
     }
 
+    /**
+     * Initializes a new insect for the InsectKeeper at a given starting tecton.
+     *
+     * @param startingTecton The tecton where the new insect is placed.
+     */
     @Override
     public void initializePlayer(Tecton startingTecton) {
         Insect insect = new Insect(getNewInsectName(), startingTecton, this);
@@ -108,9 +153,20 @@ public class InsectKeeper extends Player {
         }
     }
 
+    /**
+     * Generates a new unique name for an insect controlled by this InsectKeeper.
+     *
+     * @return A unique insect name.
+     */
     public String getNewInsectName() {
         return (this.name + "-i" + (insects.size() + 1));
     }
+
+    /**
+     * Returns the list of insects controlled by this InsectKeeper.
+     *
+     * @return A list of insects.
+     */
 
     public List<Insect> getInsects() {
         return insects;

@@ -1,21 +1,17 @@
 package fungorium;
 
 public class MainView {
-    public static void print_Logo() {
-        final String GREEN = "\u001B[32m";
-        final String RESET = "\u001B[0m";
-    
-        System.out.println(GREEN +
-            "---------------------------------------------------------------\n" +
-            "|  #####  #   #  #   #  #####  #####  #####  #  #   #  #   #  |\n" +
-            "|  #      #   #  ##  #  #      #   #  #   #  #  #   #  ## ##  |\n" +
-            "|  ####   #   #  # # #  #  ##  #   #  ###    #  #   #  # # #  |\n" +
-            "|  #      #   #  #  ##  #   #  #   #  #  ##  #  #   #  #   #  |\n" +
-            "|  #      #####  #   #  #####  #####  #   #  #  #####  #   #  |\n" +
-            "---------------------------------------------------------------" + RESET + "\n"
-        );
+    public static void print_Logo(){
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("|  #####  #   #  #   #  #####  #####  #####  #  #   #  #   #  |");
+        System.out.println("|  #      #   #  ##  #  #      #   #  #   #  #  #   #  ## ##  |");
+        System.out.println("|  ####   #   #  # # #  #  ##  #   #  ###    #  #   #  # # #  |");
+        System.out.println("|  #      #   #  #  ##  #   #  #   #  #  ##  #  #   #  #   #  |");
+        System.out.println("|  #      #####  #   #  #####  #####  #   #  #  #####  #   #  |");
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("\n");
     }
-    
+
     public static void print_mainMenu() {
         clearScreen();
         print_Logo();
@@ -37,5 +33,5 @@ public class MainView {
     public void InvalidInput(){
         System.out.println("Invalid input!");
     }
-
+    
 }
