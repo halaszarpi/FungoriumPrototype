@@ -48,6 +48,18 @@ public class Insect implements IRoundFollower {
     }
 
     /**
+     * Checks if the insect has enough action points to cut connection between tectons.
+     *
+     * @return {@code true} if the insect can cut, {@code false} otherwise.
+     */
+    private boolean hasEnoughActionPointsForCutting(){
+        if (antiSeveredForRounds > 0) { return false; }
+        else if (stunnedForRounds > 0) { return false; }
+        else if (owner.getActionPoints() >= 1) { return true; }
+        else { return false; }
+    }
+
+    /**
      * Returns the number of action points required for stepping to a new tecton.
      *
      * @return The number of action points required for stepping.
@@ -155,7 +167,7 @@ public class Insect implements IRoundFollower {
      * @throws Exception If the insect cannot cut the mycelium connection.
      */
     public boolean cutMycelium(Tecton targetTecton) throws Exception {
-        if (!hasEnoughActionPointsForStepping() || stunnedForRounds > 0 || antiSeveredForRounds > 0) {
+        if (!hasEnoughActionPointsForCutting() || stunnedForRounds > 0 || antiSeveredForRounds > 0) {
             throw new Exception();
         }
         else if (this.tecton.isConnectedTo(targetTecton)) {
