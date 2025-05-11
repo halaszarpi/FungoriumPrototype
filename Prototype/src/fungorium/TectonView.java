@@ -1,5 +1,7 @@
 package fungorium;
 
+import java.awt.Graphics;
+
 /**
  * The TectonView class is responsible for providing messages and status updates
  * related to the state and interactions of a Tecton. It communicates important
@@ -7,7 +9,7 @@ package fungorium;
  * neighbour connections, and various error or status messages related to the
  * tecton and its interactions with other game elements.
  */
-public class TectonView {
+public class TectonView implements IObserver {
 
     Tecton t;
 
@@ -48,7 +50,7 @@ public class TectonView {
      *
      * @return A string message indicating that the tecton cannot vanish mycelium.
      */
-    public String  notMyceliumVanisherTecton() { return "Not Mycelium Vanisher Tecton (" + t.getName() + "), therefor cant vanish mycelium"; }
+    public String notMyceliumVanisherTecton() { return "Not Mycelium Vanisher Tecton (" + t.getName() + "), therefor cant vanish mycelium"; }
 
     /**
      * Prints a message indicating that a Tecton has been created.
@@ -167,6 +169,11 @@ public class TectonView {
     public void removeConnection(Tecton newTecton) {
         if (!GameTesterController.SHOW_OUTPUT) { return; } 
         System.out.println("Tecton (" + newTecton.getName() + ") is no longer connected to (" + t.getName() + ")!"); 
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        //Ide jön a kirajzolás
     }
 
 }

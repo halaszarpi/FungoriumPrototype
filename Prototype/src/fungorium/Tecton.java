@@ -497,9 +497,9 @@ public abstract class Tecton implements IRoundFollower{
      * @param t The other tecton.
      * @return True if tectons are equal.
      */
-    public boolean isEqual(Tecton t) {
-        return toString().equals(t.toString());
-    }
+    public boolean isEqual(Tecton t) { return toString().equals(t.toString()); }
+
+    public TectonView getView() { return view; }
 
     /**
      * Returns the list of spores on the tecton.
