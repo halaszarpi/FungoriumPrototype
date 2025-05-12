@@ -171,6 +171,7 @@ public class TectonView implements IObserver {
         System.out.println("Tecton (" + newTecton.getName() + ") is no longer connected to (" + t.getName() + ")!"); 
     }
 
+    // Újítás, kell Graphics g paraméterben
     @Override
     public void draw(Graphics g) {
         //Ide jön a kirajzolás
