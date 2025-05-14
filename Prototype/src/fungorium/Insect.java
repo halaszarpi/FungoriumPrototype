@@ -167,7 +167,7 @@ public class Insect implements IRoundFollower {
      * @throws Exception If the insect cannot cut the mycelium connection.
      */
     public boolean cutMycelium(Tecton targetTecton) throws Exception {
-        if (!hasEnoughActionPointsForCutting() || stunnedForRounds > 0 || antiSeveredForRounds > 0) {
+        if (!hasEnoughActionPointsForCutting()) {
             throw new Exception();
         }
         else if (this.tecton.isConnectedTo(targetTecton)) {
