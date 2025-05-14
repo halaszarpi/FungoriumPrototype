@@ -5,6 +5,7 @@ public abstract class Spore {
     protected int nutrientContent;
     protected int effectDuration;
     protected String name;
+    protected SporeView view;
 
     /**
      * Constructor for the Spore class.
@@ -19,7 +20,10 @@ public abstract class Spore {
         this.nutrientContent = nutrientContent;
         this.effectDuration = effectDuration;
         this.name = name;
+        this.view = new SporeView(this);
     }
+
+    public SporeView getView() { return view;}
 
     /**
      * Abstract method to be implemented by subclasses of Spore.

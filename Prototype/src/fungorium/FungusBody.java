@@ -36,6 +36,10 @@ public class FungusBody {
         this.typeToCreate = sporeType;
     }
 
+    public FungusBodyView getView() {
+        return view;
+    }
+
     /**
      * Creates a random Spore. If sporeTypeString and sporeName are provided,
      * creates a specific type of Spore with fixed nutrient content and effect duration.
