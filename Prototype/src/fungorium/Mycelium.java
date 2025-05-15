@@ -6,6 +6,7 @@ package fungorium;
  * which allows it to take actions that follow the rounds of the game.
  */
 import java.util.ArrayList;
+import javax.swing.text.View;
 
 public class Mycelium implements IRoundFollower{
     private final String name;
@@ -46,6 +47,10 @@ public class Mycelium implements IRoundFollower{
 
     public FungusBody getBody() {
         return body;
+    }
+
+    public MyceliumView getView(){
+        return view;
     }
 
     /**
