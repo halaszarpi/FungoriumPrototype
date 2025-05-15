@@ -19,6 +19,7 @@ public class GMap extends JPanel {
         gameMap = map;
         gTectons = new ArrayList<>();
         chosenTectonNeighbours = new ArrayList<>();
+        setVisible(true);
     }
 
     private void updateGTectons() {
@@ -31,7 +32,7 @@ public class GMap extends JPanel {
 
         int tectonAmountDifference = gameMapSize - gTectonsSize;
 
-        int startIndex = gameMapSize - tectonAmountDifference - 1;
+        int startIndex = gameMapSize - tectonAmountDifference;
 
         for (int i = startIndex; i < gameMapSize; i++) {
 

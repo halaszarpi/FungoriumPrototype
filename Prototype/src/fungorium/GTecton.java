@@ -15,6 +15,7 @@ public class GTecton implements IObservable {
         x = -1;
         y = -1;
         // Újítás, minden osztályhoz kell egy getView(), ami visszaadja az osztály view-ját.
+        observers = new ArrayList<>();
         attach(tecton.getView());
     }
 

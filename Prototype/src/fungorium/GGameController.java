@@ -30,6 +30,24 @@ public class GGameController extends JFrame {
             return;
         }
 
+        gridPanel = new JPanel(new GridLayout(3, 1));
+        // A legfelso panel, amin a jatek latszik
+        GMap gmap = new GMap(this.tectonMap);
+        gridPanel.add(gmap);
+        gmap.drawMap();
+
+        // A kozepso panel, amin az aktualis jatekos adatai latszanak
+        gridPanel.add(new GPlayerInfo());
+
+        // Az also panel, amin a commandokat lehet kiadni
+        gridPanel.add(new GPlayerCommand());
+
+
+        gridPanel.setBackground(Color.BLUE);
+        gridPanel.setOpaque(true);
+        gridPanel.setVisible(true);
+
+        add(gridPanel);
         setVisible(true);
 
         initializeGame();
@@ -99,25 +117,7 @@ public class GGameController extends JFrame {
         }
 
         showInfo("Game initialized successfully!");
-        //runGame();
-
-        gridPanel = new JPanel(new GridLayout(3, 1));
-        
-        // A legfelso panel, amin a jatek latszik
-        //gridPanel.add(new GMap(this.tectonMap));
-
-        // A kozepso panel, amin az aktualis jatekos adatai latszanak
-        //gridPanel.add(new GPlayerInfo());
-
-        // Az also panel, amin a commandokat lehet kiadni
-        //gridPanel.add(new GPlayerCommand());
-
-        gridPanel.setBackground(Color.BLUE);
-        gridPanel.setOpaque(true);
-        gridPanel.setVisible(true);
-
-        add(gridPanel);
-
+        runGame();
     }
 
     private void runGame() {
