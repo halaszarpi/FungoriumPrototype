@@ -1,11 +1,11 @@
 package fungorium;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.*;
 
 public class GGameController extends JFrame {
     private final TectonMap tectonMap;
@@ -144,9 +144,11 @@ public class GGameController extends JFrame {
     }
 
     private void runGame() {
+        GPlayerInfo info = new GPlayerInfo();
         for (int round = 0; round < numberOfRounds; round++) {
             for (Player player : players) {
                 if (player.isInGame()) {
+                    info.updatePersonInfo(player);
                     player.turn(tectonMap,scanner);
                     tectonMap.refreshMap();
                     tectonMap.showMap();

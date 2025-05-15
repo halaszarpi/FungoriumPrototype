@@ -5,26 +5,36 @@ import javax.swing.*;
 
 public class GPlayerInfo extends JPanel {
 
+
+
+    private JLabel nameLabel;
+    private JLabel actionPointsLabel;
+    private JLabel scoreLabel;
+
     public GPlayerInfo() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        // Világos krém háttér (pl. antikfehér)
         setBackground(new Color(250, 235, 215)); // #FAEBD7
 
         Font infoFont = new Font("SansSerif", Font.BOLD, 16);
 
-        JLabel nameLabel = new JLabel("Player:");
+        nameLabel = new JLabel("Player: ");
         nameLabel.setFont(infoFont);
 
-        JLabel colorLabel = new JLabel("Color: green");
-        colorLabel.setFont(infoFont);
+        actionPointsLabel = new JLabel("ActionPoints: ");
+        actionPointsLabel.setFont(infoFont);
 
-        JLabel scoreLabel = new JLabel("Score: 5");
+        scoreLabel = new JLabel("Score: ");
         scoreLabel.setFont(infoFont);
 
         add(nameLabel);
-        add(colorLabel);
+        add(actionPointsLabel);
         add(scoreLabel);
+    }
+
+    public void updatePersonInfo(Player player) {
+        nameLabel.setText("Player: " + player.getName());
+        actionPointsLabel.setText("ActionPoints: " + player.getActionPoints());
+        scoreLabel.setText("Score: " + player.getScore());
     }
 }
