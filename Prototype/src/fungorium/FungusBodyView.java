@@ -41,7 +41,7 @@ public class FungusBodyView implements IObserver{
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g, Point coords) {
         //kirajzolás
     }
 }

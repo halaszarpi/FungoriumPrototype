@@ -1,6 +1,7 @@
 package fungorium;
 
 import java.awt.Graphics;
+import java.awt.Point;
 
 /**
  * The TectonView class is responsible for providing messages and status updates
@@ -173,8 +174,9 @@ public class TectonView implements IObserver {
 
     // Újítás, kell Graphics g paraméterben
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g, Point coords) {
         //Ide jön a kirajzolás
+        g.fillOval(coords.x, coords.y, 20, 5);
     }
 
 }

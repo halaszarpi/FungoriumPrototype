@@ -12,6 +12,7 @@ public class GGameController extends JFrame {
     private List<Player> players = new ArrayList<>();
     private int numberOfRounds;
     private Scanner scanner = new Scanner(System.in);
+    private JPanel gridPanel;
 
     public GGameController() {
         setTitle("Fungorium - Game");
@@ -99,6 +100,24 @@ public class GGameController extends JFrame {
 
         showInfo("Game initialized successfully!");
         runGame();
+
+        gridPanel = new JPanel(new GridLayout(3, 1));
+        
+        // A legfelso panel, amin a jatek latszik
+        //gridPanel.add(new GMap(this.tectonMap));
+
+        // A kozepso panel, amin az aktualis jatekos adatai latszanak
+        //gridPanel.add(new GPlayerInfo());
+
+        // Az also panel, amin a commandokat lehet kiadni
+        //gridPanel.add(new GPlayerCommand());
+
+        gridPanel.setBackground(Color.BLUE);
+        gridPanel.setOpaque(true);
+        gridPanel.setVisible(true);
+
+        add(gridPanel);
+
     }
 
     private void runGame() {

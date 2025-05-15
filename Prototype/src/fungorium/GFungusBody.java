@@ -25,7 +25,7 @@ public class GFungusBody implements IObservable {
     @Override
     public void update(Graphics g) {
         for(IObserver o : observers) {
-            o.draw(g);
+            o.draw(g, new Point(x, y));
         }
     }
 

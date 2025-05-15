@@ -1,6 +1,7 @@
 package fungorium;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.util.ArrayList;
 
 public class GSpore implements IObservable{
@@ -25,7 +26,7 @@ public class GSpore implements IObservable{
     @Override
     public void update(Graphics g) {
         for(IObserver o : observers) {
-            o.draw(g);
+            o.draw(g, new Point(x, y));
         }
     }
 

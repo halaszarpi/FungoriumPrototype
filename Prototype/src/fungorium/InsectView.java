@@ -1,6 +1,7 @@
 package fungorium;
 
 import java.awt.Graphics;
+import java.awt.Point;
 
 public class InsectView implements IObserver {
 
@@ -71,7 +72,7 @@ public class InsectView implements IObserver {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g, Point coords) {
         // TODO: kirajzolás itt
     }
 

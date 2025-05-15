@@ -1,6 +1,7 @@
 package fungorium;
 
 import java.awt.Graphics;
+import java.awt.Point;
 import java.util.ArrayList;
 
 public class SporeView implements IObserver{
@@ -11,7 +12,7 @@ public class SporeView implements IObserver{
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics g, Point coords) {
         //kirajzolás
     }
 }
