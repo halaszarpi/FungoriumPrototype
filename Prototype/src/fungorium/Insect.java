@@ -186,6 +186,8 @@ public class Insect implements IRoundFollower {
 
     public Tecton getTecton() { return this.tecton; }
 
+    public InsectView getView() { return this.view; }
+
     public InsectKeeper getOwner() { return this.owner; }
 
     /**

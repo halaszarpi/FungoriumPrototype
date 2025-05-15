@@ -1,6 +1,8 @@
 package fungorium;
 
-public class InsectView {
+import java.awt.Graphics;
+
+public class InsectView implements IObserver {
 
     Insect insect;
 
@@ -66,6 +68,11 @@ public class InsectView {
 
     public String insectNotAbleToStep(String insectName, String targetTectonName) {
         return "Insect " + insectName + " is not able to step to tecton (" + targetTectonName + ")!";
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        // TODO: kirajzolás itt
     }
 
 }
