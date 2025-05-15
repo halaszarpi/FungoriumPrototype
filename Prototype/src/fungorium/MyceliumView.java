@@ -1,6 +1,6 @@
 package fungorium;
 
-public class MyceliumView {
+public class MyceliumView implements IObserver{
 
     Mycelium mycelium;
 
@@ -58,5 +58,11 @@ public class MyceliumView {
     public void connectionAddedTo(Tecton newTecton) {
         if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Tecton (" + mycelium.getTecton().getName() + ") is reconnected to (" + newTecton.getName() + ")!");
+    }
+
+     // Újítás, kell Graphics g paraméterben
+    @Override
+    public void draw(Graphics g) {
+        //Ide jön a kirajzolás
     }
 }
