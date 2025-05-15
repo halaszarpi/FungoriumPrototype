@@ -82,10 +82,19 @@ public class GMap extends JPanel {
 
     }
 
-    public void drawMap() {
+    public GTecton findGTectonByName(String name){
         updateGTectons();
-        //chosenTecton = gTectons.getFirst();
-        chosenTecton = gTectons.get(2);
+        for (GTecton gt : gTectons) {
+            if (gt.getTecton().getName().equals(name)) {
+                return gt;
+            }
+        }
+        return null;
+    }
+
+    public void drawMap(GTecton middleTecton) {
+        updateGTectons();
+        chosenTecton = middleTecton;
         setChosenTectonsNeighbourGTectons();
         setNeigboursCoordinates();
         repaint();

@@ -32,13 +32,29 @@ public class GGameController extends JFrame {
 
         // A legfelso panel, amin a jatek latszik
 
+        List<String> tectonNames = new ArrayList<>();
+        for (Tecton tecton : tectonMap.getTectons()) {
+            tectonNames.add(tecton.getName());
+        }
+
+
+        String middleTecton = (String) JOptionPane.showInputDialog(
+                this,
+                "Choose a middle tecton!",
+                "Choose Tecton",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                tectonNames.toArray(),
+                tectonNames.getFirst()
+        );
+
         gridPanel = new JPanel();
         gridPanel.setLayout(new GridLayout(2, 1));
 
 
         GMap gmap = new GMap(this.tectonMap);
         gridPanel.add(gmap);
-        gmap.drawMap();
+        gmap.drawMap(gmap.findGTectonByName(middleTecton));
         gmap.setSize(1080, 720);
 
         // A kozepso panel, amin az aktualis jatekos adatai latszanak
