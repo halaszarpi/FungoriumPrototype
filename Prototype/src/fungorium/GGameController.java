@@ -99,7 +99,7 @@ public class GGameController extends JFrame {
         }
 
         showInfo("Game initialized successfully!");
-        runGame();
+        //runGame();
 
         gridPanel = new JPanel(new GridLayout(3, 1));
         
