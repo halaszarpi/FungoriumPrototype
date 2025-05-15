@@ -30,22 +30,29 @@ public class GGameController extends JFrame {
             return;
         }
 
-        gridPanel = new JPanel(new GridLayout(3, 1));
         // A legfelso panel, amin a jatek latszik
+
+        gridPanel = new JPanel();
+        gridPanel.setLayout(new GridLayout(2, 1));
+
+
         GMap gmap = new GMap(this.tectonMap);
         gridPanel.add(gmap);
         gmap.drawMap();
+        gmap.setSize(1080, 720);
 
         // A kozepso panel, amin az aktualis jatekos adatai latszanak
-        gridPanel.add(new GPlayerInfo());
+
+        JPanel playerPanel = new JPanel();
+        playerPanel.setLayout(new GridLayout(2, 1));
+        playerPanel.setSize(1080, 720);
+
+        playerPanel.add(new GPlayerInfo());
 
         // Az also panel, amin a commandokat lehet kiadni
-        gridPanel.add(new GPlayerCommand());
+        playerPanel.add(new GPlayerCommand());
 
-
-        gridPanel.setBackground(Color.BLUE);
-        gridPanel.setOpaque(true);
-        gridPanel.setVisible(true);
+        gridPanel.add(playerPanel);
 
         add(gridPanel);
         setVisible(true);

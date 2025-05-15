@@ -176,7 +176,7 @@ public class TectonView implements IObserver {
     @Override
     public void draw(Graphics g, Point coords) {
         //Ide jön a kirajzolás
-        g.fillOval(coords.x, coords.y, 20, 5);
+        g.fillOval(coords.x, coords.y, 50, 20);
     }
 
 }

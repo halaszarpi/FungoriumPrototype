@@ -1,6 +1,6 @@
 package fungorium;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +12,14 @@ public class GMap extends JPanel {
     private ArrayList<GTecton> gTectons;
     private GTecton chosenTecton;
     private List<GTecton> chosenTectonNeighbours;
-    private final int radius = 200; // pixelben
+    private final int radius = 100; // pixelben
 
     public GMap(TectonMap map) {
         chosenTecton = null;
         gameMap = map;
         gTectons = new ArrayList<>();
         chosenTectonNeighbours = new ArrayList<>();
+        setSize(1080,360);
         setVisible(true);
     }
 
@@ -64,12 +65,18 @@ public class GMap extends JPanel {
 
         int chosenTectonX = this.getWidth() / 2;
         int chosenTectonY = this.getHeight() / 2;
+        chosenTecton.setCoordinates(chosenTectonX, chosenTectonY);
 
         double startingAngle = 0;
-        double phi = 360.0 / chosenTectonNeighbours.size(); // elfordulas
+        double phi = 360.0 / (chosenTectonNeighbours.size()-1); // elfordulas
 
-        for (GTecton gt : gTectons) {
-            gt.setCoordinates((int)(chosenTectonX + radius * Math.sin(startingAngle)), (int)(chosenTectonY + radius * Math.cos(startingAngle)));
+        List<GTecton> nghb = new ArrayList<>(chosenTectonNeighbours);
+        nghb.remove(chosenTecton);
+
+        for (GTecton gt : nghb) {
+            double xChange = Math.sin(startingAngle * Math.PI / 180);
+            double yChange = Math.cos(startingAngle * Math.PI / 180);
+            gt.setCoordinates((int)(chosenTectonX + radius * xChange), (int)(chosenTectonY + radius * yChange));
             startingAngle += phi;
         }
 
@@ -77,7 +84,8 @@ public class GMap extends JPanel {
 
     public void drawMap() {
         updateGTectons();
-        chosenTecton = gTectons.getFirst();
+        //chosenTecton = gTectons.getFirst();
+        chosenTecton = gTectons.get(2);
         setChosenTectonsNeighbourGTectons();
         setNeigboursCoordinates();
         repaint();
