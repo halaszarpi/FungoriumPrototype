@@ -3,6 +3,7 @@ package fungorium;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
@@ -37,7 +38,7 @@ public class GMap extends JPanel {
 
         for (int i = startIndex; i < gameMapSize; i++) {
 
-            GTecton newGTecton = new GTecton(currentTectons.get(i));
+            GTecton newGTecton = new GTecton(currentTectons.get(i), this);
             gTectons.add(newGTecton);
 
         }
@@ -80,6 +81,15 @@ public class GMap extends JPanel {
             startingAngle += phi;
         }
 
+    }
+
+    public GTecton findGTectonByTecton(Tecton t) {
+
+        for (GTecton gt : gTectons) {
+            if (gt.getTecton() == t) return gt;
+        }
+
+        return null;
     }
 
     public GTecton findGTectonByName(String name){
@@ -135,6 +145,21 @@ public class GMap extends JPanel {
             }
         }
         return null;
+    }
+
+    public List<GTecton> getConnectedGTectonts(GTecton gt) {
+
+        ArrayList<GTecton> gtectons = new ArrayList<>();
+        Tecton middleTecton = gt.getTecton();
+        Map<Tecton, Boolean> neighbourMap = middleTecton.getNeighbourMap();
+        List<Tecton> neighbours = new ArrayList<>(neighbourMap.keySet());
+
+        for (Tecton t : neighbours) {
+            if (neighbourMap.get(t)) gtectons.add(findGTectonByTecton(t));
+        }
+
+        return gtectons;
+
     }
 
 }
