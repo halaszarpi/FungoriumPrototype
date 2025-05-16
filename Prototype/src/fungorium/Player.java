@@ -1,6 +1,5 @@
 package fungorium;
 
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -114,4 +113,6 @@ public abstract class Player {
         returnString += "\nScore: " + this.score + "\n";
         return returnString;
     }
+
+    public abstract IObserver getView();
 }

@@ -216,4 +216,9 @@ public class FungusFarmer extends Player {
         FungusFarmer otherFarmer = (FungusFarmer) obj;
         return this.name.equals(otherFarmer.getName());
     }
+
+    @Override
+    public IObserver getView() {
+        return (IObserver) view;
+    }
 }

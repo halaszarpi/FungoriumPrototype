@@ -1,12 +1,14 @@
 package fungorium;
 
+import java.awt.*;
+
 /**
  * This class represents the view for the FungusFarmer player in the game.
  *
  * It provides methods to display various information and options to the player,
  * such as available actions, mycelium initialization, invalid actions, and detailed player info.
  */
-public class FungusFarmerView {
+public class FungusFarmerView implements IObserver{
 
     private FungusFarmer fungusFarmer;
 
@@ -75,5 +77,10 @@ public class FungusFarmerView {
         }
 
         System.out.println("--------------------------");
+    }
+
+    @Override
+    public void draw(Graphics g, Point coords) {
+        //később
     }
 }
