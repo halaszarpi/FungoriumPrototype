@@ -70,8 +70,6 @@ public class GPlayer {
         actionBox.addActionListener(e -> updateParam1Box());
         param1box.addActionListener(e -> updateParam2Box());
 
-        System.out.println(finalCommand);
-
         JPanel InfoAndActionPanel = new JPanel();
         InfoAndActionPanel.setLayout(new GridLayout(2, 1));
         InfoAndActionPanel.add(playerInfoPanel);
