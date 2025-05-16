@@ -67,6 +67,9 @@ public class GGameController extends JFrame {
 
         JComboBox<String> TectonChooser = new JComboBox<>(tectonNames.toArray(new String[0]));
         TectonChooser.setSelectedIndex(0);
+        TectonChooser.addActionListener(e ->
+            updateTectonChooser(TectonChooser)
+        );
 
         // Panel for controls (top of map panel)
         JPanel chooserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -86,11 +89,25 @@ public class GGameController extends JFrame {
             String selectedTecton = (String) TectonChooser.getSelectedItem();
             if (selectedTecton != null) {
                 gmap.drawMap(gmap.findGTectonByName(selectedTecton));
-                gmap.repaint();
+                //gmap.repaint();
             }
         });
 
         return mapPanel;
+    }
+
+    private void updateTectonChooser(JComboBox<String> tectonChooser) {
+        List<String> tectonNames = new ArrayList<>();
+
+        for (Tecton tecton : tectonMap.getTectons()) {
+            tectonNames.add(tecton.getName());
+        }
+
+        tectonChooser.removeAll();
+        
+        for (int i = 0; i < tectonNames.size(); i++) {
+            tectonChooser.addItem(tectonNames.get(i));
+        }
     }
 
     private void initializeGame() {
@@ -169,6 +186,7 @@ public class GGameController extends JFrame {
 
     private void runGame() {
         for (int round = 0; round < numberOfRounds; round++) {
+
             for (GPlayer player : players) {
                 player.turn(playerPanel, gmap);
             }

@@ -209,14 +209,14 @@ public class InsectKeeper extends Player {
         switch (action) {
             case "MOVETOTECTON":
                 for (Tecton tecton : map.getTectons()) {
-                    if (tecton.isNeighbour(i.getTecton())){
+                    if (tecton.isConnectedTo(i.getTecton())){
                         parameters.add(tecton.getName());
                     }
                 }
                 break;
             case "CUTMYC":
                 for (Tecton tecton : map.getTectons()) {
-                    if (tecton.isNeighbour(i.getTecton())){
+                    if (tecton.isConnectedTo(i.getTecton())){
                         parameters.add(tecton.getName());
                     }
                 }
