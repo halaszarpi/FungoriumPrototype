@@ -39,11 +39,11 @@ public class TectonMapView {
      * If the user answers "Y", it displays the updated map.
      */
     public void refreshMap() {
-        System.out.println("Map might have changed! Do you want to see the full map? (Y/N)");
-        String input = scanner.nextLine().toUpperCase();
-        if (input.equals("Y")) {
-            showMap();
-        }
+        //System.out.println("Map might have changed! Do you want to see the full map? (Y/N)");
+        //String input = scanner.nextLine().toUpperCase();
+        //if (input.equals("Y")) {
+        //    showMap();
+        //}
     }
 
     /**

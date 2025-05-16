@@ -1,5 +1,6 @@
 package fungorium;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -7,7 +8,7 @@ public class GPlayer implements IObservable {
     Player player;
     int x;
     int y;
-    ArrayList<IObserver> observers;
+    ArrayList<IObserver> observers = new ArrayList<>();
 
     public GPlayer(Player player) {
         this.player = player;
@@ -36,4 +37,51 @@ public class GPlayer implements IObservable {
     }
 
     public Player getPlayer() { return player; }
+
+    public JPanel getPanel() {
+        JPanel playerPanel = new JPanel();
+        playerPanel.setLayout(new GridLayout(2, 1));
+        playerPanel.setSize(1080, 360);
+
+        JPanel playerInfoPanel = new JPanel();
+        playerInfoPanel.setSize(1080, 180);
+        playerInfoPanel.setLayout(new BoxLayout(playerInfoPanel, BoxLayout.Y_AXIS));
+        playerInfoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        playerInfoPanel.setBackground(new Color(250, 235, 215)); // #FAEBD7
+        Font infoFont = new Font("SansSerif", Font.BOLD, 16);
+
+        JLabel playerNameLabel = new JLabel("Player: " + player.getName());
+        playerNameLabel.setFont(infoFont);
+        JLabel actionPointsLabel = new JLabel("Action Points: " + player.getActionPoints());
+        actionPointsLabel.setFont(infoFont);
+        JLabel scoreLabel = new JLabel("Score: " + player.getScore());
+        scoreLabel.setFont(infoFont);
+
+        playerInfoPanel.add(playerNameLabel);
+        playerInfoPanel.add(actionPointsLabel);
+        playerInfoPanel.add(scoreLabel);
+        playerInfoPanel.setVisible(true);
+
+        JPanel playerActionPanel = new JPanel();
+        JComboBox<String> actionBox = new JComboBox<>();
+        actionBox.addItem("Action 1");
+        actionBox.addItem("Action 2");
+        actionBox.addItem("Action 3");
+        actionBox.addItem("Action 4");
+        actionBox.addItem("Action 5");
+        actionBox.setSelectedIndex(0);
+        playerActionPanel.add(actionBox);
+        playerActionPanel.setSize(1080, 180);
+        playerActionPanel.setLayout(new BoxLayout(playerActionPanel, BoxLayout.Y_AXIS));
+        playerActionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        playerActionPanel.setBackground(new Color(250, 235, 215)); // #FAEBD7
+
+
+
+        playerPanel.add(playerInfoPanel);
+        playerPanel.add(playerActionPanel);
+        playerPanel.setVisible(true);
+
+        return playerPanel;
+    }
 }

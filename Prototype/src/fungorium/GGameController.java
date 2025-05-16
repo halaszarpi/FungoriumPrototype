@@ -9,11 +9,13 @@ import javax.swing.*;
 
 public class GGameController extends JFrame {
     private final TectonMap tectonMap;
-    private List<Player> players = new ArrayList<>();
+    private List<GPlayer> players = new ArrayList<>();
     private int numberOfRounds;
     private JPanel GamePanel;
+    private JPanel playerPanel;
+    private JPanel mapPanel;
     private final GMap gmap; // Make gmap a field so we can access it in the listener
-    private GPlayer currentPlayer;
+    private GPlayer currentPlayer = null;
 
     public GGameController() {
         setTitle("Fungorium - Game");
@@ -38,21 +40,13 @@ public class GGameController extends JFrame {
         GamePanel.setLayout(new GridLayout(2, 1));
 
         //mapPanel
-        JPanel mapPanel = createMapPanel();
-        JPanel playerPanel =
+        mapPanel = createMapPanel();
         GamePanel.add(mapPanel);
 
-
-
-        // Middle panel: player info and command input
-        JPanel playerPanel = new JPanel();
-        playerPanel.setLayout(new GridLayout(2, 1));
-        playerPanel.setSize(1080, 720);
-
-        playerPanel.add(new GPlayerInfo());
-        playerPanel.add(new GPlayerCommand());
-
+        //playerPanel
+        playerPanel = new JPanel();
         GamePanel.add(playerPanel);
+
         add(GamePanel);
         setVisible(true);
 
@@ -72,7 +66,6 @@ public class GGameController extends JFrame {
 
         JComboBox<String> TectonChooser = new JComboBox<>(tectonNames.toArray(new String[0]));
         TectonChooser.setSelectedIndex(0);
-        //TectonChooser.setPreferredSize(new Dimension(150, 30));
 
         // Panel for controls (top of map panel)
         JPanel chooserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -103,7 +96,7 @@ public class GGameController extends JFrame {
         showInfo("Game is starting!");
         String input;
 
-        // Get number of players
+        // Get the number of players
         boolean validnum = false;
         int numPlayers = 0;
         while(!validnum) {
@@ -120,23 +113,25 @@ public class GGameController extends JFrame {
             }
         }
 
+        //Get name and role of players
         for (int i = 0; i < numPlayers; i++) {
             String role = (i % 2 == 0) ? "Fungus Farmer" : "Insect Keeper";
             String playerName = JOptionPane.showInputDialog(this,
                     "Enter name for player " + (i + 1) + " (" + role + "):");
 
             if (i % 2 == 0) {
-                players.add(new FungusFarmer(playerName));
+                players.add(new GPlayer(new FungusFarmer(playerName)));
             } else {
-                players.add(new InsectKeeper(playerName));
+                players.add(new GPlayer(new InsectKeeper(playerName)));
             }
         }
 
+        // Get number of rounds
         input = JOptionPane.showInputDialog(this, "Enter number of rounds:");
         numberOfRounds = Integer.parseInt(input);
 
         // Starting tecton selection
-        for (Player player : players) {
+        for (GPlayer player : players) {
             boolean validtecton = false;
 
             List<String> tectonNames = new ArrayList<>();
@@ -147,7 +142,7 @@ public class GGameController extends JFrame {
             while (!validtecton) {
                 String tectonChoice = (String) JOptionPane.showInputDialog(
                         this,
-                        player.getName() + ", choose a starting tecton:",
+                        player.getPlayer().getName() + ", choose a starting tecton:",
                         "Choose Tecton",
                         JOptionPane.PLAIN_MESSAGE,
                         null,
@@ -157,7 +152,7 @@ public class GGameController extends JFrame {
 
                 try {
                     Tecton startingTecton = tectonMap.findTecton(tectonChoice);
-                    player.initializePlayer(startingTecton);
+                    player.getPlayer().initializePlayer(startingTecton);
                     validtecton = true;
                 } catch (Exception e) {
                     showError("Error initializing player:\n" + e.getMessage());
@@ -166,30 +161,33 @@ public class GGameController extends JFrame {
         }
 
         showInfo("Game initialized successfully!");
+
+
         runGame();
     }
 
     private void runGame() {
-        GPlayerInfo info = new GPlayerInfo();
         for (int round = 0; round < numberOfRounds; round++) {
-            for (Player player : players) {
-                if (player.isInGame()) {
-                    info.updatePersonInfo(player);
-                    player.turn(tectonMap, new Scanner(System.in));
-                    tectonMap.refreshMap();
-                    tectonMap.showMap();
+            for (GPlayer player : players) {
+                currentPlayer = player;
+                if (player.getPlayer().isInGame()) {
+                    //Set up playerPanel
+                    playerPanel.removeAll();
+                    playerPanel.add(currentPlayer.getPanel());
+                    playerPanel.revalidate();
+                    playerPanel.repaint();
                 }
             }
 
-            for (Player player : players) {
-                player.roundPassed();
+            for (GPlayer player : players) {
+                player.getPlayer().roundPassed();
             }
 
             tectonMap.roundPassed(null);
             tectonMap.refreshMap();
         }
 
-        endGame();
+        //endGame();
     }
 
     private void endGame() {
@@ -197,8 +195,8 @@ public class GGameController extends JFrame {
         tectonMap.showMap();
 
         StringBuilder scoreMessage = new StringBuilder("Final Scores:\n");
-        for (Player player : players) {
-            scoreMessage.append(player.getName()).append(": ").append(player.getScore()).append("\n");
+        for (GPlayer player : players) {
+            scoreMessage.append(player.getPlayer().getName()).append(": ").append(player.getPlayer().getScore()).append("\n");
         }
 
         JOptionPane.showMessageDialog(this, scoreMessage.toString(), "Game Over", JOptionPane.INFORMATION_MESSAGE);
