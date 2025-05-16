@@ -390,7 +390,7 @@ public class TectonMap {
 
     /** Displays the current map state. */
     public void showMap() {
-        if (!GameTesterController.SHOW_OUTPUT) return;
+        //if (!GameTesterController.SHOW_OUTPUT) return;
         view.showMap();
     }
 
