@@ -13,6 +13,7 @@ public class GGameController extends JFrame {
     private int numberOfRounds;
     private JPanel GamePanel;
     private final GMap gmap; // Make gmap a field so we can access it in the listener
+    private GPlayer currentPlayer;
 
     public GGameController() {
         setTitle("Fungorium - Game");
@@ -32,44 +33,16 @@ public class GGameController extends JFrame {
             return;
         }
 
+        //The game panel itself Consists of two parts: the mapPanel and the playerPanel
         GamePanel = new JPanel();
         GamePanel.setLayout(new GridLayout(2, 1));
 
-        JPanel MapPanel = new JPanel();
-        MapPanel.setLayout(new BorderLayout()); // Use BorderLayout for flexible sizing
+        //mapPanel
+        JPanel mapPanel = createMapPanel();
+        JPanel playerPanel =
+        GamePanel.add(mapPanel);
 
-        // Create tecton selection combo box
-        List<String> tectonNames = new ArrayList<>();
-        for (Tecton tecton : tectonMap.getTectons()) {
-            tectonNames.add(tecton.getName());
-        }
 
-        JComboBox<String> TectonChooser = new JComboBox<>(tectonNames.toArray(new String[0]));
-        TectonChooser.setSelectedIndex(0); // Select first by default
-        TectonChooser.setPreferredSize(new Dimension(150, 30));
-
-        // Panel for controls (top of map panel)
-        JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        controlPanel.add(new JLabel("Select Tecton:"));
-        controlPanel.add(TectonChooser);
-
-        // Add components to MapPanel
-        MapPanel.add(controlPanel, BorderLayout.NORTH);
-        MapPanel.add(gmap, BorderLayout.CENTER);
-        GamePanel.add(MapPanel);
-
-        // Initial map draw
-        String middleTecton = (String) TectonChooser.getSelectedItem();
-        gmap.drawMap(gmap.findGTectonByName(middleTecton));
-
-        // Add listener to update map on tecton selection change
-        TectonChooser.addActionListener(e -> {
-            String selectedTecton = (String) TectonChooser.getSelectedItem();
-            if (selectedTecton != null) {
-                gmap.drawMap(gmap.findGTectonByName(selectedTecton));
-                gmap.repaint();
-            }
-        });
 
         // Middle panel: player info and command input
         JPanel playerPanel = new JPanel();
@@ -85,6 +58,45 @@ public class GGameController extends JFrame {
 
         // Start game logic in a new thread
         new Thread(this::initializeGame).start();
+    }
+
+    private JPanel createMapPanel() {
+        JPanel mapPanel = new JPanel();
+        mapPanel.setLayout(new BorderLayout()); // Use BorderLayout for flexible sizing
+
+        // Create tecton selection combo box
+        List<String> tectonNames = new ArrayList<>();
+        for (Tecton tecton : tectonMap.getTectons()) {
+            tectonNames.add(tecton.getName());
+        }
+
+        JComboBox<String> TectonChooser = new JComboBox<>(tectonNames.toArray(new String[0]));
+        TectonChooser.setSelectedIndex(0);
+        //TectonChooser.setPreferredSize(new Dimension(150, 30));
+
+        // Panel for controls (top of map panel)
+        JPanel chooserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        chooserPanel.add(new JLabel("Select Tecton:"));
+        chooserPanel.add(TectonChooser);
+
+        // Add components to mapPanel
+        mapPanel.add(chooserPanel, BorderLayout.NORTH);
+        mapPanel.add(gmap, BorderLayout.CENTER);
+
+        // Initial map draw
+        String middleTecton = (String) TectonChooser.getSelectedItem();
+        gmap.drawMap(gmap.findGTectonByName(middleTecton));
+
+        // Add listener to update map on tecton selection change
+        TectonChooser.addActionListener(e -> {
+            String selectedTecton = (String) TectonChooser.getSelectedItem();
+            if (selectedTecton != null) {
+                gmap.drawMap(gmap.findGTectonByName(selectedTecton));
+                gmap.repaint();
+            }
+        });
+
+        return mapPanel;
     }
 
     private void initializeGame() {
