@@ -115,4 +115,6 @@ public abstract class Player {
     }
 
     public abstract IObserver getView();
+
+    public abstract List<String> getActions();
 }

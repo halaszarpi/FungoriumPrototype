@@ -221,4 +221,13 @@ public class FungusFarmer extends Player {
     public IObserver getView() {
         return (IObserver) view;
     }
+
+    @Override
+    public List<String> getActions(){
+        List<String> actions = new ArrayList<>();
+        actions.add("GROWMYC");
+        actions.add("GROWBOD");
+        actions.add("SCATTERSP");
+        actions.add("EATINS");
+    }
 }

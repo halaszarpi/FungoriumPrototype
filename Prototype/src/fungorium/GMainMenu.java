@@ -20,12 +20,11 @@ public class GMainMenu extends JFrame {
         BackgroundPanel backgroundPanel = new BackgroundPanel("Prototype/src/fungorium/Menu.png");
         backgroundPanel.setLayout(null);
 
-        // Create buttons
+        //Buttons
         JButton newGameButton = createInvisibleButton(350, 220, 380, 80);
         JButton rulesButton = createInvisibleButton(350, 330, 380, 80);
         JButton exitButton = createInvisibleButton(350, 500, 380, 80);
 
-        // Add button functionality
         newGameButton.addActionListener(e -> {
             dispose();
             SwingUtilities.invokeLater(GGameController::new);

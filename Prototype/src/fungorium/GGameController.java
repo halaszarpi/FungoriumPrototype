@@ -45,6 +45,7 @@ public class GGameController extends JFrame {
 
         //playerPanel
         playerPanel = new JPanel();
+        playerPanel.setSize(1080,360);
         GamePanel.add(playerPanel);
 
         add(GamePanel);
@@ -169,14 +170,7 @@ public class GGameController extends JFrame {
     private void runGame() {
         for (int round = 0; round < numberOfRounds; round++) {
             for (GPlayer player : players) {
-                currentPlayer = player;
-                if (player.getPlayer().isInGame()) {
-                    //Set up playerPanel
-                    playerPanel.removeAll();
-                    playerPanel.add(currentPlayer.getPanel());
-                    playerPanel.revalidate();
-                    playerPanel.repaint();
-                }
+                player.turn(playerPanel);
             }
 
             for (GPlayer player : players) {

@@ -184,4 +184,12 @@ public class InsectKeeper extends Player {
     public IObserver getView() {
         return (IObserver) view;
     }
+
+    @Override
+    public List<String> getActions(){
+        List<String> actions = new ArrayList<>();
+        actions.add("MOVETOTECTON");
+        actions.add("CUTMYC");
+        actions.add("EATSPORE");
+    }
 }

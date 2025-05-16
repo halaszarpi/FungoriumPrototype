@@ -63,12 +63,8 @@ public class GPlayer implements IObservable {
         playerInfoPanel.setVisible(true);
 
         JPanel playerActionPanel = new JPanel();
-        JComboBox<String> actionBox = new JComboBox<>();
+        JComboBox<String> actionBox = new JComboBox<>(player.getActions().toArray(new String[0]));
         actionBox.addItem("Action 1");
-        actionBox.addItem("Action 2");
-        actionBox.addItem("Action 3");
-        actionBox.addItem("Action 4");
-        actionBox.addItem("Action 5");
         actionBox.setSelectedIndex(0);
         playerActionPanel.add(actionBox);
         playerActionPanel.setSize(1080, 180);
@@ -76,12 +72,21 @@ public class GPlayer implements IObservable {
         playerActionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         playerActionPanel.setBackground(new Color(250, 235, 215)); // #FAEBD7
 
-
-
         playerPanel.add(playerInfoPanel);
         playerPanel.add(playerActionPanel);
         playerPanel.setVisible(true);
 
         return playerPanel;
+    }
+
+    public void turn(JPanel playerPanel) {
+        if(!player.inGame) {
+            return;
+        }
+        //Set up playerPanel
+        playerPanel.removeAll();
+        playerPanel.add(this.getPanel());
+        playerPanel.revalidate();
+        playerPanel.repaint();
     }
 }
