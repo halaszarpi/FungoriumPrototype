@@ -5,42 +5,23 @@ import java.util.*;
 import java.util.List;
 import java.awt.*;
 
-public class GPlayer implements IObservable {
-    Player player;
-    int x;
-    int y;
-    ArrayList<IObserver> observers = new ArrayList<>();
+public class GPlayer {
+    private Player player;
     private String finalCommand = null;
+    private JComboBox<String> param1box;
+    private JComboBox<String> param2box;
+    private JComboBox<String> actionBox;
+    private GMap gmap;
 
     public GPlayer(Player player) {
         this.player = player;
-        attach(player.getView());
-    }
-
-    @Override
-    public void attach(IObserver o) { observers.add(o); }
-
-    @Override
-    public void detach(IObserver o) { observers.remove(o); }
-
-    @Override
-    public void update(Graphics g) {
-        for(IObserver o : observers) {
-            o.draw(g, new Point(x, y));
-        }
-    }
-
-    @Override
-    public IObserver getObserver() { return observers.getFirst(); }
-
-    public void setCoordinates(int x, int y) {
-        this.x = x;
-        this.y = y;
     }
 
     public Player getPlayer() { return player; }
 
     public JPanel getPanel(GMap map) {
+
+        this.gmap = map;
         JPanel playerPanel = new JPanel(new BorderLayout());
         playerPanel.setSize(1080, 360);
 
@@ -69,19 +50,50 @@ public class GPlayer implements IObservable {
         playerActionPanel.setBackground(new Color(250, 235, 215));
 
         // Action ComboBox
-        JComboBox<String> actionBox = new JComboBox<>(player.getActions().toArray(new String[0]));
+        actionBox = new JComboBox<>(player.getActions().toArray(new String[0]));
         actionBox.setSelectedIndex(0);
         playerActionPanel.add(actionBox);
 
         // Param1 and Param2 ComboBoxes
-        JComboBox<String> param1box = new JComboBox<>();
-        JComboBox<String> param2box = new JComboBox<>();
+        param1box = new JComboBox<>();
+        param2box = new JComboBox<>();
 
         playerActionPanel.add(param1box);
         playerActionPanel.add(param2box);
 
         // Helper to update param1 and param2
         Runnable updateParamBoxes = () -> {
+            kurvaanyad();
+            // Now update param2 based on action + selected param1
+            updateParam2Box();
+        };
+
+        // Helper to update param2
+        Runnable updateParam2 = () -> {
+            updateParam2Box();
+        };
+
+        // Listeners
+        actionBox.addActionListener(e -> updateParamBoxes.run());
+        param1box.addActionListener(e -> updateParam2.run());
+
+        // Initial population
+        updateParamBoxes.run();
+
+        // osszeallitott command
+        finalCommand = actionBox.getSelectedItem() + " " + param1box.getSelectedItem() + " " + param2box.getSelectedItem();
+
+        JPanel InfoAndActionPanel = new JPanel();
+        InfoAndActionPanel.setLayout(new GridLayout(2, 1));
+        InfoAndActionPanel.add(playerInfoPanel);
+        InfoAndActionPanel.add(playerActionPanel);
+
+        playerPanel.add(InfoAndActionPanel, BorderLayout.CENTER);
+
+        return playerPanel;
+    }
+
+    public void kurvaanyad() {
             // Update param1
             param1box.removeAllItems();
             for (String p1 : player.getParam1ForAction()) {
@@ -92,47 +104,14 @@ public class GPlayer implements IObservable {
             if (param1box.getItemCount() > 0) {
                 param1box.setSelectedIndex(0);
             }
-
-            // Now update param2 based on action + selected param1
-            updateParam2Box(actionBox, param1box, param2box, map);
-        };
-
-        // Helper to update param2
-        Runnable updateParam2 = () -> {
-            updateParam2Box(actionBox, param1box, param2box, map);
-        };
-
-        // Listeners
-        actionBox.addActionListener(e -> updateParamBoxes.run());
-        param1box.addActionListener(e -> updateParam2.run());
-
-        // Initial population
-        updateParamBoxes.run();
-
-        JButton okButton = new JButton("OK");
-        // osszeallitott command
-
-        okButton.addActionListener(e ->
-            finalCommand = actionBox.getSelectedItem() + " " + param1box.getSelectedItem() + " " + param2box.getSelectedItem()
-        );
-
-        JPanel InfoAndActionPanel = new JPanel();
-        InfoAndActionPanel.setLayout(new GridLayout(2, 1));
-        InfoAndActionPanel.add(playerInfoPanel);
-        InfoAndActionPanel.add(playerActionPanel);
-
-        playerPanel.add(okButton, BorderLayout.SOUTH);
-        playerPanel.add(InfoAndActionPanel, BorderLayout.CENTER);
-
-        return playerPanel;
     }
 
     // Helper function outside getPanel or make it private inside the class
-    private void updateParam2Box(JComboBox<String> actionBox, JComboBox<String> param1box, JComboBox<String> param2box, GMap map) {
+    public void updateParam2Box() {
         String selectedAction = (String) actionBox.getSelectedItem();
         String selectedParam1 = (String) param1box.getSelectedItem();
 
-        java.util.List<String> param2Options = player.getParam2ForAction(selectedAction, selectedParam1, map);
+        java.util.List<String> param2Options = player.getParam2ForAction(selectedAction, selectedParam1, gmap);
         param2box.removeAllItems();
         for (String p2 : param2Options) {
             param2box.addItem(p2);
@@ -141,8 +120,6 @@ public class GPlayer implements IObservable {
             param2box.setSelectedIndex(0);
         }
     }
-
-
 
     public void turn(JPanel playerPanel, GMap map) {
         if(!player.inGame) {
@@ -154,4 +131,11 @@ public class GPlayer implements IObservable {
         playerPanel.revalidate();
         playerPanel.repaint();
     }
+
+    public String getFinalCommand() { return finalCommand; }
+
+    public JComboBox<String> getParam1Box() { return this.param1box; }
+
+    public JComboBox<String> getParam2Box() { return this.param2box; }
+
 }

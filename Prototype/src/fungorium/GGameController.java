@@ -70,7 +70,6 @@ public class GGameController extends JFrame {
         TectonChooser = new JComboBox<>(tectonNames.toArray(new String[0]));
         TectonChooser.setSelectedIndex(0);
 
-
         // Add components to mapPanel
         mapPanel.add(TectonChooser, BorderLayout.NORTH);
         mapPanel.add(gmap, BorderLayout.CENTER);
@@ -115,6 +114,14 @@ public class GGameController extends JFrame {
                 TectonChooser.addItem(name);
             }
         }
+    }
+
+    private void updatePlayerParam1Box() {
+
+    }
+
+    private void updatePlayerParam2Box() {
+         
     }
 
     private void initializeGame() {
@@ -224,10 +231,21 @@ public class GGameController extends JFrame {
                 player.turn(playerPanel, gmap);
 
                 SwingUtilities.invokeLater(() -> {
+                    JButton okButton = new JButton("OK");
+                    okButton.addActionListener(e -> {
+                        player.getPlayer().doAction(tectonMap, player.getFinalCommand());
+                        // param1box update
+                        player.updateParam2Box();
+                        player.kurvaanyad();
+                        // param2box update
+                        repaint();
+                    });
+
                     JButton endTurnButton = new JButton("End Turn");
                     endTurnButton.addActionListener(e -> latch.countDown());
 
                     playerPanel.add(endTurnButton, BorderLayout.NORTH);
+                    playerPanel.add(okButton, BorderLayout.SOUTH);
                     playerPanel.revalidate();
                     playerPanel.repaint();
                 });

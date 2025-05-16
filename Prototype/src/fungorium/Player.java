@@ -36,6 +36,8 @@ public abstract class Player {
      */
     public abstract void turn(TectonMap map, Scanner in);
 
+    public abstract void doAction(TectonMap map, String commandToRun);
+
     /**
      * Abstract method to be implemented by subclasses. Represents the actions to be taken when a round passes.
      * This may include updating scores, checking game status, or other game logic.
