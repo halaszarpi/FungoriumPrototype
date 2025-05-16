@@ -1,8 +1,9 @@
 package fungorium;
 
 import javax.swing.*;
+import java.util.*;
+import java.util.List;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class GPlayer implements IObservable {
     Player player;
@@ -38,16 +39,15 @@ public class GPlayer implements IObservable {
 
     public Player getPlayer() { return player; }
 
-    public JPanel getPanel() {
-        JPanel playerPanel = new JPanel();
-        playerPanel.setLayout(new GridLayout(2, 1));
+    public JPanel getPanel(GMap map) {
+        JPanel playerPanel = new JPanel(new GridLayout(2, 1));
         playerPanel.setSize(1080, 360);
 
+        // --- Top Info Panel ---
         JPanel playerInfoPanel = new JPanel();
-        playerInfoPanel.setSize(1080, 180);
         playerInfoPanel.setLayout(new BoxLayout(playerInfoPanel, BoxLayout.Y_AXIS));
         playerInfoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        playerInfoPanel.setBackground(new Color(250, 235, 215)); // #FAEBD7
+        playerInfoPanel.setBackground(new Color(250, 235, 215));
         Font infoFont = new Font("SansSerif", Font.BOLD, 16);
 
         JLabel playerNameLabel = new JLabel("Player: " + player.getName());
@@ -60,32 +60,84 @@ public class GPlayer implements IObservable {
         playerInfoPanel.add(playerNameLabel);
         playerInfoPanel.add(actionPointsLabel);
         playerInfoPanel.add(scoreLabel);
-        playerInfoPanel.setVisible(true);
 
+        // --- Bottom Action Panel ---
         JPanel playerActionPanel = new JPanel();
-        JComboBox<String> actionBox = new JComboBox<>(player.getActions().toArray(new String[0]));
-        actionBox.addItem("Action 1");
-        actionBox.setSelectedIndex(0);
-        playerActionPanel.add(actionBox);
-        playerActionPanel.setSize(1080, 180);
         playerActionPanel.setLayout(new BoxLayout(playerActionPanel, BoxLayout.Y_AXIS));
         playerActionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        playerActionPanel.setBackground(new Color(250, 235, 215)); // #FAEBD7
+        playerActionPanel.setBackground(new Color(250, 235, 215));
+
+        // Action ComboBox
+        JComboBox<String> actionBox = new JComboBox<>(player.getActions().toArray(new String[0]));
+        actionBox.setSelectedIndex(0);
+        playerActionPanel.add(actionBox);
+
+        // Param1 and Param2 ComboBoxes
+        JComboBox<String> param1box = new JComboBox<>();
+        JComboBox<String> param2box = new JComboBox<>();
+
+        playerActionPanel.add(param1box);
+        playerActionPanel.add(param2box);
+
+        // Helper to update param1 and param2
+        Runnable updateParamBoxes = () -> {
+            // Update param1
+            param1box.removeAllItems();
+            for (String p1 : player.getParam1ForAction()) {
+                param1box.addItem(p1);
+            }
+
+            // Ensure at least one selection
+            if (param1box.getItemCount() > 0) {
+                param1box.setSelectedIndex(0);
+            }
+
+            // Now update param2 based on action + selected param1
+            updateParam2Box(actionBox, param1box, param2box, map);
+        };
+
+        // Helper to update param2
+        Runnable updateParam2 = () -> {
+            updateParam2Box(actionBox, param1box, param2box, map);
+        };
+
+        // Listeners
+        actionBox.addActionListener(e -> updateParamBoxes.run());
+        param1box.addActionListener(e -> updateParam2.run());
+
+        // Initial population
+        updateParamBoxes.run();
 
         playerPanel.add(playerInfoPanel);
         playerPanel.add(playerActionPanel);
-        playerPanel.setVisible(true);
 
         return playerPanel;
     }
 
-    public void turn(JPanel playerPanel) {
+    // Helper function outside getPanel or make it private inside the class
+    private void updateParam2Box(JComboBox<String> actionBox, JComboBox<String> param1box, JComboBox<String> param2box, GMap map) {
+        String selectedAction = (String) actionBox.getSelectedItem();
+        String selectedParam1 = (String) param1box.getSelectedItem();
+
+        java.util.List<String> param2Options = player.getParam2ForAction(selectedAction, selectedParam1, map);
+        param2box.removeAllItems();
+        for (String p2 : param2Options) {
+            param2box.addItem(p2);
+        }
+        if (param2box.getItemCount() > 0) {
+            param2box.setSelectedIndex(0);
+        }
+    }
+
+
+
+    public void turn(JPanel playerPanel, GMap map) {
         if(!player.inGame) {
             return;
         }
         //Set up playerPanel
         playerPanel.removeAll();
-        playerPanel.add(this.getPanel());
+        playerPanel.add(this.getPanel(map));
         playerPanel.revalidate();
         playerPanel.repaint();
     }

@@ -229,5 +229,47 @@ public class FungusFarmer extends Player {
         actions.add("GROWBOD");
         actions.add("SCATTERSP");
         actions.add("EATINS");
+
+        return actions;
+    }
+
+    @Override
+    public List<String> getParam1ForAction(){
+        List<String> parameters = new ArrayList<>();
+        for (Mycelium mycelium : myceliums) {
+            parameters.add(mycelium.getName());
+        }
+        return parameters;
+    }
+
+    @Override
+    public List<String> getParam2ForAction(String action, String param1, GMap map){
+        List<String> parameters = new ArrayList<>();
+        Mycelium m = map.findMyceliumByName(param1);
+        switch (action) {
+            case "GROWMYC":
+                for (Tecton tecton : map.getTectons()) {
+                    if(m.getTecton().isNeighbour(tecton)) {
+                        parameters.add(tecton.getName());
+                    }
+                }
+                break;
+            case "GROWBOD":
+                m.getTecton().getSporeList().forEach(s -> parameters.add(s.getName()));
+                break;
+            case "SCATTERSP":
+                for (Tecton tecton : map.getTectons()) {
+                    if(m.getTecton().isNeighbour(tecton)) {
+                        parameters.add(tecton.getName());
+                    }
+                    /// TODO : neighbors neighbor
+                }
+                break;
+            case "EATINS":
+                m.getTecton().getInsectList().forEach(i -> parameters.add(i.getName()));
+                break;
+        }
+        return parameters;
+
     }
 }

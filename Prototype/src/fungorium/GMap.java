@@ -107,4 +107,34 @@ public class GMap extends JPanel {
         }
     }
 
+    public List<Tecton> getTectons() {
+        return gameMap.getTectons();
+    }
+
+    public List<Spore> getSpores() {
+        return gameMap.getSpores();
+    }
+
+    public List<Insect> getInsects() {
+        return gameMap.getInsects();
+    }
+
+    public Insect findInsectByName(String name) {
+        for (Insect insect : gameMap.getInsects()) {
+            if (insect.getName().equals(name)) {
+                return insect;
+            }
+        }
+        return null;
+    }
+
+    public Mycelium findMyceliumByName(String name){
+        for (Mycelium mycelium : gameMap.getMyceliums()) {
+            if (mycelium.getName().equals(name)) {
+                return mycelium;
+            }
+        }
+        return null;
+    }
+
 }

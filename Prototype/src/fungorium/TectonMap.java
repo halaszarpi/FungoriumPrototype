@@ -405,4 +405,27 @@ public class TectonMap {
     /** Adds a Tecton to the map. */
     public void add(Tecton t) { tectons.add(t); }
 
+    public List<Spore> getSpores() {
+        List<Spore> spores = new ArrayList<>();
+        for (Tecton t : tectons) {
+            spores.addAll(t.getSporeList());
+        }
+        return spores;
+    }
+
+    public List<Insect> getInsects() {
+        List<Insect> insects = new ArrayList<>();
+        for (Tecton t : tectons) {
+            insects.addAll(t.getInsectList());
+        }
+        return insects;
+    }
+
+    public Mycelium[] getMyceliums() {
+        List<Mycelium> myceliums = new ArrayList<>();
+        for (Tecton t : tectons) {
+            myceliums.addAll(t.getMyceliumList());
+        }
+        return myceliums.toArray(new Mycelium[0]);
+    }
 }

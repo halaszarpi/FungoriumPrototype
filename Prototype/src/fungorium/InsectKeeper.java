@@ -191,5 +191,43 @@ public class InsectKeeper extends Player {
         actions.add("MOVETOTECTON");
         actions.add("CUTMYC");
         actions.add("EATSPORE");
+        return actions;
+    }
+    @Override
+    public List<String> getParam1ForAction(){
+        List<String> parameters = new ArrayList<>();
+        for (Insect insect : insects) {
+            parameters.add(insect.getName());
+        }
+        return parameters;
+    }
+
+    @Override
+    public List<String> getParam2ForAction(String action, String param1, GMap map){
+        List<String> parameters = new ArrayList<>();
+        Insect i = map.findInsectByName(param1);
+        switch (action) {
+            case "MOVETOTECTON":
+                for (Tecton tecton : map.getTectons()) {
+                    if (tecton.isNeighbour(i.getTecton())){
+                        parameters.add(tecton.getName());
+                    }
+                }
+                break;
+            case "CUTMYC":
+                for (Tecton tecton : map.getTectons()) {
+                    if (tecton.isNeighbour(i.getTecton())){
+                        parameters.add(tecton.getName());
+                    }
+                }
+                break;
+            case "EATSPORE":
+                List<Spore> spores = i.getTecton().getSporeList();
+                for (Spore spore : spores) {
+                    parameters.add(spore.getName());
+                }
+                break;
+        }
+        return parameters;
     }
 }

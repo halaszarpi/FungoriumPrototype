@@ -170,7 +170,7 @@ public class GGameController extends JFrame {
     private void runGame() {
         for (int round = 0; round < numberOfRounds; round++) {
             for (GPlayer player : players) {
-                player.turn(playerPanel);
+                player.turn(playerPanel, gmap);
             }
 
             for (GPlayer player : players) {
