@@ -40,18 +40,16 @@ public class GGameController extends JFrame {
 
         //The game panel itself Consists of two parts: the mapPanel and the playerPanel
         GamePanel = new JPanel();
-        GamePanel.setLayout(new GridLayout(2, 1));
+        GamePanel.setLayout(new BorderLayout());
 
         //mapPanel
         mapPanel = createMapPanel();
-        mapPanel.setSize(1080, 480);
-        GamePanel.add(mapPanel);
+        GamePanel.add(mapPanel, BorderLayout.CENTER);
 
         //playerPanel
         playerPanel = new JPanel();
         playerPanel.setLayout(new BorderLayout());
-        playerPanel.setSize(1080,360);
-        GamePanel.add(playerPanel);
+        GamePanel.add(playerPanel, BorderLayout.SOUTH);
 
         add(GamePanel);
         setVisible(true);
