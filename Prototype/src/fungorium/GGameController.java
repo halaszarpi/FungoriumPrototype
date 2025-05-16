@@ -4,8 +4,9 @@ import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import javax.swing.*;
+import java.util.concurrent.CountDownLatch;
+
 
 public class GGameController extends JFrame {
     private final TectonMap tectonMap;
@@ -188,9 +189,41 @@ public class GGameController extends JFrame {
         for (int round = 0; round < numberOfRounds; round++) {
 
             for (GPlayer player : players) {
+                CountDownLatch latch = new CountDownLatch(1);
+
+                // Setup the player's panel
                 player.turn(playerPanel, gmap);
+
+                // Add "End Turn" button after player UI is set up
+                SwingUtilities.invokeLater(() -> {
+                    JButton endTurnButton = new JButton("End Turn");
+                    endTurnButton.addActionListener(e -> latch.countDown());
+
+                    JPanel buttonPanel = new JPanel();
+                    buttonPanel.add(endTurnButton);
+
+                    playerPanel.add(buttonPanel, BorderLayout.SOUTH);
+                    playerPanel.revalidate();
+                    playerPanel.repaint();
+                });
+
+                // Wait for the player to press "End Turn"
+                try {
+                    latch.await();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                }
+
+                // Optionally clear panel or prepare for next player
+                SwingUtilities.invokeLater(() -> {
+                    playerPanel.removeAll();
+                    playerPanel.revalidate();
+                    playerPanel.repaint();
+                });
             }
 
+            // Round passed for each player
             for (GPlayer player : players) {
                 player.getPlayer().roundPassed();
             }
@@ -199,8 +232,9 @@ public class GGameController extends JFrame {
             tectonMap.refreshMap();
         }
 
-        //endGame();
+        endGame();
     }
+
 
     private void endGame() {
         showInfo("Game Over!");
