@@ -104,7 +104,7 @@ public class GGameController extends JFrame {
             tectonNames.add(tecton.getName());
         }
 
-        tectonChooser.removeAll();
+        tectonChooser.removeAllItems();
         
         for (int i = 0; i < tectonNames.size(); i++) {
             tectonChooser.addItem(tectonNames.get(i));
