@@ -3,9 +3,12 @@ package fungorium;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import javax.swing.*;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.stream.Collectors;
 
 
 public class GGameController extends JFrame {
@@ -28,7 +31,6 @@ public class GGameController extends JFrame {
         tectonMap = new TectonMap(null, false);
         File gameMap = new File(System.getProperty("user.dir") + "\\Prototype\\src\\gamemaps\\startingMap.txt");
         gmap = new GMap(this.tectonMap); // initialize GMap field
-
         try {
             tectonMap.processAllMapCreatingCommands(gameMap);
         } catch (Exception e) {
@@ -42,6 +44,7 @@ public class GGameController extends JFrame {
 
         //mapPanel
         mapPanel = createMapPanel();
+        mapPanel.setSize(1080, 360);
         GamePanel.add(mapPanel);
 
         //playerPanel
@@ -65,49 +68,53 @@ public class GGameController extends JFrame {
         for (Tecton tecton : tectonMap.getTectons()) {
             tectonNames.add(tecton.getName());
         }
-
         TectonChooser = new JComboBox<>(tectonNames.toArray(new String[0]));
         TectonChooser.setSelectedIndex(0);
-        TectonChooser.addActionListener(e ->
-            updateTectonChooser(TectonChooser)
-        );
 
-        // Panel for controls (top of map panel)
-        JPanel chooserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        chooserPanel.add(new JLabel("Select Tecton:"));
-        chooserPanel.add(TectonChooser);
 
         // Add components to mapPanel
-        mapPanel.add(chooserPanel, BorderLayout.NORTH);
+        mapPanel.add(TectonChooser, BorderLayout.NORTH);
         mapPanel.add(gmap, BorderLayout.CENTER);
 
         // Initial map draw
         String middleTecton = (String) TectonChooser.getSelectedItem();
         gmap.drawMap(gmap.findGTectonByName(middleTecton));
 
-        // Add listener to update map on tecton selection change
+        // Updating map on tecton selection change
         TectonChooser.addActionListener(e -> {
             String selectedTecton = (String) TectonChooser.getSelectedItem();
             if (selectedTecton != null) {
                 gmap.drawMap(gmap.findGTectonByName(selectedTecton));
-                //gmap.repaint();
             }
         });
 
         return mapPanel;
     }
 
-    private void updateTectonChooser(JComboBox<String> tectonChooser) {
-        List<String> tectonNames = new ArrayList<>();
-
-        for (Tecton tecton : tectonMap.getTectons()) {
-            tectonNames.add(tecton.getName());
+    private void updateTectonChooser() {
+        // Get current items in the combo box
+        Set<String> currentItems = new HashSet<>();
+        for (int i = 0; i < TectonChooser.getItemCount(); i++) {
+            currentItems.add(TectonChooser.getItemAt(i));
         }
 
-        tectonChooser.removeAllItems();
-        
-        for (int i = 0; i < tectonNames.size(); i++) {
-            tectonChooser.addItem(tectonNames.get(i));
+        // Get current tecton names from the tectonMap
+        Set<String> tectonNames = tectonMap.getTectons().stream()
+                .map(Tecton::getName)
+                .collect(Collectors.toSet());
+
+        // Remove items not in the tectonMap
+        for (String item : new HashSet<>(currentItems)) {
+            if (!tectonNames.contains(item)) {
+                TectonChooser.removeItem(item);
+            }
+        }
+
+        // Add items from tectonMap that are not in the combo box
+        for (String name : tectonNames) {
+            if (!currentItems.contains(name)) {
+                TectonChooser.addItem(name);
+            }
         }
     }
 
@@ -187,9 +194,9 @@ public class GGameController extends JFrame {
 
     private void runGame() {
         for (int round = 0; round < numberOfRounds; round++) {
+            updateTectonChooser();
 
             for (GPlayer player : players) {
-                updateTectonChooser(TectonChooser);
                 CountDownLatch latch = new CountDownLatch(1);
 
                 // Setup the player's panel
