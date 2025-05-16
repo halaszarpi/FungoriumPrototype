@@ -1,13 +1,13 @@
 package fungorium;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class GMainMenu extends JFrame {
 
@@ -16,14 +16,15 @@ public class GMainMenu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1080, 720);
         setLocationRelativeTo(null);
+        setResizable(false);
 
         BackgroundPanel backgroundPanel = new BackgroundPanel("Prototype/src/fungorium/Menu.png");
         backgroundPanel.setLayout(null);
 
         //Buttons
-        JButton newGameButton = createInvisibleButton(350, 220, 380, 80);
-        JButton rulesButton = createInvisibleButton(350, 330, 380, 80);
-        JButton exitButton = createInvisibleButton(350, 500, 380, 80);
+JButton newGameButton = createTextureButton("Prototype/src/fungorium/NewGamebutton.png", 240, 212, 581, 102);
+JButton rulesButton = createTextureButton("Prototype/src/fungorium/Rulesbutton.png",240, 345, 581, 102);
+JButton exitButton = createTextureButton("Prototype/src/fungorium/Exitbutton.png",240, 475, 581, 102);
 
         newGameButton.addActionListener(e -> {
             dispose();
@@ -103,7 +104,7 @@ public class GMainMenu extends JFrame {
         BackgroundPanel panel = new BackgroundPanel("Prototype/src/fungorium/GoodBye.png");
         panel.setLayout(null);
 
-        JButton okButton = createInvisibleButton(110, 150, 80, 40);
+        JButton okButton = createInvisibleButton(96, 136, 200, 68);
         okButton.addActionListener(e -> System.exit(0));
 
         panel.add(okButton);
@@ -133,4 +134,22 @@ public class GMainMenu extends JFrame {
             }
         }
     }
+    private JButton createTextureButton(String imagePath, int x, int y, int width, int height) {
+    JButton button = new JButton();
+    try {
+        ImageIcon icon = new ImageIcon(ImageIO.read(new File(imagePath)));
+        Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        button.setIcon(new ImageIcon(scaledImage));
+    } catch (IOException e) {
+        System.err.println("Failed to load button texture: " + imagePath);
+    }
+    button.setBounds(x, y, width, height);
+    button.setOpaque(false);
+    button.setContentAreaFilled(false);
+    button.setBorderPainted(false);
+    button.setFocusPainted(false);
+    button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    return button;
+}
+
 }
