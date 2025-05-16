@@ -179,5 +179,9 @@ public class InsectKeeper extends Player {
     public void removeInsect(Insect insect) {
         insects.remove(insect);
     }
-    
+
+    @Override
+    public IObserver getView() {
+        return (IObserver) view;
+    }
 }

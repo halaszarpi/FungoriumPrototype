@@ -1,6 +1,8 @@
 package fungorium;
 
-public class InsectKeeperView {
+import java.awt.*;
+
+public class InsectKeeperView implements IObserver{
     InsectKeeper insectKeeper;
 
     public InsectKeeperView(InsectKeeper insectKeeper) {
@@ -43,4 +45,8 @@ public class InsectKeeperView {
     }
 
 
+    @Override
+    public void draw(Graphics g, Point coords) {
+        //később
+    }
 }
