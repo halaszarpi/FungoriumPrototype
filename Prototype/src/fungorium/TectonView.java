@@ -180,15 +180,15 @@ public class TectonView implements IObserver {
     // Újítás, kell Graphics g paraméterben
     @Override
     public void draw(Graphics g, Point coords) {
+        g.setColor(Color.BLACK);
         g.fillOval(coords.x - tectonWidth / 2, coords.y - tectonHeight / 2, tectonWidth, tectonHeight);
     }
 
-    public void drawLine(Graphics g, GTecton middleTecton, List<GTecton> connectedByMycelium) {
+    public void drawLine(Graphics g, Point middleTecton, List<GTecton> connectedByMycelium) {
         for (GTecton connectegtdByMyceliaTecton : connectedByMycelium) {
-            Point MTCord = middleTecton.getCoords();
             Point CBMCoord = connectegtdByMyceliaTecton.getCoords();
             g.setColor(Color.RED);
-            g.drawLine(MTCord.x, MTCord.y, CBMCoord.x, CBMCoord.y);
+            g.drawLine(middleTecton.x, middleTecton.y, CBMCoord.x, CBMCoord.y);
         }
     }
 

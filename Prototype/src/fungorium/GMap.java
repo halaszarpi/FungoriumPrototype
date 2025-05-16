@@ -112,6 +112,10 @@ public class GMap extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+
+        TectonView tv = (TectonView)chosenTecton.getObserver();
+        tv.drawLine(g, chosenTecton.getCoords(), getConnectedGTectonts(chosenTecton));
+
         for (GTecton aNeighbour : chosenTectonNeighbours) {
             aNeighbour.update(g);
         }

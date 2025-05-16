@@ -35,7 +35,6 @@ public class GTecton implements IObservable {
     @Override
     public void update(Graphics g) {
         for (IObserver o : observers) {
-            if (o instanceof TectonView tectonView) { tectonView.drawLine(g, this, map.getConnectedGTectonts(this));}
             o.draw(g, new Point(x, y));
         }
     }
