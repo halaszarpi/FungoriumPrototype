@@ -27,6 +27,8 @@ public class GPlayerInfo extends JPanel {
         scoreLabel = new JLabel("Score: ");
         scoreLabel.setFont(infoFont);
 
+        
+
         add(nameLabel);
         add(actionPointsLabel);
         add(scoreLabel);
@@ -36,5 +38,8 @@ public class GPlayerInfo extends JPanel {
         nameLabel.setText("Player: " + player.getName());
         actionPointsLabel.setText("ActionPoints: " + player.getActionPoints());
         scoreLabel.setText("Score: " + player.getScore());
+        
+    
+
     }
 }
