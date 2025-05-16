@@ -2,6 +2,8 @@ package fungorium;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -261,17 +263,27 @@ public class FungusFarmer extends Player {
                 m.getTecton().getSporeList().forEach(s -> parameters.add(s.getName()));
                 break;
             case "SCATTERSP":
-                for (Tecton tecton : map.getTectons()) {
-                    if(m.getTecton().isNeighbour(tecton)) {
-                        parameters.add(tecton.getName());
+                for (Tecton t1 : map.getTectons()) {
+
+                    if (m.getTecton().isNeighbour(t1) && !parameters.contains(t1.getName())) {
+                        parameters.add(t1.getName());
+
+                        
+
+                        for (Tecton t2 : map.getTectons()) {
+                            if (t2.isNeighbour(t1) && !parameters.contains(t2.getName())) {
+                                parameters.add(t2.getName());
+                            }
+                        }
+
                     }
-                    /// TODO : neighbors neighbor
                 }
                 break;
             case "EATINS":
                 m.getTecton().getInsectList().forEach(i -> parameters.add(i.getName()));
                 break;
         }
+
         return parameters;
 
     }

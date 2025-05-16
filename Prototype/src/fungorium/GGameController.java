@@ -225,8 +225,7 @@ public class GGameController extends JFrame {
             updateTectonChooser();
 
             for (GPlayer player : players) {
-                CountDownLatch latch = new CountDownLatch(1);
-
+                CountDownLatch latch = new CountDownLatch(1);     
 
                 player.turn(playerPanel, gmap);
 
@@ -234,10 +233,8 @@ public class GGameController extends JFrame {
                     JButton okButton = new JButton("OK");
                     okButton.addActionListener(e -> {
                         player.getPlayer().doAction(tectonMap, player.getFinalCommand());
-                        // param1box update
+                        player.updateParam1Box();
                         player.updateParam2Box();
-                        player.kurvaanyad();
-                        // param2box update
                         repaint();
                     });
 

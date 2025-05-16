@@ -166,4 +166,6 @@ public class GMap extends JPanel {
 
     }
 
+    public TectonMap getGameMap() { return gameMap; }
+
 }

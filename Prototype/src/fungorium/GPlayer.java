@@ -15,6 +15,8 @@ public class GPlayer {
 
     public GPlayer(Player player) {
         this.player = player;
+        param1box = new JComboBox<>();
+        param2box = new JComboBox<>();
     }
 
     public Player getPlayer() { return player; }
@@ -55,33 +57,20 @@ public class GPlayer {
         playerActionPanel.add(actionBox);
 
         // Param1 and Param2 ComboBoxes
-        param1box = new JComboBox<>();
-        param2box = new JComboBox<>();
 
         playerActionPanel.add(param1box);
         playerActionPanel.add(param2box);
 
         // Helper to update param1 and param2
-        Runnable updateParamBoxes = () -> {
-            kurvaanyad();
-            // Now update param2 based on action + selected param1
-            updateParam2Box();
-        };
 
-        // Helper to update param2
-        Runnable updateParam2 = () -> {
-            updateParam2Box();
-        };
+        updateParam1Box();
+        updateParam2Box();
 
         // Listeners
-        actionBox.addActionListener(e -> updateParamBoxes.run());
-        param1box.addActionListener(e -> updateParam2.run());
+        actionBox.addActionListener(e -> updateParam1Box());
+        param1box.addActionListener(e -> updateParam2Box());
 
-        // Initial population
-        updateParamBoxes.run();
-
-        // osszeallitott command
-        finalCommand = actionBox.getSelectedItem() + " " + param1box.getSelectedItem() + " " + param2box.getSelectedItem();
+        System.out.println(finalCommand);
 
         JPanel InfoAndActionPanel = new JPanel();
         InfoAndActionPanel.setLayout(new GridLayout(2, 1));
@@ -93,7 +82,7 @@ public class GPlayer {
         return playerPanel;
     }
 
-    public void kurvaanyad() {
+    public void updateParam1Box() {
             // Update param1
             param1box.removeAllItems();
             for (String p1 : player.getParam1ForAction()) {
@@ -110,6 +99,8 @@ public class GPlayer {
     public void updateParam2Box() {
         String selectedAction = (String) actionBox.getSelectedItem();
         String selectedParam1 = (String) param1box.getSelectedItem();
+
+        if (selectedParam1 == null) return;
 
         java.util.List<String> param2Options = player.getParam2ForAction(selectedAction, selectedParam1, gmap);
         param2box.removeAllItems();
@@ -132,10 +123,6 @@ public class GPlayer {
         playerPanel.repaint();
     }
 
-    public String getFinalCommand() { return finalCommand; }
-
-    public JComboBox<String> getParam1Box() { return this.param1box; }
-
-    public JComboBox<String> getParam2Box() { return this.param2box; }
+    public String getFinalCommand() { return actionBox.getSelectedItem() + " " + param1box.getSelectedItem() + " " + param2box.getSelectedItem(); }
 
 }
