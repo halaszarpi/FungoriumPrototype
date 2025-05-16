@@ -1,0 +1,7 @@
+SCATTERSP m0 t1 ORD testerFarmer-s1
+ROUND 0
+ROUND 0
+SCATTERSP m0 t1 ORD testerFarmer-s2
+ROUND 0
+ROUND 0
+SCATTERSP m0 t2 ORD testerFarmer-s3
