@@ -41,7 +41,7 @@ public class GPlayer implements IObservable {
     public Player getPlayer() { return player; }
 
     public JPanel getPanel(GMap map) {
-        JPanel playerPanel = new JPanel(new GridLayout(2, 1));
+        JPanel playerPanel = new JPanel(new BorderLayout());
         playerPanel.setSize(1080, 360);
 
         // --- Top Info Panel ---
@@ -116,9 +116,13 @@ public class GPlayer implements IObservable {
             finalCommand = actionBox.getSelectedItem() + " " + param1box.getSelectedItem() + " " + param2box.getSelectedItem()
         );
 
-        playerPanel.add(playerInfoPanel);
-        playerPanel.add(playerActionPanel);
-        playerPanel.add(okButton);
+        JPanel InfoAndActionPanel = new JPanel();
+        InfoAndActionPanel.setLayout(new GridLayout(2, 1));
+        InfoAndActionPanel.add(playerInfoPanel);
+        InfoAndActionPanel.add(playerActionPanel);
+
+        playerPanel.add(okButton, BorderLayout.SOUTH);
+        playerPanel.add(InfoAndActionPanel, BorderLayout.CENTER);
 
         return playerPanel;
     }
@@ -146,7 +150,7 @@ public class GPlayer implements IObservable {
         }
         //Set up playerPanel
         playerPanel.removeAll();
-        playerPanel.add(this.getPanel(map));
+        playerPanel.add(this.getPanel(map), BorderLayout.CENTER);
         playerPanel.revalidate();
         playerPanel.repaint();
     }

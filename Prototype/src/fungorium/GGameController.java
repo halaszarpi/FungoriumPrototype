@@ -44,11 +44,12 @@ public class GGameController extends JFrame {
 
         //mapPanel
         mapPanel = createMapPanel();
-        mapPanel.setSize(1080, 360);
+        mapPanel.setSize(1080, 480);
         GamePanel.add(mapPanel);
 
         //playerPanel
         playerPanel = new JPanel();
+        playerPanel.setLayout(new BorderLayout());
         playerPanel.setSize(1080,360);
         GamePanel.add(playerPanel);
 
@@ -122,28 +123,41 @@ public class GGameController extends JFrame {
         showInfo("Game is starting!");
         String input;
 
-        // Get the number of players
-        boolean validnum = false;
+        // Get number of players (between 2 and 16)
         int numPlayers = 0;
-        while(!validnum) {
-            input = JOptionPane.showInputDialog(this, "Enter number of players:");
+        while (true) {
+            input = JOptionPane.showInputDialog(this, "Enter number of players (2–16):");
             try {
                 numPlayers = Integer.parseInt(input);
-                if (2 <= numPlayers && numPlayers <= 16) {
-                    validnum = true;
+                if (numPlayers >= 2 && numPlayers <= 16) {
+                    break;
                 } else {
                     showError("Number of players must be between 2 and 16.");
                 }
             } catch (NumberFormatException e) {
-                showError("Please enter a valid number.");
+                showError("Please enter a valid integer.");
             }
         }
 
-        //Get name and role of players
+        // Get names of players (non-null, unique)
+        Set<String> usedNames = new HashSet<>();
         for (int i = 0; i < numPlayers; i++) {
             String role = (i % 2 == 0) ? "Fungus Farmer" : "Insect Keeper";
-            String playerName = JOptionPane.showInputDialog(this,
-                    "Enter name for player " + (i + 1) + " (" + role + "):");
+            String playerName;
+
+            while (true) {
+                playerName = JOptionPane.showInputDialog(this,
+                        "Enter name for player " + (i + 1) + " (" + role + "):");
+
+                if (playerName == null || playerName.trim().isEmpty()) {
+                    showError("Name cannot be empty.");
+                } else if (usedNames.contains(playerName)) {
+                    showError("This name is already taken. Choose another.");
+                } else {
+                    usedNames.add(playerName);
+                    break;
+                }
+            }
 
             if (i % 2 == 0) {
                 players.add(new GPlayer(new FungusFarmer(playerName)));
@@ -152,20 +166,31 @@ public class GGameController extends JFrame {
             }
         }
 
-        // Get number of rounds
-        input = JOptionPane.showInputDialog(this, "Enter number of rounds:");
-        numberOfRounds = Integer.parseInt(input);
+        // Get number of rounds (between 0 and 100)
+        while (true) {
+            input = JOptionPane.showInputDialog(this, "Enter number of rounds (0–100):");
+            try {
+                numberOfRounds = Integer.parseInt(input);
+                if (numberOfRounds >= 0 && numberOfRounds <= 100) {
+                    break;
+                } else {
+                    showError("Number of rounds must be between 0 and 100.");
+                }
+            } catch (NumberFormatException e) {
+                showError("Please enter a valid integer.");
+            }
+        }
 
         // Starting tecton selection
         for (GPlayer player : players) {
-            boolean validtecton = false;
+            boolean validTecton = false;
 
             List<String> tectonNames = new ArrayList<>();
             for (Tecton tecton : tectonMap.getTectons()) {
                 tectonNames.add(tecton.getName());
             }
 
-            while (!validtecton) {
+            while (!validTecton) {
                 String tectonChoice = (String) JOptionPane.showInputDialog(
                         this,
                         player.getPlayer().getName() + ", choose a starting tecton:",
@@ -179,7 +204,7 @@ public class GGameController extends JFrame {
                 try {
                     Tecton startingTecton = tectonMap.findTecton(tectonChoice);
                     player.getPlayer().initializePlayer(startingTecton);
-                    validtecton = true;
+                    validTecton = true;
                 } catch (Exception e) {
                     showError("Error initializing player:\n" + e.getMessage());
                 }
@@ -187,8 +212,6 @@ public class GGameController extends JFrame {
         }
 
         showInfo("Game initialized successfully!");
-
-
         runGame();
     }
 
@@ -199,18 +222,14 @@ public class GGameController extends JFrame {
             for (GPlayer player : players) {
                 CountDownLatch latch = new CountDownLatch(1);
 
-                // Setup the player's panel
+
                 player.turn(playerPanel, gmap);
 
-                // Add "End Turn" button after player UI is set up
                 SwingUtilities.invokeLater(() -> {
                     JButton endTurnButton = new JButton("End Turn");
                     endTurnButton.addActionListener(e -> latch.countDown());
 
-                    JPanel buttonPanel = new JPanel();
-                    buttonPanel.add(endTurnButton);
-
-                    playerPanel.add(buttonPanel);
+                    playerPanel.add(endTurnButton, BorderLayout.NORTH);
                     playerPanel.revalidate();
                     playerPanel.repaint();
                 });
