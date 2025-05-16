@@ -12,12 +12,12 @@ public class MyceliumView implements IObserver{
     }
 
     public void hasGrownBody() {
-        if (!GameTesterController.SHOW_OUTPUT) { return; }
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Mycelium (" + mycelium.getName() + ") has grown a FungusBody!");
     }
 
     public void hasSpreadTo(Tecton targetTecton) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; }
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Mycelium (" + mycelium.getName() + ") has spread to tecton (" + targetTecton.getName() + ")!");
     }
 
@@ -26,7 +26,7 @@ public class MyceliumView implements IObserver{
     }
 
     public void bodyHasDied() {
-        if (!GameTesterController.SHOW_OUTPUT) { return; }
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Mycelium's (" + mycelium.getName() + ") FungusBody has died!");
     }
 
@@ -35,22 +35,22 @@ public class MyceliumView implements IObserver{
     }
 
     public void cooldownReduced() {
-        if (!GameTesterController.SHOW_OUTPUT) { return; }
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Scattering cooldown reduced on mycelium's (" + mycelium.getName() + ") FungusBody by 1!");
     }
 
     public void myceliumHasDied() {
-        if (!GameTesterController.SHOW_OUTPUT) { return; }
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Mycelium (" + mycelium.getName() + ") has died!");
     }
 
     public void myceliumSustained() {
-        if (!GameTesterController.SHOW_OUTPUT) { return; }
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Mycelium's (" + mycelium.getName() + ") life sustained!");
     }
 
     public void ateInsect(Insect insect) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; }
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Mycelium (" + mycelium.getName() + ") ate insect (" + insect.getName() + ")!");
     }
 
@@ -59,7 +59,7 @@ public class MyceliumView implements IObserver{
     }
 
     public void connectionAddedTo(Tecton newTecton) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; }
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Tecton (" + mycelium.getTecton().getName() + ") is reconnected to (" + newTecton.getName() + ")!");
     }
 

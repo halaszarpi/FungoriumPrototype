@@ -11,8 +11,8 @@ public class GGameController extends JFrame {
     private final TectonMap tectonMap;
     private List<Player> players = new ArrayList<>();
     private int numberOfRounds;
-    private Scanner scanner = new Scanner(System.in);
-    private JPanel gridPanel;
+    private JPanel GamePanel;
+    private final GMap gmap; // Make gmap a field so we can access it in the listener
 
     public GGameController() {
         setTitle("Fungorium - Game");
@@ -20,8 +20,10 @@ public class GGameController extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        //Loading Map
         tectonMap = new TectonMap(null, false);
         File gameMap = new File(System.getProperty("user.dir") + "\\Prototype\\src\\gamemaps\\startingMap.txt");
+        gmap = new GMap(this.tectonMap); // initialize GMap field
 
         try {
             tectonMap.processAllMapCreatingCommands(gameMap);
@@ -30,50 +32,58 @@ public class GGameController extends JFrame {
             return;
         }
 
-        // A legfelso panel, amin a jatek latszik
+        GamePanel = new JPanel();
+        GamePanel.setLayout(new GridLayout(2, 1));
 
+        JPanel MapPanel = new JPanel();
+        MapPanel.setLayout(new BorderLayout()); // Use BorderLayout for flexible sizing
+
+        // Create tecton selection combo box
         List<String> tectonNames = new ArrayList<>();
         for (Tecton tecton : tectonMap.getTectons()) {
             tectonNames.add(tecton.getName());
         }
 
+        JComboBox<String> TectonChooser = new JComboBox<>(tectonNames.toArray(new String[0]));
+        TectonChooser.setSelectedIndex(0); // Select first by default
+        TectonChooser.setPreferredSize(new Dimension(150, 30));
 
-        String middleTecton = (String) JOptionPane.showInputDialog(
-                this,
-                "Choose a middle tecton!",
-                "Choose Tecton",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                tectonNames.toArray(),
-                tectonNames.getFirst()
-        );
+        // Panel for controls (top of map panel)
+        JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        controlPanel.add(new JLabel("Select Tecton:"));
+        controlPanel.add(TectonChooser);
 
-        gridPanel = new JPanel();
-        gridPanel.setLayout(new GridLayout(2, 1));
+        // Add components to MapPanel
+        MapPanel.add(controlPanel, BorderLayout.NORTH);
+        MapPanel.add(gmap, BorderLayout.CENTER);
+        GamePanel.add(MapPanel);
 
-
-        GMap gmap = new GMap(this.tectonMap);
-        gridPanel.add(gmap);
+        // Initial map draw
+        String middleTecton = (String) TectonChooser.getSelectedItem();
         gmap.drawMap(gmap.findGTectonByName(middleTecton));
-        gmap.setSize(1080, 720);
 
-        // A kozepso panel, amin az aktualis jatekos adatai latszanak
+        // Add listener to update map on tecton selection change
+        TectonChooser.addActionListener(e -> {
+            String selectedTecton = (String) TectonChooser.getSelectedItem();
+            if (selectedTecton != null) {
+                gmap.drawMap(gmap.findGTectonByName(selectedTecton));
+                gmap.repaint();
+            }
+        });
 
+        // Middle panel: player info and command input
         JPanel playerPanel = new JPanel();
         playerPanel.setLayout(new GridLayout(2, 1));
         playerPanel.setSize(1080, 720);
 
         playerPanel.add(new GPlayerInfo());
-
-        // Az also panel, amin a commandokat lehet kiadni
         playerPanel.add(new GPlayerCommand());
 
-        gridPanel.add(playerPanel);
-
-        add(gridPanel);
+        GamePanel.add(playerPanel);
+        add(GamePanel);
         setVisible(true);
 
-        // Jatek inicializalas uj szalon, hogy ne blokkolodjon a tobbi dolog
+        // Start game logic in a new thread
         new Thread(this::initializeGame).start();
     }
 
@@ -86,12 +96,15 @@ public class GGameController extends JFrame {
         int numPlayers = 0;
         while(!validnum) {
             input = JOptionPane.showInputDialog(this, "Enter number of players:");
-            numPlayers = Integer.parseInt(input);
-            if (2 <= numPlayers && numPlayers <= 16) {
-                validnum = true;
-            }
-            else{
-                showError("Number of players must be between 2 and 16.");
+            try {
+                numPlayers = Integer.parseInt(input);
+                if (2 <= numPlayers && numPlayers <= 16) {
+                    validnum = true;
+                } else {
+                    showError("Number of players must be between 2 and 16.");
+                }
+            } catch (NumberFormatException e) {
+                showError("Please enter a valid number.");
             }
         }
 
@@ -150,7 +163,7 @@ public class GGameController extends JFrame {
             for (Player player : players) {
                 if (player.isInGame()) {
                     info.updatePersonInfo(player);
-                    player.turn(tectonMap,scanner);
+                    player.turn(tectonMap, new Scanner(System.in));
                     tectonMap.refreshMap();
                     tectonMap.showMap();
                 }
@@ -177,12 +190,9 @@ public class GGameController extends JFrame {
         }
 
         JOptionPane.showMessageDialog(this, scoreMessage.toString(), "Game Over", JOptionPane.INFORMATION_MESSAGE);
-
-
         dispose();
         SwingUtilities.invokeLater(GMainMenu::new);
     }
-
 
     private void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);

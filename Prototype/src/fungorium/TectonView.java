@@ -57,7 +57,7 @@ public class TectonView implements IObserver {
      * Prints a message indicating that a Tecton has been created.
      */
     public void tectonCreated() {
-        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Tecton (" + t.getName() + ") is created!"); 
     }
 
@@ -68,7 +68,7 @@ public class TectonView implements IObserver {
      * @param newTecton The new Tecton created after the break.
      */
     public void tectonBreaks(Tecton newTecton) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Tecton (" + t.getName() + ") broke, new half tectons name: "+ newTecton.getName() + "!"); 
     }
 
@@ -78,7 +78,7 @@ public class TectonView implements IObserver {
      * @param newTecton The new Tecton that is now a neighbour.
      */
     public void neighbourAdded(Tecton newTecton) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; }
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Tecton (" + newTecton.getName() + ") is now a neighbour of (" + t.getName() + ")!"); 
     }
 
@@ -88,7 +88,7 @@ public class TectonView implements IObserver {
      * @param newTecton The Tecton that is now connected to this Tecton.
      */
     public void connectionAdded(Tecton newTecton) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Tecton (" + newTecton.getName() + ") is connected to (" + t.getName() + ")!"); 
     }
 
@@ -98,7 +98,7 @@ public class TectonView implements IObserver {
      * @param m The Mycelium added to the Tecton.
      */
     public void myceliumAdded(Mycelium m) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Mycelium (" + m.getName() + ") is added on tecton (" + t.getName() + ")!"); 
     }
 
@@ -108,7 +108,7 @@ public class TectonView implements IObserver {
      * @param s The Spore added to the Tecton.
      */
     public void sporeAdded(Spore s) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Spore (" + s.getName() + ") is added on tecton (" + t.getName() + ")!"); 
     }
 
@@ -118,7 +118,7 @@ public class TectonView implements IObserver {
      * @param i The Insect added to the Tecton.
      */
     public void insectAdded(Insect i) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Insect (" + i.getName() + ") is added on tecton (" + t.getName() + ")!"); 
     }
 
@@ -128,7 +128,7 @@ public class TectonView implements IObserver {
      * @param newTecton The Tecton that is no longer a neighbour.
      */
     public void neighbourRemoved(Tecton newTecton) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Tecton (" + newTecton.getName() + ") is no longer neighbour of (" + t.getName() + ")!"); 
     }
 
@@ -138,7 +138,7 @@ public class TectonView implements IObserver {
      * @param m The Mycelium removed from the Tecton.
      */
     public void myceliumRemoved(Mycelium m) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Mycelium (" + m.getName() + ") is no longer on tecton (" + t.getName() + ")!"); 
     }
 
@@ -148,7 +148,7 @@ public class TectonView implements IObserver {
      * @param i The Insect removed from the Tecton.
      */
     public void insectRemoved(Insect i) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Insect (" + i.getName() + ") is no longer on tecton (" + t.getName() + ")!"); 
     }
 
@@ -158,7 +158,7 @@ public class TectonView implements IObserver {
      * @param s The Spore removed from the Tecton.
      */
     public void sporeRemoved(Spore s) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Spore (" + s.getName() + ") is no longer on tecton (" + t.getName() + ")!"); 
     }
 
@@ -168,7 +168,7 @@ public class TectonView implements IObserver {
      * @param newTecton The Tecton that is no longer connected to this Tecton.
      */
     public void removeConnection(Tecton newTecton) {
-        if (!GameTesterController.SHOW_OUTPUT) { return; } 
+        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Tecton (" + newTecton.getName() + ") is no longer connected to (" + t.getName() + ")!"); 
     }
 
