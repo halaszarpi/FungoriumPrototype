@@ -15,8 +15,8 @@ public class GGameController extends JFrame {
     private JPanel GamePanel;
     private JPanel playerPanel;
     private JPanel mapPanel;
-    private final GMap gmap; // Make gmap a field so we can access it in the listener
-    private GPlayer currentPlayer = null;
+    private final GMap gmap;
+    JComboBox<String> TectonChooser;
 
     public GGameController() {
         setTitle("Fungorium - Game");
@@ -58,7 +58,7 @@ public class GGameController extends JFrame {
 
     private JPanel createMapPanel() {
         JPanel mapPanel = new JPanel();
-        mapPanel.setLayout(new BorderLayout()); // Use BorderLayout for flexible sizing
+        mapPanel.setLayout(new BorderLayout());
 
         // Create tecton selection combo box
         List<String> tectonNames = new ArrayList<>();
@@ -66,7 +66,7 @@ public class GGameController extends JFrame {
             tectonNames.add(tecton.getName());
         }
 
-        JComboBox<String> TectonChooser = new JComboBox<>(tectonNames.toArray(new String[0]));
+        TectonChooser = new JComboBox<>(tectonNames.toArray(new String[0]));
         TectonChooser.setSelectedIndex(0);
         TectonChooser.addActionListener(e ->
             updateTectonChooser(TectonChooser)
@@ -189,6 +189,7 @@ public class GGameController extends JFrame {
         for (int round = 0; round < numberOfRounds; round++) {
 
             for (GPlayer player : players) {
+                updateTectonChooser(TectonChooser);
                 CountDownLatch latch = new CountDownLatch(1);
 
                 // Setup the player's panel
@@ -202,7 +203,7 @@ public class GGameController extends JFrame {
                     JPanel buttonPanel = new JPanel();
                     buttonPanel.add(endTurnButton);
 
-                    playerPanel.add(buttonPanel, BorderLayout.SOUTH);
+                    playerPanel.add(buttonPanel);
                     playerPanel.revalidate();
                     playerPanel.repaint();
                 });
@@ -214,13 +215,6 @@ public class GGameController extends JFrame {
                     Thread.currentThread().interrupt();
                     return;
                 }
-
-                // Optionally clear panel or prepare for next player
-                SwingUtilities.invokeLater(() -> {
-                    playerPanel.removeAll();
-                    playerPanel.revalidate();
-                    playerPanel.repaint();
-                });
             }
 
             // Round passed for each player
