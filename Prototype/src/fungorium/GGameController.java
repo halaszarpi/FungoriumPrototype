@@ -73,7 +73,8 @@ public class GGameController extends JFrame {
         add(gridPanel);
         setVisible(true);
 
-        initializeGame();
+        // Jatek inicializalas uj szalon, hogy ne blokkolodjon a tobbi dolog
+        new Thread(this::initializeGame).start();
     }
 
     private void initializeGame() {
