@@ -10,6 +10,7 @@ public class GPlayer implements IObservable {
     int x;
     int y;
     ArrayList<IObserver> observers = new ArrayList<>();
+    private String finalCommand = null;
 
     public GPlayer(Player player) {
         this.player = player;
@@ -108,8 +109,16 @@ public class GPlayer implements IObservable {
         // Initial population
         updateParamBoxes.run();
 
+        JButton okButton = new JButton("OK");
+        // osszeallitott command
+
+        okButton.addActionListener(e ->
+            finalCommand = actionBox.getSelectedItem() + " " + param1box.getSelectedItem() + " " + param2box.getSelectedItem()
+        );
+
         playerPanel.add(playerInfoPanel);
         playerPanel.add(playerActionPanel);
+        playerPanel.add(okButton);
 
         return playerPanel;
     }
