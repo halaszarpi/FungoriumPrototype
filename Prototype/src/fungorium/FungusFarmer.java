@@ -135,6 +135,9 @@ public class FungusFarmer extends Player {
      */
     @Override
     public void initializePlayer(Tecton startingTecton) throws Exception {
+        this.score = -1;
+        this.actionPoints += 2;
+        
         Mycelium mycelium = new Mycelium(getNewMyceliumName(), this, startingTecton);
         myceliums.add(mycelium);
         startingTecton.addMycelium(mycelium);
