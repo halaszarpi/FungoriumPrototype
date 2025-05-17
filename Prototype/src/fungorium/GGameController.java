@@ -228,13 +228,13 @@ public class GGameController extends JFrame {
         // Get number of players (between 2 and 16)
         int numPlayers = 0;
         while (true) {
-            input = JOptionPane.showInputDialog(this, "Enter number of players (2–16):");
+            input = JOptionPane.showInputDialog(this, "Enter number of players (2–8):");
             try {
                 numPlayers = Integer.parseInt(input);
-                if (numPlayers >= 2 && numPlayers <= 16) {
+                if (numPlayers >= 2 && numPlayers <= 8) {
                     break;
                 } else {
-                    showError("Number of players must be between 2 and 16.");
+                    showError("Number of players must be between 2 and 8.");
                 }
             } catch (NumberFormatException e) {
                 showError("Please enter a valid integer.");
@@ -327,7 +327,7 @@ public class GGameController extends JFrame {
             updateTectonChooser();
 
             for (GPlayer player : players) {
-                CountDownLatch latch = new CountDownLatch(1);     
+                CountDownLatch latch = new CountDownLatch(1);  
 
                 player.turn(playerPanel, gmap);
 

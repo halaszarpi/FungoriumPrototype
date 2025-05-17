@@ -54,7 +54,7 @@ public class MyceliumView implements IObserver{
 
     public void ateInsect(Insect insect) {
         //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Mycelium (" + mycelium.getName() + ") ate insect (" + insect.getName() + ")!");
+        insect.getTecton().getGTecton().detach(insect.getView());
     }
 
     public String targetAlreadyHasMycelium(Tecton targetTecton) {
@@ -69,7 +69,8 @@ public class MyceliumView implements IObserver{
      // Újítás, kell Graphics g paraméterben
     @Override
     public void draw(Graphics g, Point coords) {
-        g.setColor(Color.CYAN);
+        FungusFarmerView fmv = (FungusFarmerView)mycelium.getOwner().getView();
+        g.setColor(fmv.getColor());
         g.drawLine(coords.x - xOffset, coords.y, coords.x + xOffset, coords.y);
     }
 

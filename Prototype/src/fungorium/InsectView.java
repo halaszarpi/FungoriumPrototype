@@ -42,7 +42,7 @@ public class InsectView implements IObserver {
 
     public void insectAteSpore(Spore spore) {
         //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Insect (" + insect.getName() + ") ate (" + spore.getName() + ") spore!");
+        insect.getTecton().getGTecton().detach(spore.getView());
     }
 
     public void insectSteppedToTecton() {
@@ -83,7 +83,8 @@ public class InsectView implements IObserver {
     public void draw(Graphics g, Point coords) {
         // a pont amit itt megkap a tekton kp.-ja
         // ez csak valami random egyelore
-        g.setColor(Color.yellow);
+        InsectKeeperView ikv = (InsectKeeperView)insect.getOwner().getView();
+        g.setColor(ikv.getColor());
         Polygon p = new Polygon(
             new int[] { (coords.x), (coords.x + xOffset), (coords.x - xOffset)},
             new int[] { (coords.y), (coords.y + yOffset), (coords.y + yOffset)},

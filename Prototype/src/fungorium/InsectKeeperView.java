@@ -4,6 +4,7 @@ import java.awt.*;
 
 public class InsectKeeperView implements IObserver{
     InsectKeeper insectKeeper;
+    private Color drawingColor;
 
     public InsectKeeperView(InsectKeeper insectKeeper) {
         this.insectKeeper = insectKeeper;
@@ -44,9 +45,18 @@ public class InsectKeeperView implements IObserver{
 
     }
 
+    public void setColor(Color drawingColor) {
+        this.drawingColor =drawingColor;
+    }
+
+    public Color getColor() {
+        return drawingColor;
+    }
 
     @Override
     public void draw(Graphics g, Point coords) {
-        //később
+        
     }
+
+   
 }

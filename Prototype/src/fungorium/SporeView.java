@@ -16,7 +16,8 @@ public class SporeView implements IObserver{
 
     @Override
     public void draw(Graphics g, Point coords) {
-        g.setColor(Color.WHITE);
+        FungusFarmerView fmv = (FungusFarmerView)spore.getOwner().getView();
+        g.setColor(fmv.getColor());
         g.fillOval(coords.x - sporeWidth / 2, coords.y - sporeHeight / 2, sporeWidth, sporeHeight);
     }
 }

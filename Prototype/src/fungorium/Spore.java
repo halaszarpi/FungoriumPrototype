@@ -70,4 +70,8 @@ public abstract class Spore {
         return gs;
     }
 
+    public FungusFarmer getOwner() {
+        return owner;
+    }
+
 }

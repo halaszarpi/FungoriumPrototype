@@ -1,13 +1,10 @@
 package fungorium;
 
 import javax.swing.*;
-import java.util.*;
-import java.util.List;
 import java.awt.*;
 
 public class GPlayer {
     private Player player;
-    private Color playerColor;
     private JComboBox<String> actionBox;
     private JComboBox<String> param1box;
     private JComboBox<String> param2box;
@@ -15,9 +12,20 @@ public class GPlayer {
 
     public GPlayer(Player player, Color playerColor) {
         this.player = player;
-        this.playerColor = playerColor;
+
+        if (player instanceof FungusFarmer fm) { 
+            FungusFarmerView fmv = (FungusFarmerView)fm.getView();
+            fmv.setColor(playerColor); 
+        }
+
+        if (player instanceof InsectKeeper ik) { 
+            InsectKeeperView ikv = (InsectKeeperView)ik.getView();
+            ikv.setColor(playerColor); 
+        }
+
         param1box = new JComboBox<>();
         param2box = new JComboBox<>();
+        
     }
 
     public Player getPlayer() { return player; }
