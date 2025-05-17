@@ -184,6 +184,11 @@ public class TectonView implements IObserver {
 
     public void drawLine(Graphics g, List<GTecton> connectedByMycelium) {
 
+        Graphics2D g2d = (Graphics2D)g;
+
+        final int xOffset = 10;
+        final int yOffset = 10;
+
         Point middleTectonCoords = t.getGTecton().getCoords();
         Map<Tecton, List<FungusFarmer>> neighbourMap = t.getNeighbourMap();
         List<Tecton> neighbourTectonList = new ArrayList<>(neighbourMap.keySet());
@@ -196,9 +201,6 @@ public class TectonView implements IObserver {
 
                 List<FungusFarmer> fungusFarmerList = neighbourMap.get(t1);
 
-                int xOffset = 10;
-                int yOffset = 10;
-
                 int startX = middleTectonCoords.x - ((fungusFarmerList.size() - 1) * xOffset) / 2;
                 int startY = middleTectonCoords.y - ((fungusFarmerList.size() - 1) * yOffset) / 2;
 
@@ -208,8 +210,6 @@ public class TectonView implements IObserver {
                 int endY = CBMCoord.y - ((fungusFarmerList.size() - 1) * yOffset) / 2;
 
                 for (FungusFarmer f : fungusFarmerList) {
-
-                    Graphics2D g2d = (Graphics2D)g;
 
                     FungusFarmerView ffv = (FungusFarmerView)f.getView();
                     g2d.setStroke(new BasicStroke(2));

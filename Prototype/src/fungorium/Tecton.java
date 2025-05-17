@@ -262,13 +262,13 @@ public abstract class Tecton implements IRoundFollower{
         Tecton t = m.getTecton();
         if(!neighbours.containsKey(t))
             return false;
-        return true;
+        return !neighbours.get(t).isEmpty();
     }
 
     public boolean isConnectedTo(Tecton t) {
         if(!neighbours.containsKey(t))
             return false;
-        return true;
+        return !neighbours.get(t).isEmpty();
     }
 
     /**
