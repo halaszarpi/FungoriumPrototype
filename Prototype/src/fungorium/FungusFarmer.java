@@ -2,68 +2,19 @@ package fungorium;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
-/**
- * Represents a Fungus Farmer player in the Fungorium game.
- *
- * The Fungus Farmer controls Myceliums and Spores, grows fungus bodies,
- * and interacts with the map during their turn by scattering spores,
- * growing myceliums, eating insects, and more.
- */
+
 public class FungusFarmer extends Player {
-    private List<Mycelium> myceliums;
-    private List<Spore> spores;
+    private List<GMycelium> gMyceliums;
+    private List<GSpore> gSpores;
     private final FungusFarmerView view;
 
-    /**
-     * Constructs a new FungusFarmer with the given name.
-     *
-     * @param name the name of the player
-     */
     public FungusFarmer(String name){
         super(name);
-        myceliums = new ArrayList<>();
-        spores = new ArrayList<>();
+        gMyceliums = new ArrayList<>();
+        gSpores = new ArrayList<>();
         view = new FungusFarmerView(this);
-    }
-
-    /**
-     * Executes the Fungus Farmer's turn.
-     *
-     * @param map the TectonMap of the game
-     * @param in the Scanner used for user input
-     */
-    @Override
-    public void turn(TectonMap map, Scanner in){
-        if (myceliums.isEmpty()) {
-            inGame = false;
-            return;
-        }
-
-        actionPoints = 4;
-
-        while (actionPoints > 0 && inGame) {
-            view.chooseAction();
-            String command = in.nextLine();
-            String[] args = command.split(" ");
-
-            if ((args.length != 3) &&
-                    !args[0].equalsIgnoreCase("SKIP") &&
-                    !args[0].equalsIgnoreCase("INFO") &&
-                    !args[0].equalsIgnoreCase("SHOWMAP")) {
-                view.invalidActionMessage();
-                continue;
-            }
-
-            try {
-                changeMapBasedOnCommands(map, args);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     /**
@@ -73,18 +24,18 @@ public class FungusFarmer extends Player {
      * @param args the command arguments
      * @throws Exception if an invalid action occurs
      */
-    public void changeMapBasedOnCommands(TectonMap map, String[] args) throws Exception {
+    public void changeMapBasedOnCommands(GMap map, String[] args) throws Exception {
         String action = args[0].toUpperCase();
         Mycelium mycelium = args.length > 1 ? map.findMycelium(args[1]) : null;
         String targetName = args.length > 2 ? args[2] : null;
 
         switch(action) {
             case "GROWMYC":
-                Tecton targetTecton1 = map.findTecton(targetName);
+                Tecton targetTecton1 = map.findGTectonByName(targetName).getTecton();
                 mycelium.spreadTo(targetTecton1);
                 break;
             case "GROWBOD":
-                Spore targetSpore1 = map.findSpore(targetName);
+                Spore targetSpore1 = map.findSporeByName(targetName);
                 mycelium.growBody(targetSpore1);
                 break;
             case "SCATTERSP":

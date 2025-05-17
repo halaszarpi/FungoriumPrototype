@@ -1,46 +1,76 @@
 package fungorium;
 
 import java.awt.*;
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
 public class GMap extends JPanel {
     
-    private TectonMap gameMap;
     private ArrayList<GTecton> gTectons;
     private GTecton chosenTecton;
     private List<GTecton> chosenTectonNeighbours;
+    private Random rand;
     private final int radius = 100; // pixelben
 
-    public GMap(TectonMap map) {
+    public GMap() {
         chosenTecton = null;
-        gameMap = map;
         gTectons = new ArrayList<>();
         chosenTectonNeighbours = new ArrayList<>();
+        rand = new Random();
         setSize(1080,360);
         setVisible(true);
     }
 
-    private void updateGTectons() {
+    public void addTecton(Tecton t){
+        GTecton gt = new GTecton(t, this);
+        gTectons.add(gt);
+    }
 
-        List<Tecton> currentTectons = gameMap.getTectons();
-        int gameMapSize = currentTectons.size();
-        int gTectonsSize = gTectons.size();
+    private void addNewTecton(String tectonName, String tectonType) throws Exception {
+        int percentToBreak = rand.nextInt(10) + 1;
 
-        if (gameMapSize == gTectonsSize) { return; }
+        Tecton tecton;
+        switch (tectonType) {
+            case "ORD" -> tecton = new OrdinaryTecton(percentToBreak, tectonName);
+            case "NOB" -> tecton = new NoBodyTecton(percentToBreak, tectonName);
+            case "SIN" -> tecton = new SingleMyceliumTecton(percentToBreak, tectonName);
+            case "VAN" -> tecton = new MyceliumVanisherTecton(percentToBreak, tectonName);
+            case "SUS" -> tecton = new MyceliumSustainerTecton(percentToBreak, tectonNamem);
+            default -> throw new Exception("No such tecton type(" + tectonType + ")!");
+        }
+        gTectons.add(new GTecton(tecton, this));
+    }
 
-        int tectonAmountDifference = gameMapSize - gTectonsSize;
+    private void setNeighbour(String[] commandParts) throws Exception {
+        GTecton foundTecton = findGTectonByName(commandParts[1]);
+        for (int i = 2; i < commandParts.length; ++i){
+            GTecton neighbourTecton = findGTectonByName(commandParts[i]);
+            foundTecton.getTecton().addNeighbour(neighbourTecton.getTecton());
+        }
+    }
 
-        int startIndex = gameMapSize - tectonAmountDifference;
+    private void processMapCreatingCommand(String command) throws Exception {
 
-        for (int i = startIndex; i < gameMapSize; i++) {
+        String[] commandParts = command.split(" ");
 
-            GTecton newGTecton = new GTecton(currentTectons.get(i), this);
-            gTectons.add(newGTecton);
+        switch (commandParts[0]) {
+            case "ADD_TEC" -> addNewTecton(commandParts[1], commandParts[2]);
+            case "SET_NGH" -> setNeighbour(commandParts);
+        }
+    }
 
+    public void processAllMapCreatingCommands(File mapFile) throws Exception {
+
+        List<String> commands = Files.readAllLines(mapFile.toPath());
+
+        for (String command : commands) {
+            processMapCreatingCommand(command);
         }
     }
 
@@ -83,27 +113,7 @@ public class GMap extends JPanel {
 
     }
 
-    public GTecton findGTectonByTecton(Tecton t) {
-
-        for (GTecton gt : gTectons) {
-            if (gt.getTecton() == t) return gt;
-        }
-
-        return null;
-    }
-
-    public GTecton findGTectonByName(String name){
-        updateGTectons();
-        for (GTecton gt : gTectons) {
-            if (gt.getTecton().getName().equals(name)) {
-                return gt;
-            }
-        }
-        return null;
-    }
-
     public void drawMap(GTecton middleTecton) {
-        updateGTectons();
         chosenTecton = middleTecton;
         setChosenTectonsNeighbourGTectons();
         setNeigboursCoordinates();
@@ -114,45 +124,71 @@ public class GMap extends JPanel {
     public void paintComponent(Graphics g) {
 
         TectonView tv = (TectonView)chosenTecton.getObserver();
-        tv.drawLine(g, chosenTecton.getCoords(), getConnectedGTectonts(chosenTecton));
+        try {
+            tv.drawLine(g, chosenTecton.getCoords(), getConnectedGTectonts(chosenTecton));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         for (GTecton aNeighbour : chosenTectonNeighbours) {
             aNeighbour.update(g);
         }
     }
 
+    public GTecton findGTectonByTecton(Tecton t) throws Exception {
 
-    public List<Tecton> getTectons() {
-        return gameMap.getTectons();
+        for (GTecton gt : gTectons) {
+            if (gt.getTecton() == t) return gt;
+        }
+        throw new Exception("GTecton not found for tecton: " + t.getName());
     }
 
-    public List<Spore> getSpores() {
-        return gameMap.getSpores();
-    }
-
-    public List<Insect> getInsects() {
-        return gameMap.getInsects();
-    }
-
-    public Insect findInsectByName(String name) {
-        for (Insect insect : gameMap.getInsects()) {
-            if (insect.getName().equals(name)) {
-                return insect;
+    public GTecton findGTectonByName(String name){
+        for (GTecton gt : gTectons) {
+            if (gt.getTecton().getName().equals(name)) {
+                return gt;
             }
         }
-        return null;
+        throw new RuntimeException("GTecton not found: " + name);
     }
 
-    public Mycelium findMyceliumByName(String name){
-        for (Mycelium mycelium : gameMap.getMyceliums()) {
-            if (mycelium.getName().equals(name)) {
-                return mycelium;
+    public Insect findInsectByName(String name) throws Exception {
+        for (GTecton gt : gTectons) {
+            List<Insect> insects = gt.getTecton().getInsectList();
+            for (Insect insect : insects) {
+                if (insect.getName().equals(name)) {
+                    return insect;
+                }
             }
         }
-        return null;
+        throw new Exception("Insect not found: " + name);
     }
 
-    public List<GTecton> getConnectedGTectonts(GTecton gt) {
+    public Mycelium findMyceliumByName(String name) throws Exception {
+        for (GTecton gt : gTectons) {
+            List<Mycelium> myceliums = gt.getTecton().getMyceliumList();
+            for (Mycelium mycelium : myceliums) {
+                if (mycelium.getName().equals(name)) {
+                    return mycelium;
+                }
+            }
+        }
+        throw new Exception("Mycelium not found: " + name);
+    }
+
+    public Spore findSporeByName(String name) throws Exception {
+        for (GTecton gt : gTectons) {
+            List<Spore> spores = gt.getTecton().getSporeList();
+            for (Spore spore : spores) {
+                if (spore.getName().equals(name)) {
+                    return spore;
+                }
+            }
+        }
+        throw new Exception("Spore not found: " + name);
+    }
+
+    public List<GTecton> getConnectedGTectonts(GTecton gt) throws Exception {
 
         ArrayList<GTecton> gtectons = new ArrayList<>();
         Tecton middleTecton = gt.getTecton();
@@ -164,13 +200,18 @@ public class GMap extends JPanel {
         }
 
         return gtectons;
-
     }
 
-    public TectonMap getGameMap() { return gameMap; }
-
     public void roundPassed() {
-        gameMap.roundPassed();
+        int percentToBreak = rand.nextInt(10) + 1;
+
+        int initialTectonsSize = gTectons.size();
+
+        for (int i = 0; i < initialTectonsSize; i++){
+            GTecton t = gTectons.get(i);
+            t.getTecton().setBreakPercent(percentToBreak);
+            t.getTecton().roundPassed();
+        }
     }
 
 }

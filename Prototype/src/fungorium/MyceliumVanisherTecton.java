@@ -12,7 +12,7 @@ public class MyceliumVanisherTecton extends Tecton {
      * @param tectonName The name of the tecton.
      * @param map The map the tecton belongs to.
      */
-    public MyceliumVanisherTecton(int precentToBreak, String tectonName, TectonMap map) { super(precentToBreak, tectonName, map); }
+    public MyceliumVanisherTecton(int precentToBreak, String tectonName) { super(precentToBreak, tectonName); }
     /**
      * Adds a Mycelium object to the list of mycelium on this tecton. 
      * The addition is followed by a notification through the view.

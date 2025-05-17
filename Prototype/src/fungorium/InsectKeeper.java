@@ -34,7 +34,7 @@ public class InsectKeeper extends Player {
      * @param in The scanner for reading user input.
      */
     @Override
-    public void turn(TectonMap map, Scanner in) {
+    public void turn(GMap map) {
         if (insects.isEmpty()) {
             inGame = false;
             return;
@@ -70,7 +70,7 @@ public class InsectKeeper extends Player {
      * @param args The command arguments specifying the action and its parameters.
      * @throws Exception If an invalid action is attempted or an error occurs during the action.
      */
-    public void changeMapBasedOnCommands(TectonMap map, String[] args) throws Exception {
+    public void changeMapBasedOnCommands(GMap map, String[] args) throws Exception {
 
         String action = args[0].toUpperCase();
         String insectName = args.length > 1 ? args[1] : null;

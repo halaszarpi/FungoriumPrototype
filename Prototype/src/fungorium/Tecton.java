@@ -2,13 +2,8 @@ package fungorium;
 
 import java.util.*;
 
-/**
- * Abstract class representing a Tecton in the Fungorium world.
- * A Tecton can have neighbours, spores, insects, and mycelia.
- * It also manages connections and breaking behavior.
- */
+
 public abstract class Tecton implements IRoundFollower{
-    TectonMap map;
     protected Map<Tecton, Boolean> neighbours;
     private List<Spore> sporeList;
     private List<Insect> insectList;
@@ -18,14 +13,7 @@ public abstract class Tecton implements IRoundFollower{
     protected Random gen;
     protected TectonView view;
 
-    /**
-     * Constructs a Tecton with a break chance, name, and associated map.
-     *
-     * @param percentToBreak The percentage chance for the tecton to break.
-     * @param tectonName The name of the tecton.
-     * @param m The map the tecton belongs to.
-     */
-    protected Tecton(int percentToBreak, String tectonName, TectonMap m) {
+    protected Tecton(int percentToBreak, String tectonName) {
         sporeList = new ArrayList<>();
         neighbours = new HashMap<>();
         insectList = new ArrayList<>();
@@ -34,8 +22,6 @@ public abstract class Tecton implements IRoundFollower{
         gen = new Random();
         myceliumList = new ArrayList<>();
         view = new TectonView(this);
-        map = m;
-
         view.tectonCreated();
     }
 
@@ -259,7 +245,7 @@ public abstract class Tecton implements IRoundFollower{
     /**
      * Defines how the tecton breaks into new tectons.
      */
-    public abstract void breakTecton(String oneNeighbourNameOfTecton);
+    public abstract void breakTecton(GMap map);
 
     /**
      * Removes all mycelium from the tecton.
@@ -491,14 +477,6 @@ public abstract class Tecton implements IRoundFollower{
         return returnString;
     }
 
-    /**
-     * Checks if two tectons are completely equal (deep comparison).
-     *
-     * @param t The other tecton.
-     * @return True if tectons are equal.
-     */
-    public boolean isEqual(Tecton t) { return toString().equals(t.toString()); }
-
     public TectonView getView() { return view; }
 
     /**
@@ -528,20 +506,11 @@ public abstract class Tecton implements IRoundFollower{
         this.breakPrecent = percentage;
     }
 
-    protected Tecton generateRandomTectonNeighbour(String oneNeighbourNameOfTecton) {
-        
+    protected Tecton generateRandomTectonNeighbour() {
         ArrayList<Tecton> neighbourList = new ArrayList<>(neighbours.keySet());
         int randomTectonIndex = gen.nextInt(neighbourList.size());
-        Tecton randomTecton = neighbourList.get(randomTectonIndex);
-
-        try {
-            if (oneNeighbourNameOfTecton != null && map.findTecton(oneNeighbourNameOfTecton) != null) {
-                randomTecton = map.findTecton(oneNeighbourNameOfTecton);
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        return randomTecton;
+        return neighbourList.get(randomTectonIndex);
     }
+
+    public abstract void roundPassed(GMap map);
 }

@@ -52,4 +52,8 @@ public class GTecton implements IObservable {
 
     public Point getCoords() { return new Point(x, y); }
 
+    public void roundPassed(){
+        tecton.roundPassed(this);
+    }
+
 }

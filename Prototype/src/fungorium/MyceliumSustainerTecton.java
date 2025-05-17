@@ -13,7 +13,7 @@ public class MyceliumSustainerTecton extends Tecton{
      * @param tectonName The name of the tecton.
      * @param map The map the tecton belongs to.
      */
-    public MyceliumSustainerTecton(int precentToBreak, String tectonName, TectonMap map) { super(precentToBreak, tectonName, map); }
+    public MyceliumSustainerTecton(int precentToBreak, String tectonName) { super(precentToBreak, tectonName); }
     /**
      * Adds a Mycelium object to the list of mycelium on this tecton. 
      * The addition is followed by a notification through the view.
@@ -33,14 +33,15 @@ public class MyceliumSustainerTecton extends Tecton{
      * It also increases the rounds to live for all mycelium present on the tecton.
      */
     @Override
-    public void roundPassed() {
+    public void roundPassed(GMap map) {
         boolean tectonBreaks = generatedNumWithinBound(breakPrecent);
 
-        if (tectonBreaks) { breakTecton(null); }
+        if (tectonBreaks) { breakTecton(map); }
         for (Mycelium m : myceliumList){
             m.increaseRoundsToLive();
         }
     }
+
     /**
      * Checks if a body can be placed on this tecton. This method uses a helper function 
      * from the Tecton class to determine if placing a body is allowed.
@@ -56,11 +57,11 @@ public class MyceliumSustainerTecton extends Tecton{
      * The current tecton’s name is modified, and the new tecton is added to the map.
      */
     @Override
-    public void breakTecton(String oneNeighbourNameOfTecton) {
+    public void breakTecton(GMap map) {
 
-        Tecton randomTecton = generateRandomTectonNeighbour(oneNeighbourNameOfTecton);
+        Tecton randomTecton = generateRandomTectonNeighbour();
 
-        Tecton newTecton = new MyceliumSustainerTecton(breakPrecent, name + "-2", map);
+        Tecton newTecton = new MyceliumSustainerTecton(breakPrecent, name + "-2");
         name += "-1";
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton, randomTecton);

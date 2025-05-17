@@ -225,7 +225,7 @@ public class GGameController extends JFrame {
                 SwingUtilities.invokeLater(() -> {
                     JButton okButton = new JButton("OK");
                     okButton.addActionListener(e -> {
-                        player.getPlayer().doAction(tectonMap, player.getFinalCommand());
+                        player.getPlayer().doAction(gmap, player.getFinalCommand());
                         player.updateParam1Box();
                         player.updateParam2Box();
                         repaint();
