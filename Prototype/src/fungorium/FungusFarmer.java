@@ -242,7 +242,7 @@ public class FungusFarmer extends Player {
     public List<String> getParam1ForAction(){
         List<String> parameters = new ArrayList<>();
         for (Mycelium mycelium : myceliums) {
-            parameters.add(mycelium.getName());
+            parameters.add(mycelium.getName() + " (" + mycelium.getTecton().getName() + ")");
         }
         return parameters;
     }
