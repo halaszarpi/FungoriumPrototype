@@ -15,6 +15,7 @@ public class Insect implements IRoundFollower {
     private int stunnedForRounds;
     private int slowedForRounds;
     private int boostedForRounds;
+    private GInsect gi;
 
     /**
      * Constructor for creating a new insect.
@@ -33,6 +34,7 @@ public class Insect implements IRoundFollower {
         slowedForRounds = 0;
         boostedForRounds = 0;
         view.insectInitialized();
+        gi = new GInsect(this);
     }
 
     /**
@@ -234,4 +236,9 @@ public class Insect implements IRoundFollower {
         return name.equals(i.name) && tecton.equals(i.tecton) && owner.equals(i.owner) && antiSeveredForRounds == i.antiSeveredForRounds &&
                 stunnedForRounds == i.stunnedForRounds && slowedForRounds == i.slowedForRounds && boostedForRounds == i.boostedForRounds;
     }
+
+    public GInsect getGInsect() { 
+        return gi;
+    }
+
 }

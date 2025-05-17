@@ -1,6 +1,5 @@
 package fungorium;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Scanner;
 
@@ -122,6 +121,6 @@ public abstract class Player {
 
     public abstract List<String> getActions();
 
-    public abstract List<String> getParam1ForAction();
+    public abstract List<String> getParam1ForAction(String action);
     public abstract List<String> getParam2ForAction(String action, String param1, GMap map);
 }

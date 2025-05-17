@@ -1,8 +1,6 @@
 package fungorium;
 
 import javax.swing.*;
-import java.util.*;
-import java.util.List;
 import java.awt.*;
 
 public class GPlayer {
@@ -12,10 +10,22 @@ public class GPlayer {
     private JComboBox<String> param2box;
     private GMap gmap;
 
-    public GPlayer(Player player) {
+    public GPlayer(Player player, Color playerColor) {
         this.player = player;
+
+        if (player instanceof FungusFarmer fm) { 
+            FungusFarmerView fmv = (FungusFarmerView)fm.getView();
+            fmv.setColor(playerColor); 
+        }
+
+        if (player instanceof InsectKeeper ik) { 
+            InsectKeeperView ikv = (InsectKeeperView)ik.getView();
+            ikv.setColor(playerColor); 
+        }
+
         param1box = new JComboBox<>();
         param2box = new JComboBox<>();
+        
     }
 
     public Player getPlayer() { return player; }
@@ -80,7 +90,7 @@ public class GPlayer {
     public void updateParam1Box() {
             // Update param1
             param1box.removeAllItems();
-            for (String p1 : player.getParam1ForAction()) {
+            for (String p1 : player.getParam1ForAction((String) actionBox.getSelectedItem())) {
                 param1box.addItem(p1);
             }
 

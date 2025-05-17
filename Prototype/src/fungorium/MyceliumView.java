@@ -1,11 +1,13 @@
 package fungorium;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
 public class MyceliumView implements IObserver{
 
     Mycelium mycelium;
+    private final int xOffset = 3;
 
     public MyceliumView(Mycelium mycelium) {
         this.mycelium = mycelium;
@@ -13,7 +15,8 @@ public class MyceliumView implements IObserver{
 
     public void hasGrownBody() {
         //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Mycelium (" + mycelium.getName() + ") has grown a FungusBody!");
+        mycelium.getBody().getGFungusBody().setCoordinates(mycelium.getGMycelium().getCoords().x, mycelium.getGMycelium().getCoords().y);
+        mycelium.getGMycelium().attach(mycelium.getBody().getView());
     }
 
     public void hasSpreadTo(Tecton targetTecton) {
@@ -51,7 +54,7 @@ public class MyceliumView implements IObserver{
 
     public void ateInsect(Insect insect) {
         //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Mycelium (" + mycelium.getName() + ") ate insect (" + insect.getName() + ")!");
+        insect.getTecton().getGTecton().detach(insect.getView());
     }
 
     public String targetAlreadyHasMycelium(Tecton targetTecton) {
@@ -66,6 +69,10 @@ public class MyceliumView implements IObserver{
      // Újítás, kell Graphics g paraméterben
     @Override
     public void draw(Graphics g, Point coords) {
-        //Ide jön a kirajzolás
+        FungusFarmerView fmv = (FungusFarmerView)mycelium.getOwner().getView();
+        g.setColor(fmv.getColor());
+        g.drawLine(coords.x - xOffset, coords.y, coords.x + xOffset, coords.y);
     }
+
+    public Mycelium getMycelium () { return mycelium; }
 }

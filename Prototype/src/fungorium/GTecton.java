@@ -35,6 +35,17 @@ public class GTecton implements IObservable {
     @Override
     public void update(Graphics g) {
         for (IObserver o : observers) {
+
+            if (o instanceof MyceliumView mv) {
+                mv.getMycelium().getGMycelium().setCoordinates(x, y);
+                mv.getMycelium().getGMycelium().update(g); 
+            }
+
+            if (o instanceof InsectView iv) {
+                iv.getInsect().getGInsect().setCoordinates(x, y);
+                iv.getInsect().getGInsect().update(g);
+            }
+
             o.draw(g, new Point(x, y));
         }
     }

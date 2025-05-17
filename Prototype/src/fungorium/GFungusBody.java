@@ -13,7 +13,7 @@ public class GFungusBody implements IObservable {
         fungusbody = fb;
         x = -1;
         y = -1;
-        attach(fungusbody.getView());
+        observers = new ArrayList<>();
     }
 
     @Override

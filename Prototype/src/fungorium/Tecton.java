@@ -8,7 +8,8 @@ import java.util.*;
  * It also manages connections and breaking behavior.
  */
 public abstract class Tecton implements IRoundFollower{
-    TectonMap map;
+
+    protected TectonMap map;
     protected Map<Tecton, Boolean> neighbours;
     private List<Spore> sporeList;
     private List<Insect> insectList;
@@ -17,6 +18,7 @@ public abstract class Tecton implements IRoundFollower{
     protected int breakPrecent;
     protected Random gen;
     protected TectonView view;
+    protected GTecton gt;
 
     /**
      * Constructs a Tecton with a break chance, name, and associated map.
@@ -26,6 +28,7 @@ public abstract class Tecton implements IRoundFollower{
      * @param m The map the tecton belongs to.
      */
     protected Tecton(int percentToBreak, String tectonName, TectonMap m) {
+
         sporeList = new ArrayList<>();
         neighbours = new HashMap<>();
         insectList = new ArrayList<>();
@@ -35,8 +38,8 @@ public abstract class Tecton implements IRoundFollower{
         myceliumList = new ArrayList<>();
         view = new TectonView(this);
         map = m;
-
         view.tectonCreated();
+        gt = null;
     }
 
     /**
@@ -543,5 +546,13 @@ public abstract class Tecton implements IRoundFollower{
         }
 
         return randomTecton;
+    }
+
+    public void setGTecton(GTecton gt) {
+        this.gt = gt;
+    }
+
+    public GTecton getGTecton() { 
+        return gt;
     }
 }

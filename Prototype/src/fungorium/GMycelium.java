@@ -14,7 +14,7 @@ public class GMycelium implements IObservable{
         mycelium = m;
         x = -1;
         y = -1;
-         attach(mycelium.getView());
+        observers = new ArrayList<>();
     }
    
     @Override
@@ -45,4 +45,6 @@ public class GMycelium implements IObservable{
     public IObserver getObserver() { return observers.getFirst(); }
 
     public Mycelium getMycelium() { return mycelium; }
+
+    public Point getCoords() { return new Point(x, y); }
 }

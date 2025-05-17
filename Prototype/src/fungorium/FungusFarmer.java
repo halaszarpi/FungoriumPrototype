@@ -2,8 +2,6 @@ package fungorium;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -230,10 +228,11 @@ public class FungusFarmer extends Player {
     }
 
     @Override
-    public List<String> getParam1ForAction(){
+    public List<String> getParam1ForAction(String action){
         List<String> parameters = new ArrayList<>();
         for (Mycelium mycelium : myceliums) {
-            parameters.add(mycelium.getName() + " (" + mycelium.getTecton().getName() + ")");
+            if ((action.equals("SCATTERSP") && mycelium.hasBody()) || !action.equals("SCATTERSP")) 
+                parameters.add(mycelium.getName() + " (" + mycelium.getTecton().getName() + ")");
         }
         return parameters;
     }
@@ -259,7 +258,7 @@ public class FungusFarmer extends Player {
                     if (m.getTecton().isNeighbour(t1) && !parameters.contains(t1.getName())) {
                         parameters.add(t1.getName());
 
-                        if (!m.getBody().isBodyGrown()) continue;
+                        if (m.getBody() == null || !m.getBody().isBodyGrown()) continue;
 
                         for (Tecton t2 : map.getTectons()) {
                             if (t2.isNeighbour(t1) && !parameters.contains(t2.getName())) {

@@ -3,10 +3,13 @@ package fungorium;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Polygon;
 
 public class InsectView implements IObserver {
 
     Insect insect;
+    private final int xOffset = 5;
+    private final int yOffset = 5;
 
     public InsectView(Insect insect) {
         this.insect = insect;
@@ -39,7 +42,7 @@ public class InsectView implements IObserver {
 
     public void insectAteSpore(Spore spore) {
         //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Insect (" + insect.getName() + ") ate (" + spore.getName() + ") spore!");
+        insect.getTecton().getGTecton().detach(spore.getView());
     }
 
     public void insectSteppedToTecton() {
@@ -72,16 +75,22 @@ public class InsectView implements IObserver {
         return "Insect " + insectName + " is not able to step to tecton (" + targetTectonName + ")!";
     }
 
+    public Insect getInsect() {
+        return insect;
+    }
+
     @Override
     public void draw(Graphics g, Point coords) {
         // a pont amit itt megkap a tekton kp.-ja
         // ez csak valami random egyelore
-        g.setColor(Color.yellow);
-        g.drawPolygon(
-            new int[] { (coords.x), (coords.x + 20), (coords.x - 20)},
-            new int[] { (coords.y), (coords.y + 200), (coords.y + 200)},
-            3
-        );
+        InsectKeeperView ikv = (InsectKeeperView)insect.getOwner().getView();
+        g.setColor(ikv.getColor());
+        Polygon p = new Polygon(
+            new int[] { (coords.x), (coords.x + xOffset), (coords.x - xOffset)},
+            new int[] { (coords.y), (coords.y + yOffset), (coords.y + yOffset)},
+            3);
+        g.fillPolygon(p);
+        g.drawPolygon(p);
     }
 
 }

@@ -11,6 +11,7 @@ import java.awt.*;
 public class FungusFarmerView implements IObserver{
 
     private FungusFarmer fungusFarmer;
+    private Color drawingColor;
 
     /**
      * Constructs a FungusFarmerView for the given FungusFarmer.
@@ -83,4 +84,13 @@ public class FungusFarmerView implements IObserver{
     public void draw(Graphics g, Point coords) {
         //később
     }
+
+    public void setColor(Color drawingcolor) {
+        this.drawingColor = drawingcolor;
+    }
+
+    public Color getColor() {
+        return drawingColor;
+    }
+
 }
