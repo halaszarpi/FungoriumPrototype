@@ -15,7 +15,6 @@ public class GMycelium implements IObservable{
         x = -1;
         y = -1;
         observers = new ArrayList<>();
-        attach(mycelium.getView());
     }
    
     @Override

@@ -111,7 +111,6 @@ public class TectonView implements IObserver {
     public void sporeAdded(Spore s) {
         //if (!GameTesterController.SHOW_OUTPUT) { return; }
         t.getGTecton().attach(s.getView());
-        System.out.println(s.getName());
     }
 
     /**
@@ -141,6 +140,7 @@ public class TectonView implements IObserver {
     public void myceliumRemoved(Mycelium m) {
         //if (!GameTesterController.SHOW_OUTPUT) { return; }
         t.getGTecton().detach(m.getView());
+
     }
 
     /**

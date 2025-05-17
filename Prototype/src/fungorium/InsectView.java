@@ -75,6 +75,10 @@ public class InsectView implements IObserver {
         return "Insect " + insectName + " is not able to step to tecton (" + targetTectonName + ")!";
     }
 
+    public Insect getInsect() {
+        return insect;
+    }
+
     @Override
     public void draw(Graphics g, Point coords) {
         // a pont amit itt megkap a tekton kp.-ja

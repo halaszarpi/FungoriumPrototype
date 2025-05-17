@@ -17,7 +17,6 @@ public class GInsect implements IObservable {
         this.x = 0;
         this.y = 0;
         observers = new ArrayList<>();
-        this.attach(insect.getView());
     }
 
     public void attach(IObserver o) {
@@ -29,6 +28,11 @@ public class GInsect implements IObservable {
     }
 
     public IObserver getObserver() { return this.observers.getFirst(); }
+
+    public void setCoordinates(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
 
     public Insect getInsect() { return this.insect; }
 

@@ -14,7 +14,6 @@ public class GFungusBody implements IObservable {
         x = -1;
         y = -1;
         observers = new ArrayList<>();
-        attach(fungusbody.getView());
     }
 
     @Override
