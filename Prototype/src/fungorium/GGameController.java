@@ -179,7 +179,7 @@ public class GGameController extends JFrame {
         JComboBox<Color> comboBox = new JComboBox<>(allColors.toArray(new Color[0]));
 
         // Renderer: minden elem egy kis színmintát jelenít meg
-        comboBox.setRenderer(new ListCellRenderer<Color>() {
+        comboBox.setRenderer(new ListCellRenderer<>() {
             private final JPanel panel = new JPanel();
 
             @Override

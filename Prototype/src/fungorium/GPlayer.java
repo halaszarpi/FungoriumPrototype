@@ -74,7 +74,7 @@ public class GPlayer {
         updateParam2Box();
 
         // Listeners
-        actionBox.addActionListener(e -> updateParam1Box());
+        actionBox.addActionListener(e -> {updateParam1Box(); actionPointsLabel.setText("Action Points: " + player.getActionPoints());});
         param1box.addActionListener(e -> updateParam2Box());
 
         JPanel InfoAndActionPanel = new JPanel();
