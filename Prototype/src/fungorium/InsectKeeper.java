@@ -84,9 +84,9 @@ public class InsectKeeper extends Player {
                 insect.stepToTecton(targetTecton1);
                 break;
             case "CUTMYC":
-                Tecton targetTecton2 = map.findTecton(targetName);
+                Mycelium targetMycelium = map.findMycelium(targetName);
                 insect = map.findInsect(insectName);
-                insect.cutMycelium(targetTecton2);
+                insect.cutMycelium(targetMycelium);
                 break;
             case "EATSPORE":
                 Spore targetSpore = map.findSpore(targetName);
@@ -179,9 +179,9 @@ public class InsectKeeper extends Player {
     @Override
     public List<String> getActions(){
         List<String> actions = new ArrayList<>();
-        actions.add("MOVETOTECTON");
-        actions.add("CUTMYC");
-        actions.add("EATSPORE");
+        actions.add("MOVETOTECTON (1-3)");
+        actions.add("CUTMYC (1)");
+        actions.add("EATSPORE (1)");
         return actions;
     }
     @Override
@@ -206,10 +206,10 @@ public class InsectKeeper extends Player {
                 }
                 break;
             case "CUTMYC":
-                for (Tecton tecton : map.getTectons()) {
-                    if (tecton.isConnectedTo(i.getTecton())){
-                        parameters.add(tecton.getName());
-                    }
+                Tecton t = i.getTecton();
+                List<Mycelium> myceliumList = t.getConnectedMyceliums();
+                for (Mycelium m : myceliumList) {
+                    parameters.add(m.getName());
                 }
                 break;
             case "EATSPORE":

@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class GPlayer {
     private Player player;
+    private JLabel actionPointsLabel;
     private JComboBox<String> actionBox;
     private JComboBox<String> param1box;
     private JComboBox<String> param2box;
@@ -25,6 +26,7 @@ public class GPlayer {
 
         param1box = new JComboBox<>();
         param2box = new JComboBox<>();
+        actionPointsLabel = new JLabel();
         
     }
 
@@ -45,7 +47,8 @@ public class GPlayer {
 
         JLabel playerNameLabel = new JLabel("Player: " + player.getName());
         playerNameLabel.setFont(infoFont);
-        JLabel actionPointsLabel = new JLabel("Action Points: " + player.getActionPoints());
+        actionPointsLabel = new JLabel();
+        setActionPoints();
         actionPointsLabel.setFont(infoFont);
         JLabel scoreLabel = new JLabel("Score: " + player.getScore());
         scoreLabel.setFont(infoFont);
@@ -87,6 +90,10 @@ public class GPlayer {
         return playerPanel;
     }
 
+    public void setActionPoints() {
+        actionPointsLabel.setText("Action Points: " + player.getActionPoints());
+    }
+
     public void updateParam1Box() {
             // Update param1
             param1box.removeAllItems();
@@ -111,12 +118,13 @@ public class GPlayer {
 
         if (selectedParam1 == null) return;
 
-        // selectedParam1-et el kell split-elni, mert zarojelbe mogotte van a tekton
+        //selectedAction-t és selectedParam1-et el kell split-elni, mert zarojelbe mogotte van az akciópont és tekton
+        String selectedAction_splitted = selectedAction.split(" ")[0];
         String selectedParam1_splitted = selectedParam1.split(" ")[0];
 
         if (selectedParam1_splitted  == null) return;
 
-        java.util.List<String> param2Options = player.getParam2ForAction(selectedAction, selectedParam1_splitted, gmap);
+        java.util.List<String> param2Options = player.getParam2ForAction(selectedAction_splitted, selectedParam1_splitted, gmap);
         param2box.removeAllItems();
         for (String p2 : param2Options) {
             param2box.addItem(p2);
@@ -137,9 +145,10 @@ public class GPlayer {
         playerPanel.repaint();
     }
 
-    public String getFinalCommand() { 
+    public String getFinalCommand() {
+        String actionBox_firstPart = actionBox.getSelectedItem().toString().split(" ")[0];
         String param1box_firstPart = param1box.getSelectedItem().toString().split(" ")[0];
-        return actionBox.getSelectedItem() + " " + param1box_firstPart + " " + param2box.getSelectedItem(); 
+        return actionBox_firstPart + " " + param1box_firstPart + " " + param2box.getSelectedItem(); 
     }
 
 }

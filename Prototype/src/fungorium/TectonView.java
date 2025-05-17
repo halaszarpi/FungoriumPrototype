@@ -1,10 +1,13 @@
 package fungorium;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The TectonView class is responsible for providing messages and status updates
@@ -179,11 +182,45 @@ public class TectonView implements IObserver {
         g.fillOval(coords.x - tectonWidth / 2, coords.y - tectonHeight / 2, tectonWidth, tectonHeight);
     }
 
-    public void drawLine(Graphics g, Point middleTecton, List<GTecton> connectedByMycelium) {
-        for (GTecton connectegtdByMyceliaTecton : connectedByMycelium) {
-            Point CBMCoord = connectegtdByMyceliaTecton.getCoords();
-            g.setColor(Color.RED);
-            g.drawLine(middleTecton.x, middleTecton.y, CBMCoord.x, CBMCoord.y);
+    public void drawLine(Graphics g, List<GTecton> connectedByMycelium) {
+
+        Point middleTectonCoords = t.getGTecton().getCoords();
+        Map<Tecton, List<FungusFarmer>> neighbourMap = t.getNeighbourMap();
+        List<Tecton> neighbourTectonList = new ArrayList<>(neighbourMap.keySet());
+
+        for (GTecton connectedByMyceliaTecton : connectedByMycelium) {
+            
+            for (Tecton t1: neighbourTectonList) {
+
+                if (t1 != connectedByMyceliaTecton.getTecton()) continue;
+
+                List<FungusFarmer> fungusFarmerList = neighbourMap.get(t1);
+
+                int xOffset = 10;
+                int yOffset = 10;
+
+                int startX = middleTectonCoords.x - ((fungusFarmerList.size() - 1) * xOffset) / 2;
+                int startY = middleTectonCoords.y - ((fungusFarmerList.size() - 1) * yOffset) / 2;
+
+                Point CBMCoord = connectedByMyceliaTecton.getCoords();
+
+                int endX = CBMCoord.x - ((fungusFarmerList.size() - 1) * xOffset) / 2;
+                int endY = CBMCoord.y - ((fungusFarmerList.size() - 1) * yOffset) / 2;
+
+                for (FungusFarmer f : fungusFarmerList) {
+
+                    Graphics2D g2d = (Graphics2D)g;
+
+                    FungusFarmerView ffv = (FungusFarmerView)f.getView();
+                    g2d.setStroke(new BasicStroke(2));
+                    g2d.setColor(ffv.getColor());
+                    g2d.drawLine(startX, startY, endX, endY);
+
+                    startX += xOffset; startY += yOffset;
+                    endX += xOffset; endY += yOffset;
+
+                }
+            }
         }
     }
 

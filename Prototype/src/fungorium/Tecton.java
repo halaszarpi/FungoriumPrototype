@@ -10,7 +10,7 @@ import java.util.*;
 public abstract class Tecton implements IRoundFollower{
 
     protected TectonMap map;
-    protected Map<Tecton, Boolean> neighbours;
+    protected Map<Tecton, List<FungusFarmer>> neighbours;
     private List<Spore> sporeList;
     private List<Insect> insectList;
     protected List<Mycelium> myceliumList;
@@ -27,6 +27,7 @@ public abstract class Tecton implements IRoundFollower{
      * @param tectonName The name of the tecton.
      * @param m The map the tecton belongs to.
      */
+
     protected Tecton(int percentToBreak, String tectonName, TectonMap m) {
 
         sporeList = new ArrayList<>();
@@ -48,8 +49,8 @@ public abstract class Tecton implements IRoundFollower{
      * @param t The tecton to add as a neighbour.
      */
     public void addNeighbour(Tecton t) { 
-        neighbours.put(t, false);
-        t.neighbours.put(this, false);
+        neighbours.put(t, new ArrayList<>());
+        t.neighbours.put(this, new ArrayList<>());
 
         view.neighbourAdded(t);
     }
@@ -60,12 +61,30 @@ public abstract class Tecton implements IRoundFollower{
      * @param t The tecton to connect to.
      * @throws Exception if the tecton is not a neighbour.
      */
-    public void addConnection(Tecton t) throws Exception{
+    public void addConnection(Mycelium m) throws Exception{
+
+        Tecton t = m.getTecton();
 
         if (!isNeighbour(t)) throw new Exception(view.notNeighbour(t));
 
-        neighbours.put(t, true);
-        t.neighbours.put(this, true);
+        List<FungusFarmer> fungusFarmerList = neighbours.get(t);
+        fungusFarmerList.add(m.getOwner());
+
+        neighbours.put(t, fungusFarmerList);
+        t.neighbours.put(this, fungusFarmerList);
+
+        view.connectionAdded(t);
+    }
+
+    public void addConnection(Tecton t, FungusFarmer f) throws Exception{
+
+        if (!isNeighbour(t)) throw new Exception(view.notNeighbour(t));
+
+        List<FungusFarmer> fungusFarmerList = neighbours.get(t);
+        fungusFarmerList.add(f);
+
+        neighbours.put(t, fungusFarmerList);
+        t.neighbours.put(this, fungusFarmerList);
 
         view.connectionAdded(t);
     }
@@ -167,13 +186,18 @@ public abstract class Tecton implements IRoundFollower{
      * @param t The neighbour tecton.
      * @throws Exception if no connection exists.
      */
-    public void removeConnection(Tecton t) throws Exception {
+    public void removeConnection(Mycelium m) throws Exception {
+
+        Tecton t = m.getTecton();
 
         if(!isNeighbour(t)) throw new Exception(view.notNeighbour(t));
-        if (!isConnectedTo(t)) throw new Exception(view.notConnectedByMycelium(t));
+        if (!isConnectedTo(m)) throw new Exception(view.notConnectedByMycelium(t));
 
-        neighbours.put(t, false);
-        t.neighbours.put(this, false);
+        List<FungusFarmer> fungusFarmerList = neighbours.get(t);
+        fungusFarmerList.remove(m.getOwner());
+
+        neighbours.put(t, fungusFarmerList);
+        t.neighbours.put(this, fungusFarmerList);
 
         view.removeConnection(t);
     }
@@ -210,16 +234,41 @@ public abstract class Tecton implements IRoundFollower{
         return isNeighboursNeighbourBoolean;
     }
 
+    public List<Mycelium> getConnectedMyceliums() {
+
+        List<Tecton> neighbourTectonList = new ArrayList<>(neighbours.keySet());
+        List<Mycelium> returnMyceliumList = new ArrayList<>();
+
+        for (Tecton t : neighbourTectonList) {
+            List<Mycelium> neighbourMyceliumList = t.getMyceliumList();
+            List<FungusFarmer> fungusFarmerList = neighbours.get(t);
+            
+            for (Mycelium m : neighbourMyceliumList) {
+                if (fungusFarmerList.contains(m.getOwner())) returnMyceliumList.add(m);
+            }
+        }
+
+        return returnMyceliumList;
+
+    }
+
     /**
      * Checks if the tecton is connected by mycelium to another tecton.
      *
      * @param t The tecton to check.
      * @return True if connected.
      */
+    public boolean isConnectedTo(Mycelium m) {
+        Tecton t = m.getTecton();
+        if(!neighbours.containsKey(t))
+            return false;
+        return true;
+    }
+
     public boolean isConnectedTo(Tecton t) {
         if(!neighbours.containsKey(t))
             return false;
-        return neighbours.get(t);
+        return true;
     }
 
     /**
@@ -315,9 +364,12 @@ public abstract class Tecton implements IRoundFollower{
     protected void removeConnectionAtBreak() {
 
         try {
+            Map<Tecton, List<FungusFarmer>> tmpMap = new HashMap<>();
+
             for (Tecton t : neighbours.keySet()) {
-                removeConnection(t);
+                tmpMap.put(t, new ArrayList<>());
             }
+            neighbours = tmpMap;
         }
         catch(Exception e) {
             //The breakTecton call is always true, so there is nothing to do
@@ -351,11 +403,11 @@ public abstract class Tecton implements IRoundFollower{
         }
 
         List<Tecton> newCheckedTectons = new ArrayList<>();
-        Map<Tecton, Boolean> neighbourMap = currentTecton.getNeighbourMap();
+        Map<Tecton, List<FungusFarmer>> neighbourMap = currentTecton.getNeighbourMap();
         List<Tecton> neighbourList = new ArrayList<>(neighbourMap.keySet());
 
         for (Tecton t : neighbourList) {
-            if (neighbourMap.get(t) && !checkedTectons.contains(t)) { newCheckedTectons.add(t); }
+            if (neighbourMap.get(t) != null && !checkedTectons.contains(t)) { newCheckedTectons.add(t); }
         }
 
         for (Tecton t : newCheckedTectons) {
@@ -437,7 +489,7 @@ public abstract class Tecton implements IRoundFollower{
 
         if (!neighbourList.isEmpty()) {
             for (Tecton t : neighbourList) {
-                if (neighbours.get(t)) {
+                if (neighbours.get(t) != null) {
                     returnString += t.name + ", ";
                     foundAtLeastOne = true;
                 }
@@ -525,7 +577,7 @@ public abstract class Tecton implements IRoundFollower{
      */
     public List<Mycelium> getMyceliumList() { return myceliumList; }
 
-    public Map<Tecton, Boolean> getNeighbourMap() { return neighbours; }
+    public Map<Tecton, List<FungusFarmer>> getNeighbourMap() { return neighbours; }
 
     public void setBreakPercent(int percentage) {
         this.breakPrecent = percentage;

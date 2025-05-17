@@ -126,14 +126,14 @@ public class Mycelium implements IRoundFollower{
         }
 
         if(targetTecton.hasMycelium(owner)){
-            targetTecton.addConnection(tecton);
+            targetTecton.addConnection(tecton, owner);
             owner.useActionPoints(2);
             view.connectionAddedTo(targetTecton);
         }
         else {
             Mycelium newMycelium = new Mycelium(owner.getNewMyceliumName(), owner, targetTecton);
             targetTecton.addMycelium(newMycelium);
-            targetTecton.addConnection(tecton);
+            targetTecton.addConnection(tecton, owner);
             owner.useActionPoints(2);
             owner.addMycelium(newMycelium);
 

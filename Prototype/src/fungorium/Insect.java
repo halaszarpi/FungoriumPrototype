@@ -168,14 +168,15 @@ public class Insect implements IRoundFollower {
      * @return {@code true} if the connection was cut successfully, {@code false} otherwise.
      * @throws Exception If the insect cannot cut the mycelium connection.
      */
-    public boolean cutMycelium(Tecton targetTecton) throws Exception {
+    public boolean cutMycelium(Mycelium m) throws Exception {
+
         if (!hasEnoughActionPointsForCutting()) {
             throw new Exception();
         }
-        else if (this.tecton.isConnectedTo(targetTecton)) {
-            this.tecton.removeConnection(targetTecton);
+        else if (this.tecton.isConnectedTo(m)) {
+            this.tecton.removeConnection(m);
             this.owner.useActionPoints(1);
-            view.insectCutMycelium(targetTecton);
+            view.insectCutMycelium(m.getTecton());
             return true;
         }
         else {

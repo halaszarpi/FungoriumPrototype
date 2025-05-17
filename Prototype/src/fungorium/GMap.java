@@ -115,7 +115,7 @@ public class GMap extends JPanel {
     public void paintComponent(Graphics g) {
 
         TectonView tv = (TectonView)chosenTecton.getObserver();
-        tv.drawLine(g, chosenTecton.getCoords(), getConnectedGTectonts(chosenTecton));
+        tv.drawLine(g, getConnectedGTectonts(chosenTecton));
 
         for (GTecton aNeighbour : chosenTectonNeighbours) {
             aNeighbour.update(g);
@@ -157,11 +157,11 @@ public class GMap extends JPanel {
 
         ArrayList<GTecton> gtectons = new ArrayList<>();
         Tecton middleTecton = gt.getTecton();
-        Map<Tecton, Boolean> neighbourMap = middleTecton.getNeighbourMap();
+        Map<Tecton, List<FungusFarmer>> neighbourMap = middleTecton.getNeighbourMap();
         List<Tecton> neighbours = new ArrayList<>(neighbourMap.keySet());
 
         for (Tecton t : neighbours) {
-            if (neighbourMap.get(t)) gtectons.add(findGTectonByTecton(t));
+            if (!neighbourMap.get(t).isEmpty()) gtectons.add(findGTectonByTecton(t));
         }
 
         return gtectons;

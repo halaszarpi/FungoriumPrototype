@@ -219,10 +219,10 @@ public class FungusFarmer extends Player {
     @Override
     public List<String> getActions(){
         List<String> actions = new ArrayList<>();
-        actions.add("GROWMYC");
-        actions.add("GROWBOD");
-        actions.add("SCATTERSP");
-        actions.add("EATINS");
+        actions.add("GROWMYC (2)");
+        actions.add("GROWBOD (2)");
+        actions.add("SCATTERSP (1)");
+        actions.add("EATINS (3)");
 
         return actions;
     }

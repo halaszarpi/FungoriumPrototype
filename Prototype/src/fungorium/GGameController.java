@@ -336,6 +336,7 @@ public class GGameController extends JFrame {
                         player.getPlayer().doAction(tectonMap, player.getFinalCommand());
                         player.updateParam1Box();
                         player.updateParam2Box();
+                        player.setActionPoints();
                         repaint();
                     });
 
