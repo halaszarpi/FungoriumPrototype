@@ -2,6 +2,9 @@ package fungorium;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,7 +12,6 @@ import javax.swing.*;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
-
 
 public class GGameController extends JFrame {
     private final TectonMap tectonMap;
@@ -37,6 +39,50 @@ public class GGameController extends JFrame {
             showError("Error creating map:\n" + e.getMessage());
             return;
         }
+
+        //Menubar
+        JMenuBar menuBar = new JMenuBar();
+        menuBar.setVisible(true);
+        menuBar.setBorderPainted(true);
+        menuBar.setOpaque(true);
+        menuBar.setBackground(Color.LIGHT_GRAY);
+        menuBar.setPreferredSize(new Dimension(1080, 30));
+
+        JButton mainMenuItem = new JButton("Back to Main Menu");
+        mainMenuItem.addActionListener(e -> {
+            dispose();
+            SwingUtilities.invokeLater(GMainMenu::new);
+        });
+
+        JButton exitMenuItem = new JButton("Exit game");
+        exitMenuItem.addActionListener(e -> {
+            dispose();
+            System.exit(0);
+        });
+
+        JButton rulesMenuItem = new JButton("Rules");
+        rulesMenuItem.addActionListener(e -> {
+            try {
+                List<String> lines = Files.readAllLines(Paths.get("Prototype/src/fungorium/Rules.txt"));
+                StringBuilder rulesText = new StringBuilder();
+                for (String line : lines) {
+                    rulesText.append(line).append("\n");
+                }
+                JTextArea textArea = new JTextArea(rulesText.toString());
+                textArea.setEditable(false);
+                textArea.setLineWrap(true);
+                JScrollPane scrollPane = new JScrollPane(textArea);
+                scrollPane.setPreferredSize(new Dimension(600, 400));
+                JOptionPane.showMessageDialog(this, scrollPane, "Game Rules", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                showError("Error loading rules: " + ex.getMessage());
+            }
+        });
+
+        menuBar.add(rulesMenuItem);
+        menuBar.add(mainMenuItem);
+        menuBar.add(exitMenuItem);
+        setJMenuBar(menuBar);
 
         //The game panel itself Consists of two parts: the mapPanel and the playerPanel
         GamePanel = new JPanel();

@@ -22,9 +22,9 @@ public class GMainMenu extends JFrame {
         backgroundPanel.setLayout(null);
 
         //Buttons
-JButton newGameButton = createTextureButton("Prototype/src/fungorium/NewGamebutton.png", 240, 212, 581, 102);
-JButton rulesButton = createTextureButton("Prototype/src/fungorium/Rulesbutton.png",240, 345, 581, 102);
-JButton exitButton = createTextureButton("Prototype/src/fungorium/Exitbutton.png",240, 475, 581, 102);
+        JButton newGameButton = createTextureButton("Prototype/src/fungorium/NewGamebutton.png", 240, 212, 581, 102);
+        JButton rulesButton = createTextureButton("Prototype/src/fungorium/Rulesbutton.png",240, 345, 581, 102);
+        JButton exitButton = createTextureButton("Prototype/src/fungorium/Exitbutton.png",240, 475, 581, 102);
 
         newGameButton.addActionListener(e -> {
             dispose();
@@ -134,22 +134,23 @@ JButton exitButton = createTextureButton("Prototype/src/fungorium/Exitbutton.png
             }
         }
     }
+
     private JButton createTextureButton(String imagePath, int x, int y, int width, int height) {
-    JButton button = new JButton();
-    try {
-        ImageIcon icon = new ImageIcon(ImageIO.read(new File(imagePath)));
-        Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        button.setIcon(new ImageIcon(scaledImage));
-    } catch (IOException e) {
-        System.err.println("Failed to load button texture: " + imagePath);
+        JButton button = new JButton();
+        try {
+            ImageIcon icon = new ImageIcon(ImageIO.read(new File(imagePath)));
+            Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            button.setIcon(new ImageIcon(scaledImage));
+        } catch (IOException e) {
+            System.err.println("Failed to load button texture: " + imagePath);
+        }
+        button.setBounds(x, y, width, height);
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        return button;
     }
-    button.setBounds(x, y, width, height);
-    button.setOpaque(false);
-    button.setContentAreaFilled(false);
-    button.setBorderPainted(false);
-    button.setFocusPainted(false);
-    button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    return button;
-}
 
 }
