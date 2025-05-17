@@ -95,15 +95,6 @@ public class FungusFarmer extends Player {
                 Insect targetInsect = map.findInsect(targetName);
                 mycelium.eatInsect(targetInsect);
                 break;
-            case "INFO":
-                view.info();
-                break;
-            case "SHOWMAP":
-                map.showMap();
-                break;
-            case "SKIP":
-                actionPoints = 0;
-                break;
             default:
                 view.invalidActionMessage();
                 break;

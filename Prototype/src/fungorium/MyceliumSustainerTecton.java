@@ -67,7 +67,7 @@ public class MyceliumSustainerTecton extends Tecton{
 
         view.tectonBreaks(newTecton);
 
-        map.add(newTecton);
+        map.addTecton(newTecton);
     }
     /**
      * Throws an exception if an attempt is made to vanish mycelium from this type of tecton, 

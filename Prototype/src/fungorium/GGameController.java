@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class GGameController extends JFrame {
     private final TectonMap tectonMap;
-    private List<GPlayer> players = new ArrayList<>();
+    private List<GPlayer> players;
     private int numberOfRounds;
     private JPanel GamePanel;
     private JPanel playerPanel;
@@ -28,7 +28,7 @@ public class GGameController extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Loading Map
-        tectonMap = new TectonMap(null, false);
+        tectonMap = new TectonMap();
         File gameMap = new File(System.getProperty("user.dir") + "\\Prototype\\src\\gamemaps\\startingMap.txt");
         gmap = new GMap(this.tectonMap); // initialize GMap field
         try {
@@ -116,14 +116,6 @@ public class GGameController extends JFrame {
         }
     }
 
-    private void updatePlayerParam1Box() {
-
-    }
-
-    private void updatePlayerParam2Box() {
-         
-    }
-
     private void initializeGame() {
         showInfo("Game is starting!");
         String input;
@@ -145,6 +137,7 @@ public class GGameController extends JFrame {
         }
 
         // Get names of players (non-null, unique)
+        players = new ArrayList<>();
         Set<String> usedNames = new HashSet<>();
         for (int i = 0; i < numPlayers; i++) {
             String role = (i % 2 == 0) ? "Fungus Farmer" : "Insect Keeper";
@@ -261,8 +254,7 @@ public class GGameController extends JFrame {
                 player.getPlayer().roundPassed();
             }
 
-            tectonMap.roundPassed(null);
-            tectonMap.refreshMap();
+            gmap.roundPassed();
         }
 
         endGame();
@@ -270,7 +262,6 @@ public class GGameController extends JFrame {
 
     private void endGame() {
         showInfo("Game Over!");
-        tectonMap.showMap();
 
         StringBuilder scoreMessage = new StringBuilder("Final Scores:\n");
         for (GPlayer player : players) {

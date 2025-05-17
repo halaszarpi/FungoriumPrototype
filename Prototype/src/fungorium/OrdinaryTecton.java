@@ -65,7 +65,7 @@ public class OrdinaryTecton extends Tecton {
 
         view.tectonBreaks(newTecton);
 
-        map.add(newTecton);
+        map.addTecton(newTecton);
     }
 
     /**
