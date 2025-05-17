@@ -6,12 +6,14 @@ import java.util.ArrayList;
 
 public class GTecton implements IObservable {
     Tecton tecton;
+    GMap map;
     int x;
     int y;
     ArrayList<IObserver> observers;
 
-    public GTecton(Tecton t) {
+    public GTecton(Tecton t, GMap m) {
         tecton = t;
+        map = m; 
         x = -1;
         y = -1;
         // Újítás, minden osztályhoz kell egy getView(), ami visszaadja az osztály view-ját.
@@ -47,5 +49,7 @@ public class GTecton implements IObservable {
     public IObserver getObserver() { return observers.getFirst(); }
 
     public Tecton getTecton() { return tecton; }
+
+    public Point getCoords() { return new Point(x, y); }
 
 }

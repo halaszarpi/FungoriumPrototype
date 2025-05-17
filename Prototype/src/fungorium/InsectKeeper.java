@@ -230,4 +230,15 @@ public class InsectKeeper extends Player {
         }
         return parameters;
     }
+
+    @Override
+    public void doAction(TectonMap map, String commandToRun) {
+        String[] args = commandToRun.split(" ");
+        try {
+            changeMapBasedOnCommands(map, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
 }

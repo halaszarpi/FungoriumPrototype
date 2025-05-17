@@ -1,7 +1,10 @@
 package fungorium;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The TectonView class is responsible for providing messages and status updates
@@ -13,6 +16,8 @@ import java.awt.Point;
 public class TectonView implements IObserver {
 
     Tecton t;
+    private final int tectonWidth = 50;
+    private final int tectonHeight = 50;
 
     /**
      * Constructor to initialize the TectonView with a specific Tecton.
@@ -175,8 +180,16 @@ public class TectonView implements IObserver {
     // Újítás, kell Graphics g paraméterben
     @Override
     public void draw(Graphics g, Point coords) {
-        //Ide jön a kirajzolás
-        g.fillOval(coords.x, coords.y, 50, 20);
+        g.setColor(Color.BLACK);
+        g.fillOval(coords.x - tectonWidth / 2, coords.y - tectonHeight / 2, tectonWidth, tectonHeight);
+    }
+
+    public void drawLine(Graphics g, Point middleTecton, List<GTecton> connectedByMycelium) {
+        for (GTecton connectegtdByMyceliaTecton : connectedByMycelium) {
+            Point CBMCoord = connectegtdByMyceliaTecton.getCoords();
+            g.setColor(Color.RED);
+            g.drawLine(middleTecton.x, middleTecton.y, CBMCoord.x, CBMCoord.y);
+        }
     }
 
 }

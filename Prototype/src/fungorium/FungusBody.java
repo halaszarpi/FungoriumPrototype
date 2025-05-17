@@ -118,7 +118,7 @@ public class FungusBody {
         }
 
         Spore newSpore = createSpore(farmer);
-        boolean grownBody = remainingSpores <= 3;
+        boolean grownBody = isBodyGrown();
         Tecton currentTecton = mycelium.getTecton();
         boolean sameTecton = currentTecton.equals(targetTecton);
         boolean neigbour = currentTecton.isNeighbour(targetTecton);
@@ -171,4 +171,6 @@ public class FungusBody {
     public Player getOwner() {
         return mycelium.getOwner();
     }
+
+    public boolean isBodyGrown() { return remainingSpores <= 3; }
 }
