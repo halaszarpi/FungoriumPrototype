@@ -7,10 +7,9 @@ import java.awt.*;
 
 public class GPlayer {
     private Player player;
-    private String finalCommand = null;
+    private JComboBox<String> actionBox;
     private JComboBox<String> param1box;
     private JComboBox<String> param2box;
-    private JComboBox<String> actionBox;
     private GMap gmap;
 
     public GPlayer(Player player) {
@@ -57,12 +56,10 @@ public class GPlayer {
         playerActionPanel.add(actionBox);
 
         // Param1 and Param2 ComboBoxes
-
         playerActionPanel.add(param1box);
         playerActionPanel.add(param2box);
 
         // Helper to update param1 and param2
-
         updateParam1Box();
         updateParam2Box();
 
