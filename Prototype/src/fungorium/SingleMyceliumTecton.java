@@ -64,7 +64,7 @@ public class SingleMyceliumTecton extends Tecton {
 
         view.tectonBreaks(newTecton);
 
-        map.add(newTecton);
+        map.addTecton(newTecton);
     }
 
     /**

@@ -121,6 +121,7 @@ public class GMap extends JPanel {
         }
     }
 
+
     public List<Tecton> getTectons() {
         return gameMap.getTectons();
     }
@@ -167,5 +168,9 @@ public class GMap extends JPanel {
     }
 
     public TectonMap getGameMap() { return gameMap; }
+
+    public void roundPassed() {
+        gameMap.roundPassed();
+    }
 
 }

@@ -63,7 +63,7 @@ public class MyceliumVanisherTecton extends Tecton {
 
         view.tectonBreaks(newTecton);
 
-        map.add(newTecton);
+        map.addTecton(newTecton);
     }
      /**
      * Provides a string representation of the MyceliumVanisherTecton, 
