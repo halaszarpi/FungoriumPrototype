@@ -253,7 +253,6 @@ public class GGameController extends JFrame {
         endGame();
     }
 
-
     private void endGame() {
         showInfo("Game Over!");
         tectonMap.showMap();
