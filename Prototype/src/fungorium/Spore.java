@@ -6,6 +6,7 @@ public abstract class Spore {
     protected int effectDuration;
     protected String name;
     protected SporeView view;
+    protected GSpore gs;
 
     /**
      * Constructor for the Spore class.
@@ -21,6 +22,7 @@ public abstract class Spore {
         this.effectDuration = effectDuration;
         this.name = name;
         this.view = new SporeView(this);
+        gs = new GSpore(this);
     }
 
     public SporeView getView() { return view;}
@@ -63,4 +65,9 @@ public abstract class Spore {
         returnString += this.owner;
         return returnString;
     }
+
+    public GSpore getGSpore() { 
+        return gs;
+    }
+
 }

@@ -12,6 +12,7 @@ public class FungusBodyView implements IObserver{
 
     /** The FungusBody associated with this view. */
     FungusBody fungusBody;
+    private final int radius = 20;
 
     /**
      * Constructs a new FungusBodyView for a given FungusBody.
@@ -42,6 +43,7 @@ public class FungusBodyView implements IObserver{
 
     @Override
     public void draw(Graphics g, Point coords) {
-        //kirajzolás
+        g.setColor(Color.CYAN);
+        g.drawOval(coords.x, coords.y, radius, radius);
     }
 }

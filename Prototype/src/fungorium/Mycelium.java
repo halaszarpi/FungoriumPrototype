@@ -16,6 +16,7 @@ public class Mycelium implements IRoundFollower{
     private int roundsToLive;
     private final MyceliumView view;
     private final int maxRoundsToLive = 3;
+    private GMycelium gm;
   /**
      * Constructs a new Mycelium instance.
      * 
@@ -30,6 +31,7 @@ public class Mycelium implements IRoundFollower{
         this.body = null;
         this.roundsToLive = maxRoundsToLive;
         this.view = new MyceliumView(this);
+        gm = new GMycelium(this);
     }
 
     // Getterek
@@ -235,5 +237,9 @@ public class Mycelium implements IRoundFollower{
     public boolean equals(Object obj) {
         Mycelium m = (Mycelium)obj;
         return tecton.equals(m.tecton) && name.equals(m.name) && ((hasBody() && m.hasBody()) || (!hasBody() && !m.hasBody()));
+    }
+
+    public GMycelium getGMycelium() { 
+        return gm;
     }
 }

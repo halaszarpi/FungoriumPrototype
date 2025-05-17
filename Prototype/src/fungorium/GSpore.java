@@ -14,6 +14,7 @@ public class GSpore implements IObservable{
         this.spore = spore;
         x = -1;
         y = -1;
+        observers = new ArrayList<>();
         attach(spore.getView());
     }
 

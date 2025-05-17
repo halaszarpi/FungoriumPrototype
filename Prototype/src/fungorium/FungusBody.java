@@ -14,6 +14,7 @@ public class FungusBody {
     private int scatteringCooldown;
     private final FungusBodyView view;
     String typeToCreate;
+    private GFungusBody gf;
 
     /**
      * Constructs a new FungusBody associated with a specific Mycelium.
@@ -26,6 +27,7 @@ public class FungusBody {
         this.scatteringCooldown = 0;
         this.view = new FungusBodyView(this);
         this.typeToCreate = "random";
+        gf = new GFungusBody(this);
     }
 
     public FungusBody(Mycelium mycelium, String sporeType) {
@@ -173,4 +175,8 @@ public class FungusBody {
     }
 
     public boolean isBodyGrown() { return remainingSpores <= 3; }
+
+    public GFungusBody getGFungusBody() { 
+        return gf;
+    }
 }

@@ -16,7 +16,7 @@ public class GInsect implements IObservable {
         // Ezek egyelore csak kezdoertekek, majd valtozik
         this.x = 0;
         this.y = 0;
-        
+        observers = new ArrayList<>();
         this.attach(insect.getView());
     }
 

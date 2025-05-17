@@ -13,7 +13,7 @@ public class GMap extends JPanel {
     private ArrayList<GTecton> gTectons;
     private GTecton chosenTecton;
     private List<GTecton> chosenTectonNeighbours;
-    private final int radius = 100; // pixelben
+    private final int radius = 200;
 
     public GMap(TectonMap map) {
         chosenTecton = null;
@@ -39,6 +39,7 @@ public class GMap extends JPanel {
         for (int i = startIndex; i < gameMapSize; i++) {
 
             GTecton newGTecton = new GTecton(currentTectons.get(i), this);
+            currentTectons.get(i).setGTecton(newGTecton);
             gTectons.add(newGTecton);
 
         }
