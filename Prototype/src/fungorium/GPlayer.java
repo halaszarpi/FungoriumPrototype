@@ -84,6 +84,9 @@ public class GPlayer {
                 param1box.addItem(p1);
             }
 
+            // debug
+            param1box.setSelectedIndex(0);
+
             // Ensure at least one selection
             if (param1box.getItemCount() > 0) {
                 param1box.setSelectedIndex(0);
@@ -92,12 +95,18 @@ public class GPlayer {
 
     // Helper function outside getPanel or make it private inside the class
     public void updateParam2Box() {
+
         String selectedAction = (String) actionBox.getSelectedItem();
         String selectedParam1 = (String) param1box.getSelectedItem();
 
         if (selectedParam1 == null) return;
 
-        java.util.List<String> param2Options = player.getParam2ForAction(selectedAction, selectedParam1, gmap);
+        // selectedParam1-et el kell split-elni, mert zarojelbe mogotte van a tekton
+        String selectedParam1_splitted = selectedParam1.split(" ")[0];
+
+        if (selectedParam1_splitted  == null) return;
+
+        java.util.List<String> param2Options = player.getParam2ForAction(selectedAction, selectedParam1_splitted, gmap);
         param2box.removeAllItems();
         for (String p2 : param2Options) {
             param2box.addItem(p2);
@@ -118,6 +127,9 @@ public class GPlayer {
         playerPanel.repaint();
     }
 
-    public String getFinalCommand() { return actionBox.getSelectedItem() + " " + param1box.getSelectedItem() + " " + param2box.getSelectedItem(); }
+    public String getFinalCommand() { 
+        String param1box_firstPart = param1box.getSelectedItem().toString().split(" ")[0];
+        return actionBox.getSelectedItem() + " " + param1box_firstPart + " " + param2box.getSelectedItem(); 
+    }
 
 }

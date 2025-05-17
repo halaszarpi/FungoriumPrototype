@@ -1,5 +1,6 @@
 package fungorium;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -73,7 +74,14 @@ public class InsectView implements IObserver {
 
     @Override
     public void draw(Graphics g, Point coords) {
-        // TODO: kirajzolás itt
+        // a pont amit itt megkap a tekton kp.-ja
+        // ez csak valami random egyelore
+        g.setColor(Color.yellow);
+        g.drawPolygon(
+            new int[] { (coords.x), (coords.x + 20), (coords.x - 20)},
+            new int[] { (coords.y), (coords.y + 200), (coords.y + 200)},
+            3
+        );
     }
 
 }
