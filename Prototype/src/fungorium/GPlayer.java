@@ -7,13 +7,15 @@ import java.awt.*;
 
 public class GPlayer {
     private Player player;
+    private Color playerColor;
     private JComboBox<String> actionBox;
     private JComboBox<String> param1box;
     private JComboBox<String> param2box;
     private GMap gmap;
 
-    public GPlayer(Player player) {
+    public GPlayer(Player player, Color playerColor) {
         this.player = player;
+        this.playerColor = playerColor;
         param1box = new JComboBox<>();
         param2box = new JComboBox<>();
     }

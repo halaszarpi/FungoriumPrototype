@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import javax.swing.*;
@@ -22,6 +23,17 @@ public class GGameController extends JFrame {
     private JPanel mapPanel;
     private final GMap gmap;
     JComboBox<String> TectonChooser;
+    private ArrayList<Color> allColors = new ArrayList<>(
+        Arrays.asList(
+            Color.RED, 
+            Color.GREEN, 
+            Color.CYAN, 
+            Color.YELLOW, 
+            Color.GRAY, 
+            Color.PINK, 
+            Color.MAGENTA, 
+            Color.ORANGE
+    ));
 
     public GGameController() {
         setTitle("Fungorium - Game");
@@ -162,6 +174,53 @@ public class GGameController extends JFrame {
         }
     }
 
+    private Color chooseColor() {
+        // Létrehozunk egy JComboBox-ot Color objektumokkal
+        JComboBox<Color> comboBox = new JComboBox<>(allColors.toArray(new Color[0]));
+
+        // Renderer: minden elem egy kis színmintát jelenít meg
+        comboBox.setRenderer(new ListCellRenderer<Color>() {
+            private final JPanel panel = new JPanel();
+
+            @Override
+            public Component getListCellRendererComponent(
+                JList<? extends Color> list,
+                Color value,
+                int index,
+                boolean isSelected,
+                boolean cellHasFocus) {
+
+                panel.setBackground(value);
+
+                if (isSelected) {
+                    panel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2));
+                } else {
+                    panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                }
+
+                panel.setPreferredSize(new Dimension(100, 20));
+
+                return panel;
+            }
+        });
+
+        // Megjelenítjük egy JOptionPane-ben
+        int result = JOptionPane.showConfirmDialog(
+                null,
+                comboBox,
+                "Choose a color!",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+        
+        if (result == JOptionPane.OK_OPTION) {
+            return (Color) comboBox.getSelectedItem();
+        } else {
+            return null;
+        }
+        
+    }
+
     private void initializeGame() {
         showInfo("Game is starting!");
         String input;
@@ -203,10 +262,14 @@ public class GGameController extends JFrame {
                 }
             }
 
+            Color chosenColor = chooseColor();
+            allColors.remove(chosenColor);
+            System.out.println(chosenColor.toString());
+
             if (i % 2 == 0) {
-                players.add(new GPlayer(new FungusFarmer(playerName)));
+                players.add(new GPlayer(new FungusFarmer(playerName), chosenColor));
             } else {
-                players.add(new GPlayer(new InsectKeeper(playerName)));
+                players.add(new GPlayer(new InsectKeeper(playerName), chosenColor));
             }
         }
 
