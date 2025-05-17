@@ -185,7 +185,7 @@ public class InsectKeeper extends Player {
         return actions;
     }
     @Override
-    public List<String> getParam1ForAction(){
+    public List<String> getParam1ForAction(String action) {
         List<String> parameters = new ArrayList<>();
         for (Insect insect : insects) {
             parameters.add(insect.getName() + " (" + insect.getTecton().getName() + ")");

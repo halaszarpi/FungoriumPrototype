@@ -264,7 +264,6 @@ public class GGameController extends JFrame {
 
             Color chosenColor = chooseColor();
             allColors.remove(chosenColor);
-            System.out.println(chosenColor.toString());
 
             if (i % 2 == 0) {
                 players.add(new GPlayer(new FungusFarmer(playerName), chosenColor));
