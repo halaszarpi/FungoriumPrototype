@@ -26,16 +26,6 @@ public class FungusFarmerView implements IObserver, IColorAble {
         this.fungusFarmer = fungusFarmer;
     }
 
-    /**
-     * Displays the available actions to the player during their turn.
-     * It shows a list of possible commands the player can input to perform various
-     * actions.
-     */
-    public void chooseAction() {
-        System.out.println(fungusFarmer.toString());
-        System.out.println(
-                "Enter command:\n\tGROWMYC(2) [MYCNAME] [TECNAME]\n\tGROWBOD(2) [MYCNAME] [SPONAME]\n\tSCATTERSP(1) [MYCNAME] [TECNAME]\n\tEATINS(3) [MYCNAME] [INSNAME]\n\tINFO\n\tSHOWMAP\n\tSKIP");
-    }
 
     /**
      * Informs the player that their mycelium has been initialized on the specified
@@ -64,9 +54,7 @@ public class FungusFarmerView implements IObserver, IColorAble {
     }
 
     @Override
-    public void draw(Graphics g, Point coords) {
-        // később
-    }
+    public void draw(Graphics g, Point coords) {}
 
     public void setColor(Color drawingcolor) {
         this.drawingColor = drawingcolor;

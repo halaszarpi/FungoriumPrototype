@@ -10,12 +10,6 @@ public class InsectKeeperView implements IObserver, IColorAble {
         this.insectKeeper = insectKeeper;
     }
 
-    public void chooseAction() {
-        System.out.println(insectKeeper.toString());
-        System.out.println(
-                "Enter command: \n\tMOVETOTECTON(1-3) [INSNAME] [TECNAME]\n\t CUTMYC(1) [INSNAME] [TECNAME]\n\t EATSPORE(1) [INSNAME] [SPONAME]\n\t INFO\n\tSHOWMAP\n\t SKIP");
-    }
-
     public void invalidActionMessage() {
         System.out.println("Invalid action!");
     }

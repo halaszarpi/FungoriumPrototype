@@ -26,14 +26,6 @@ public abstract class Player {
         this.inGame = true;
     }
 
-    /**
-     * Abstract method to be implemented by subclasses. Represents the player's turn.
-     * The specifics of the player's actions during a turn are determined by the subclass.
-     *
-     * @param map The map representing the game state.
-     * @param in Scanner to read player input during their turn.
-     */
-    public abstract void turn(TectonMap map, Scanner in);
 
     public abstract void doAction(TectonMap map, String commandToRun);
 
