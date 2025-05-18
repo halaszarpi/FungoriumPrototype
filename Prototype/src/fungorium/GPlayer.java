@@ -14,23 +14,25 @@ public class GPlayer {
     public GPlayer(Player player, Color playerColor) {
         this.player = player;
 
-        if (player instanceof FungusFarmer fm) { 
-            FungusFarmerView fmv = (FungusFarmerView)fm.getView();
-            fmv.setColor(playerColor); 
+        if (player instanceof FungusFarmer fm) {
+            FungusFarmerView fmv = (FungusFarmerView) fm.getView();
+            fmv.setColor(playerColor);
         }
 
-        if (player instanceof InsectKeeper ik) { 
-            InsectKeeperView ikv = (InsectKeeperView)ik.getView();
-            ikv.setColor(playerColor); 
+        if (player instanceof InsectKeeper ik) {
+            InsectKeeperView ikv = (InsectKeeperView) ik.getView();
+            ikv.setColor(playerColor);
         }
 
         param1box = new JComboBox<>();
         param2box = new JComboBox<>();
         actionPointsLabel = new JLabel();
-        
+
     }
 
-    public Player getPlayer() { return player; }
+    public Player getPlayer() {
+        return player;
+    }
 
     public JPanel getPanel(GMap map) {
 
@@ -95,19 +97,19 @@ public class GPlayer {
     }
 
     public void updateParam1Box() {
-            // Update param1
-            param1box.removeAllItems();
-            for (String p1 : player.getParam1ForAction((String) actionBox.getSelectedItem())) {
-                param1box.addItem(p1);
-            }
+        // Update param1
+        param1box.removeAllItems();
+        for (String p1 : player.getParam1ForAction((String) actionBox.getSelectedItem())) {
+            param1box.addItem(p1);
+        }
 
-            // debug
+        // debug
+        param1box.setSelectedIndex(0);
+
+        // Ensure at least one selection
+        if (param1box.getItemCount() > 0) {
             param1box.setSelectedIndex(0);
-
-            // Ensure at least one selection
-            if (param1box.getItemCount() > 0) {
-                param1box.setSelectedIndex(0);
-            }
+        }
     }
 
     // Helper function outside getPanel or make it private inside the class
@@ -116,15 +118,19 @@ public class GPlayer {
         String selectedAction = (String) actionBox.getSelectedItem();
         String selectedParam1 = (String) param1box.getSelectedItem();
 
-        if (selectedParam1 == null) return;
+        if (selectedParam1 == null)
+            return;
 
-        //selectedAction-t és selectedParam1-et el kell split-elni, mert zarojelbe mogotte van az akciópont és tekton
+        // selectedAction-t és selectedParam1-et el kell split-elni, mert zarojelbe
+        // mogotte van az akciópont és tekton
         String selectedAction_splitted = selectedAction.split(" ")[0];
         String selectedParam1_splitted = selectedParam1.split(" ")[0];
 
-        if (selectedParam1_splitted  == null) return;
+        if (selectedParam1_splitted == null)
+            return;
 
-        java.util.List<String> param2Options = player.getParam2ForAction(selectedAction_splitted, selectedParam1_splitted, gmap);
+        java.util.List<String> param2Options = player.getParam2ForAction(selectedAction_splitted,
+                selectedParam1_splitted, gmap);
         param2box.removeAllItems();
         for (String p2 : param2Options) {
             param2box.addItem(p2);
@@ -135,10 +141,11 @@ public class GPlayer {
     }
 
     public void turn(JPanel playerPanel, GMap map) {
-        if(!player.inGame) {
+        if (!player.inGame) {
             return;
         }
-        //Set up playerPanel
+        player.actionPoints = 4;
+        // Set up playerPanel
         playerPanel.removeAll();
         playerPanel.add(this.getPanel(map), BorderLayout.CENTER);
         playerPanel.revalidate();
@@ -148,7 +155,7 @@ public class GPlayer {
     public String getFinalCommand() {
         String actionBox_firstPart = actionBox.getSelectedItem().toString().split(" ")[0];
         String param1box_firstPart = param1box.getSelectedItem().toString().split(" ")[0];
-        return actionBox_firstPart + " " + param1box_firstPart + " " + param2box.getSelectedItem(); 
+        return actionBox_firstPart + " " + param1box_firstPart + " " + param2box.getSelectedItem();
     }
 
 }
