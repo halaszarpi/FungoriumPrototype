@@ -83,12 +83,20 @@ public class InsectKeeper extends Player {
                 }
                 break;
             case "CUTMYC":
-                Mycelium targetMycelium = map.findMycelium(targetName);
-                insect.cutMycelium(targetMycelium);
+                try {
+                    Mycelium targetMycelium = map.findMycelium(targetName);
+                    insect.cutMycelium(targetMycelium);
+                } catch (Exception exp) {
+                    exp.getMessage();
+                }
                 break;
             case "EATSPORE":
-                Spore targetSpore = map.findSpore(targetName);
-                insect.eatSpore(targetSpore);
+                try {
+                    Spore targetSpore = map.findSpore(targetName);
+                    insect.eatSpore(targetSpore);
+                } catch (Exception exp) {
+                    exp.getMessage();
+                }
                 break;
             default:
                 view.invalidActionMessage();
