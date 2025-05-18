@@ -60,6 +60,33 @@ public class GGameController extends JFrame {
         menuBar.setBackground(Color.LIGHT_GRAY);
         menuBar.setPreferredSize(new Dimension(1080, 30));
 
+        //Menu items
+        JButton colorButton = new JButton("Colors");
+        colorButton.addActionListener(e -> {
+            JPanel panel = new JPanel();
+            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+            for (GPlayer player : players) {
+                JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                JLabel nameLabel = new JLabel(player.getPlayer().getName() + ": ");
+                nameLabel.setPreferredSize(new Dimension(100, 20));
+
+                JPanel colorBox = new JPanel();
+                colorBox.setBackground(player.getColor());
+                colorBox.setPreferredSize(new Dimension(40, 20));
+                colorBox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+                row.add(nameLabel);
+                row.add(colorBox);
+                panel.add(row);
+            }
+
+            JScrollPane scrollPane = new JScrollPane(panel);
+            scrollPane.setPreferredSize(new Dimension(300, 200));
+            JOptionPane.showMessageDialog(this, scrollPane, "Player Colors", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+
         JButton mainMenuItem = new JButton("Back to Main Menu");
         mainMenuItem.addActionListener(e -> {
             dispose();
@@ -91,6 +118,7 @@ public class GGameController extends JFrame {
             }
         });
 
+        menuBar.add(colorButton);
         menuBar.add(rulesMenuItem);
         menuBar.add(mainMenuItem);
         menuBar.add(exitMenuItem);

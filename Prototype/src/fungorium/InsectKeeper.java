@@ -27,43 +27,6 @@ public class InsectKeeper extends Player {
         view = new InsectKeeperView(this);
     }
 
-    /**
-     * The main method for handling a single turn of the InsectKeeper.
-     * The player can perform actions such as moving insects, cutting mycelium,
-     * or eating spores, as well as checking the map or skipping their turn.
-     *
-     * @param map The current TectonMap of the game.
-     * @param in  The scanner for reading user input.
-     */
-    @Override
-    public void turn(TectonMap map, Scanner in) {
-        if (insects.isEmpty()) {
-            inGame = false;
-            return;
-        }
-        actionPoints = 4;
-
-        while (actionPoints > 0 && inGame) {
-            view.chooseAction();
-
-            String command = in.nextLine();
-            String[] args = command.split(" ");
-
-            if ((args.length != 3) && !args[0].equalsIgnoreCase("SKIP") && !args[0].equalsIgnoreCase("INFO")
-                    && !args[0].equalsIgnoreCase("SHOWMAP")) {
-                System.out.println("Invalid command");
-                continue;
-            }
-
-            try {
-                changeMapBasedOnCommands(map, args);
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            }
-        }
-
-    }
 
     /**
      * Changes the game map state based on the given commands.

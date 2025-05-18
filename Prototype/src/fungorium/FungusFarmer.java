@@ -30,42 +30,6 @@ public class FungusFarmer extends Player {
     }
 
     /**
-     * Executes the Fungus Farmer's turn.
-     *
-     * @param map the TectonMap of the game
-     * @param in  the Scanner used for user input
-     */
-    @Override
-    public void turn(TectonMap map, Scanner in) {
-        if (myceliums.isEmpty()) {
-            inGame = false;
-            return;
-        }
-
-        actionPoints = 4;
-
-        while (actionPoints > 0 && inGame) {
-            view.chooseAction();
-            String command = in.nextLine();
-            String[] args = command.split(" ");
-
-            if ((args.length != 3) &&
-                    !args[0].equalsIgnoreCase("SKIP") &&
-                    !args[0].equalsIgnoreCase("INFO") &&
-                    !args[0].equalsIgnoreCase("SHOWMAP")) {
-                view.invalidActionMessage();
-                continue;
-            }
-
-            try {
-                changeMapBasedOnCommands(map, args);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /**
      * Interprets and processes the given commands on the map.
      *
      * @param map  the game map
@@ -284,6 +248,7 @@ public class FungusFarmer extends Player {
                 m.getTecton().getSporeList().forEach(s -> parameters.add(s.getName()));
                 break;
             case "SCATTERSP":
+                parameters.add(m.getTecton().getName());
                 for (Tecton t1 : map.getTectons()) {
 
                     if (m.getTecton().isNeighbour(t1) && !parameters.contains(t1.getName())) {
@@ -297,7 +262,6 @@ public class FungusFarmer extends Player {
                                 parameters.add(t2.getName());
                             }
                         }
-
                     }
                 }
                 break;
