@@ -77,22 +77,41 @@ public class Insect implements IRoundFollower {
     public int getSlowedForRounds() { return this.slowedForRounds; }
     public int getBoostedForRounds() { return this.boostedForRounds; }
 
-    // Setter methods for insect's conditions with views
+    /**
+     * Sets the number of rounds the insect is anti-severed.
+     *
+     * @param numberOfRounds The number of rounds the insect is anti-severed.
+     */
     public void setAntiSeveredForRounds(int numberOfRounds) {
         this.antiSeveredForRounds = numberOfRounds;
         view.insectIsAntiSevered();
     }
 
+    /**
+     * Sets the number of rounds the insect is stunned.
+     *
+     * @param numberOfRounds The number of rounds the insect is stunned.
+     */
     public void setStunnedForRounds(int numberOfRounds) {
         this.stunnedForRounds = numberOfRounds;
         view.insectIsStunned();
     }
 
+    /**
+     * Sets the number of rounds the insect is slowed.
+     *
+     * @param numberOfRounds The number of rounds the insect is slowed.
+     */
     public void setSlowedForRounds(int numberOfRounds) {
         this.slowedForRounds = numberOfRounds;
         view.insectIsSlowed();
     }
 
+    /**
+     * Sets the number of rounds the insect is boosted.
+     *
+     * @param numberOfRounds The number of rounds the insect is boosted.
+     */
     public void setBoostedForRounds(int numberOfRounds) {
         this.boostedForRounds = numberOfRounds;
         view.insectIsBoosted();
@@ -161,11 +180,11 @@ public class Insect implements IRoundFollower {
     }
 
     /**
-     * Attempts to cut the mycelium connection between tectons.
+     * Attempts to cut the connection between the insect's tecton and a mycelium.
      *
-     * @param targetTecton The target tecton to sever the connection to.
-     * @return {@code true} if the connection was cut successfully, {@code false} otherwise.
-     * @throws Exception If the insect cannot cut the mycelium connection.
+     * @param m The mycelium to cut the connection with.
+     * @return {@code true} if the cut was successful, {@code false} otherwise.
+     * @throws Exception If the insect cannot cut the mycelium.
      */
     public boolean cutMycelium(Mycelium m) throws Exception {
         if (stunnedForRounds > 0 || antiSeveredForRounds > 0) {
@@ -180,7 +199,7 @@ public class Insect implements IRoundFollower {
         return false;
     }
 
-    // Getter methods for insect's details
+
     public String getName() { return this.name; }
 
     public Tecton getTecton() { return this.tecton; }
@@ -234,6 +253,11 @@ public class Insect implements IRoundFollower {
                 stunnedForRounds == i.stunnedForRounds && slowedForRounds == i.slowedForRounds && boostedForRounds == i.boostedForRounds;
     }
 
+    /**
+     * Returns the GInsect object associated with this insect.
+     *
+     * @return The GInsect object.
+     */
     public GInsect getGInsect() { 
         return gi;
     }
