@@ -29,6 +29,20 @@ public class MyceliumView implements IObserver{
         return message;
     }
 
+    public String cannotPlaceBodyMessage() {
+        String message = "Cannot place body on this tecton!";
+        System.out.println(message);
+        JOptionPane.showMessageDialog(null, message);
+        return message;
+    }
+
+    public String hasNoSporeToGrowBody() {
+        String message = "No spores on the tecton to grow a body!";
+        System.out.println(message);
+        JOptionPane.showMessageDialog(null, message);
+        return message;
+    }
+
     public void hasGrownBody() {
         //if (!GameTesterController.SHOW_OUTPUT) { return; }
         mycelium.getBody().getGFungusBody().setCoordinates(mycelium.getGMycelium().getCoords().x, mycelium.getGMycelium().getCoords().y);
@@ -50,7 +64,10 @@ public class MyceliumView implements IObserver{
     }
 
     public String hasNoFungusBody() {
-        return "\nMycelium (" + mycelium.getName() + ") cannot scatter spore: no FungusBody present!\n";
+        String message = "\nMycelium (" + mycelium.getName() + ") cannot scatter spore: no FungusBody present!\n";
+        System.out.println(message);
+        JOptionPane.showMessageDialog(null, message);
+        return message;
     }
 
     public void cooldownReduced() {

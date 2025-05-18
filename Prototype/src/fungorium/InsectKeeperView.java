@@ -58,8 +58,6 @@ public class InsectKeeperView implements IObserver {
     }
 
     @Override
-    public void draw(Graphics g, Point coords) {
-
-    }
+    public void draw(Graphics g, Point coords) {}
 
 }

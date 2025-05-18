@@ -78,34 +78,54 @@ public class InsectKeeper extends Player {
 
         String action = args[0].toUpperCase();
         String insectName = args.length > 1 ? args[1] : null;
-        Insect insect;
+        Insect insect = map.findInsect(insectName);
         String targetName = args.length > 2 ? args[2] : null;
 
+        // Ezt meg itt hagyom ha gond lenne
+        /*
         int cost = switch (action) {
-            case "MOVETOTECTON" -> 2;
-            case "CUTMYC", "EATSPORE" -> 1;
-            default -> 0;
-        };
+        case "MOVETOTECTON" -> 2;
+        case "MOVETOTECTON":
+        case "CUTMYC", "EATSPORE" -> 1;
+        default -> 0;
+        */
+
+        int cost;
+        switch (action) {
+            case "MOVETOTECTON" -> {
+                if (insect.getBoostedForRounds() > 0) {
+                    cost = 1;
+                } else if (insect.getSlowedForRounds() > 0) {
+                    cost = 3;
+                } else {
+                    cost = 2;
+                }
+            }
+            case "CUTMYC", "EATSPORE" -> cost = 1;
+            default -> cost = 0; // elvileg nem kellene bajnak lennie
+        }
 
         if (cost > actionPoints) {
             view.notEnoughActionPoints();
             return;
         }
 
+        // Innen a findInsect-eket kivettem es beraktam az elejere
         switch (action) {
             case "MOVETOTECTON":
-                Tecton targetTecton1 = map.findTecton(targetName);
-                insect = map.findInsect(insectName);
-                insect.stepToTecton(targetTecton1);
+                try {
+                    Tecton targetTecton1 = map.findTecton(targetName);
+                    insect.stepToTecton(targetTecton1);
+                } catch (Exception exp) {
+                    exp.getMessage();
+                }
                 break;
             case "CUTMYC":
                 Mycelium targetMycelium = map.findMycelium(targetName);
-                insect = map.findInsect(insectName);
                 insect.cutMycelium(targetMycelium);
                 break;
             case "EATSPORE":
                 Spore targetSpore = map.findSpore(targetName);
-                insect = map.findInsect(insectName);
                 insect.eatSpore(targetSpore);
                 break;
             default:

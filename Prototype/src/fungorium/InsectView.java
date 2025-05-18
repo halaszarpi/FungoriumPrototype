@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
 
+import javax.swing.JOptionPane;
+
 public class InsectView implements IObserver {
 
     Insect insect;
@@ -71,8 +73,18 @@ public class InsectView implements IObserver {
         System.out.println("Insect (" + insect.getName() + ") is duplicated!");
     }
 
+    public String cannotEatSporeBecauseStunnedMessage() {
+        String message = "Insect (" + insect.getName() + ") cannot eat spore because it is stunned!";
+        System.out.println(message);
+        JOptionPane.showMessageDialog(null, message);
+        return message;
+    }
+
     public String insectNotAbleToStep(String insectName, String targetTectonName) {
-        return "Insect " + insectName + " is not able to step to tecton (" + targetTectonName + ")!";
+        String message = "Insect " + insectName + " is not able to step to tecton (" + targetTectonName + ")!";
+        System.out.println(message);
+        JOptionPane.showMessageDialog(null, message);
+        return message;
     }
 
     public Insect getInsect() {

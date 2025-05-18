@@ -1,6 +1,7 @@
 package fungorium;
 
 import java.util.List;
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -84,26 +85,42 @@ public class FungusFarmer extends Player {
         };
 
         if (cost > actionPoints) {
-            view.notEnoughActionPoints(); // <<< Ezt biztosítsd a view-ban
+            view.notEnoughActionPoints();
             return;
         }
 
         switch (action) {
             case "GROWMYC":
-                Tecton targetTecton1 = map.findTecton(targetName);
-                mycelium.spreadTo(targetTecton1);
+                try {
+                    Tecton targetTecton1 = map.findTecton(targetName);
+                    mycelium.spreadTo(targetTecton1);
+                } catch (Exception exp) {
+                    exp.getMessage();
+                }
                 break;
             case "GROWBOD":
-                Spore targetSpore1 = map.findSpore(targetName);
-                mycelium.growBody(targetSpore1);
+                try {
+                    Spore targetSpore1 = map.findSpore(targetName);
+                    mycelium.growBody(targetSpore1);
+                } catch (Exception exp) {
+                    exp.getMessage();
+                }
                 break;
             case "SCATTERSP":
-                Tecton targetTecton2 = map.findTecton(targetName);
-                mycelium.scatterSpore(targetTecton2);
+                try {
+                    Tecton targetTecton2 = map.findTecton(targetName);
+                    mycelium.scatterSpore(targetTecton2);
+                } catch (Exception exp) {
+                    exp.getMessage();
+                }
                 break;
             case "EATINS":
-                Insect targetInsect = map.findInsect(targetName);
-                mycelium.eatInsect(targetInsect);
+                try {
+                    Insect targetInsect = map.findInsect(targetName);
+                    mycelium.eatInsect(targetInsect);
+                } catch (Exception exp) {
+                    exp.getMessage();
+                }
                 break;
             default:
                 view.invalidActionMessage();
@@ -232,6 +249,7 @@ public class FungusFarmer extends Player {
     @Override
     public List<String> getActions() {
         List<String> actions = new ArrayList<>();
+
         actions.add("GROWMYC (2)");
         actions.add("GROWBOD (2)");
         actions.add("SCATTERSP (1)");

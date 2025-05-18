@@ -6,7 +6,6 @@ package fungorium;
  * which allows it to take actions that follow the rounds of the game.
  */
 import java.util.ArrayList;
-import javax.swing.text.View;
 
 public class Mycelium implements IRoundFollower{
     private final String name;
@@ -64,44 +63,19 @@ public class Mycelium implements IRoundFollower{
     /*ha nincsen gombatest noveszt egyet es true ertekkel ter vissza, ha pedig mar van false-al ter vissza */
     public void growBody(Spore spore) throws Exception {
         if (body != null) {
-            throw new Exception("This mycelium already has a body.");
-        }
-        if (owner.getActionPoints() < 1) {
-            throw new Exception("Not enough action points to grow body.");
+            throw new Exception(view.alreadyHasABodyMessage());
         }
 
         // Ha rakhatunk ra gombatestet es rajta van a noveszteshez hasznalando spora a tektonok akkor oke
-        if(!tecton.hasSpores(spore))
-            throw new Exception("No spores on the tecton to grow a body.");
+        if(!tecton.hasSpores(spore)) {
+            throw new Exception(view.hasNoSporeToGrowBody());
+        }
+
         if (!tecton.canPlaceBody()) {
-            throw new Exception("Cannot place body on this tecton.");
+            throw new Exception(view.cannotPlaceBodyMessage());
         }
 
         body = new FungusBody(this);
-        tecton.removeSpore(spore);
-        owner.removeSpore(spore);
-        view.hasGrownBody();
-        owner.useActionPoints(2);
-        owner.increaseScore(1);
-    }
-
-    public void growBody(Spore spore, String testSpore) throws Exception {
-        if (body != null) {
-            // view.alreadyHasABodyMessage
-            throw new Exception(view.alreadyHasABodyMessage());
-        }
-        if (owner.getActionPoints() < 1) {
-            throw new Exception(view.notEnoughActionPointsForBody());
-        }
-
-        // Ha rakhatunk ra gombatestet es rajta van a noveszteshez hasznalando spora a tektonok akkor oke
-        if(!tecton.hasSpores(spore))
-            throw new Exception("No spores on the tecton to grow a body.");
-        if (!tecton.canPlaceBody()) {
-            throw new Exception("Cannot place body on this tecton.");
-        }
-
-        body = new FungusBody(this, testSpore);
         tecton.removeSpore(spore);
         owner.removeSpore(spore);
         view.hasGrownBody();
@@ -178,6 +152,7 @@ public class Mycelium implements IRoundFollower{
             view.cooldownReduced();
         }
     }
+
     /**
      * Checks if the mycelium has a fungus body.
      * 
@@ -186,6 +161,7 @@ public class Mycelium implements IRoundFollower{
     public boolean hasBody() {
         return body != null;
     }
+
     /**
      * Increases the rounds the mycelium can live if possible.
      */
@@ -195,6 +171,7 @@ public class Mycelium implements IRoundFollower{
             view.myceliumSustained();
         }
     }
+
     /**
      * Decreases the rounds the mycelium can live and checks if it has died.
      */
@@ -205,6 +182,7 @@ public class Mycelium implements IRoundFollower{
             view.myceliumHasDied();
         }
     }
+
     /**
      * Handles the action of the mycelium eating an insect.
      * 
@@ -215,6 +193,7 @@ public class Mycelium implements IRoundFollower{
         owner.useActionPoints(3);
         view.ateInsect(insect);
     }
+
     /**
      * Returns a string representation of the mycelium's state.
      * 
@@ -228,6 +207,7 @@ public class Mycelium implements IRoundFollower{
         returnString += "\n\tRounds to Live: " + this.roundsToLive;
         return returnString;
     }
+
     /**
      * Checks if two Mycelium objects are equal based on their tecton, name, and body state.
      * 

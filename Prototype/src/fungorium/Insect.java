@@ -107,6 +107,7 @@ public class Insect implements IRoundFollower {
      */
     public int eatSpore(Spore spore) {
         if (!(owner.getActionPoints() >= 1) || stunnedForRounds > 0) {
+            view.cannotEatSporeBecauseStunnedMessage();
             return -1;
         }
         int nutrientContent = spore.gotEatenBy(this);
