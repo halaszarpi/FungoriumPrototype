@@ -197,7 +197,15 @@ public class InsectKeeper extends Player {
     public List<String> getParam1ForAction(String action) {
         List<String> parameters = new ArrayList<>();
         for (Insect insect : insects) {
-            parameters.add(insect.getName() + " (" + insect.getTecton().getName() + ")");
+            parameters.add(insect.getName() + " (" + insect.getTecton().getName() 
+            + ") BST: " 
+            + insect.getBoostedForRounds()  
+            + " SLO: " 
+            + insect.getSlowedForRounds()
+            + " STU: "
+            + insect.getStunnedForRounds()
+            + " ANT: "
+            + insect.getAntiSeveredForRounds());
         }
         return parameters;
     }
