@@ -2,6 +2,8 @@ package fungorium;
 
 import java.awt.*;
 
+import javax.swing.JOptionPane;
+
 /**
  * Represents the view for a FungusBody in the Fungorium game.
  *
@@ -29,17 +31,11 @@ public class FungusBodyView implements IObserver{
      * @return a string message about no available spores
      */
     public String noAvailableSpore() {
-        return "Fungus body on (" + fungusBody.getMycelium().getName() + ") has no spore to scatter!";
+        String message = "Fungus body on (" + fungusBody.getMycelium().getName() + ") has no spore to scatter!";
+        JOptionPane.showMessageDialog(null, message);
+        return message;
     }
 
-    /**
-     * Returns an error message indicating that the owner does not have enough action points.
-     *
-     * @return a string message about not enough action points
-     */
-    public String noAvailableActionPoint() {
-        return "Fungus farmer (" + fungusBody.getOwner().getName() + ") has not enough action point!";
-    }
 
     @Override
     public void draw(Graphics g, Point coords) {

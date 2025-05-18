@@ -76,20 +76,24 @@ public class InsectView implements IObserver {
 
     public String cannotEatSporeBecauseStunnedMessage() {
         String message = "Insect (" + insect.getName() + ") cannot eat spore because it is stunned!";
-        System.out.println(message);
         JOptionPane.showMessageDialog(null, message);
         return message;
     }
 
     public String insectNotAbleToStep(String insectName, String targetTectonName) {
         String message = "Insect " + insectName + " is not able to step to tecton (" + targetTectonName + ")!";
-        System.out.println(message);
         JOptionPane.showMessageDialog(null, message);
         return message;
     }
 
     public Insect getInsect() {
         return insect;
+    }
+
+    public String cannotCutMyceliumMessage() {
+        String message = "Insect (" + insect.getName() + ") cannot cut mycelium because it's anti-severed (or stunned)!";
+        JOptionPane.showMessageDialog(null, message);
+        return message;
     }
 
     @Override
@@ -104,10 +108,5 @@ public class InsectView implements IObserver {
             3);
         g.fillPolygon(p);
         g.drawPolygon(p);
-    }
-
-    public String cannotCutMyceliumMessage() {
-        String message = "Insect (" + insect.getName() + ") cannot cut mycelium because it is stunned!";
-        return message;
     }
 }

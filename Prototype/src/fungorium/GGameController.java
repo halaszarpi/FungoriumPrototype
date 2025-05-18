@@ -265,20 +265,45 @@ public class GGameController extends JFrame {
         String input;
 
         // Get number of players (between 2 and 16)
-        int numPlayers = 0;
+        int numPlayers;
+
         while (true) {
-            input = JOptionPane.showInputDialog(this, "Enter number of players (2–8):");
-            try {
-                numPlayers = Integer.parseInt(input);
-                if (numPlayers >= 2 && numPlayers <= 8) {
-                    break;
-                } else {
-                    showError("Number of players must be between 2 and 8.");
+            JSpinner spinner = new JSpinner(new SpinnerNumberModel(2, 2, 8, 1)); // start=2, min=2, max=8
+            JComponent editor = spinner.getEditor();
+            ((JSpinner.DefaultEditor) editor).getTextField().setColumns(2);
+
+            int option = JOptionPane.showOptionDialog(
+                    this,
+                    spinner,
+                    "Select number of players",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    null,
+                    null
+            );
+
+            if (option == JOptionPane.OK_OPTION) {
+                numPlayers = (int) spinner.getValue();
+                break;
+            } else {
+                // Optionally ask if the user wants to cancel or continue
+                int retry = JOptionPane.showConfirmDialog(
+                        this,
+                        "You must select a number of players to continue.\nDo you want to try again?",
+                        "Input Required",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                if (retry != JOptionPane.YES_OPTION) {
+                    showError("Player selection was cancelled.");
+                    dispose();
+                    SwingUtilities.invokeLater(GMainMenu::new);
+                    return;
                 }
-            } catch (NumberFormatException e) {
-                showError("Please enter a valid integer.");
             }
         }
+
 
         // Get names of players (non-null, unique)
         players = new ArrayList<>();
@@ -313,16 +338,24 @@ public class GGameController extends JFrame {
 
         // Get number of rounds (between 0 and 100)
         while (true) {
-            input = JOptionPane.showInputDialog(this, "Enter number of rounds (0–100):");
-            try {
-                numberOfRounds = Integer.parseInt(input);
-                if (numberOfRounds >= 0 && numberOfRounds <= 100) {
-                    break;
-                } else {
-                    showError("Number of rounds must be between 0 and 100.");
-                }
-            } catch (NumberFormatException e) {
-                showError("Please enter a valid integer.");
+            JSpinner spinner = new JSpinner(new SpinnerNumberModel(10, 1, 100, 1));
+            JComponent editor = spinner.getEditor();
+            ((JSpinner.DefaultEditor) editor).getTextField().setColumns(3);
+
+            int option = JOptionPane.showOptionDialog(
+                    this,
+                    spinner,
+                    "Select number of rounds",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    new Object[]{"OK"},
+                    "OK"
+            );
+
+            if (option == 0) {
+                numberOfRounds = (int) spinner.getValue();
+                break;
             }
         }
 
