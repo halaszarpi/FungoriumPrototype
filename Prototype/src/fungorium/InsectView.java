@@ -68,9 +68,10 @@ public class InsectView implements IObserver {
     }
 
     // Ide esetleg nem kellene az uj insect neve?
-    public void insectDuplicated() {
+    public void insectDuplicated(Insect duplicatedInsect) {
         //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Insect (" + insect.getName() + ") is duplicated!");
+        duplicatedInsect.getTecton().getGTecton().attach(duplicatedInsect.getView());
+
     }
 
     public String cannotEatSporeBecauseStunnedMessage() {

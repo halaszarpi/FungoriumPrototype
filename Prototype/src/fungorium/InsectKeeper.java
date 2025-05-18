@@ -120,9 +120,10 @@ public class InsectKeeper extends Player {
      *
      * @param insect The insect to duplicate.
      */
-    public void duplicateInsect(Insect insect) {
+    public Insect duplicateInsect(Insect insect) {
         Insect duplicatedInsect = new Insect(getNewInsectName(), insect.getTecton(), insect.getOwner());
         insects.add(duplicatedInsect);
+        return duplicatedInsect;
     }
 
     /**

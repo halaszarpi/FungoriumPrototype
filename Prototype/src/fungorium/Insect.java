@@ -150,8 +150,8 @@ public class Insect implements IRoundFollower {
      * Duplicates the insect and notifies the owner.
      */
     public void duplicate() {
-        owner.duplicateInsect(this);
-        view.insectDuplicated();
+        Insect duplicatedInsect = owner.duplicateInsect(this);
+        view.insectDuplicated(duplicatedInsect);
     }
 
     /**
