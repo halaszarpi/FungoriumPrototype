@@ -20,31 +20,6 @@ public class InsectKeeperView implements IObserver, IColorAble {
         System.out.println("Invalid action!");
     }
 
-    public void info() {
-        System.out.println("INSECTKEEPER INFO:");
-        System.out.println("-------------------");
-        System.out.println("\tNAME: " + insectKeeper.getName());
-        System.out.println("\n\tACTIONPOINTS: " + insectKeeper.getActionPoints());
-        System.out.println("\n\tSCORE: " + insectKeeper.getScore());
-        System.out.println("\nINSECTS ");
-        for (Insect insect : insectKeeper.getInsects()) {
-            System.out.println("\t" + insect.getName() + " on tecton (" + insect.getTecton().getName() + ")");
-            if (insect.getBoostedForRounds() != 0) {
-                System.out.println("\t\tBoosted for " + insect.getBoostedForRounds() + " rounds");
-            }
-            if (insect.getSlowedForRounds() != 0) {
-                System.out.println("\t\tSlowed for " + insect.getSlowedForRounds() + " rounds");
-            }
-            if (insect.getStunnedForRounds() != 0) {
-                System.out.println("\t\tStunned for " + insect.getStunnedForRounds() + " rounds");
-            }
-            if (insect.getAntiSeveredForRounds() != 0) {
-                System.out.println("\t\tAnti severed for " + insect.getAntiSeveredForRounds() + " rounds");
-            }
-        }
-        System.out.println("-------------------");
-    }
-
     public void notEnoughActionPoints() {
         System.out.println("Nincs elég akciópontod ehhez a művelethez.");
     }

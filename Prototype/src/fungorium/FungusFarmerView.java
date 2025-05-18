@@ -57,38 +57,6 @@ public class FungusFarmerView implements IObserver, IColorAble {
         System.out.println("Invalid action!");
     }
 
-    /**
-     * Displays detailed information about the FungusFarmer, including their action
-     * points,
-     * score, mycelium(s), fungus body, and spores.
-     */
-    public void info() {
-        System.out.println("FUNGUS FARMER INFO");
-        System.out.println("--------------------------");
-        System.out.println("\tNAME: " + fungusFarmer.getName());
-        System.out.println("\tACTIONPOINTS: " + fungusFarmer.getActionPoints());
-        System.out.println("\tSCORE: " + fungusFarmer.getScore());
-        System.out.println("\nMYCELIUMS: ");
-
-        for (Mycelium mycelium : fungusFarmer.getMyceliums()) {
-            System.out.println("\t" + mycelium.getName() + " on tecton (" + mycelium.getTecton().getName() + ")");
-        }
-
-        System.out.println("\nFUNGUSBODYS:");
-        for (Mycelium mycelium : fungusFarmer.getMyceliums()) {
-            if (mycelium.hasBody()) {
-                mycelium.getBody().toString();
-            }
-        }
-
-        System.out.println("\nSPORES:");
-        for (Spore spore : fungusFarmer.getSpores()) {
-            System.out.println("\t" + spore.getName());
-        }
-
-        System.out.println("--------------------------");
-    }
-
     public void notEnoughActionPoints() {
         String errorMessage = "You don't have enough action points!";
         System.out.println(errorMessage);

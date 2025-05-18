@@ -14,15 +14,7 @@ public class GPlayer {
     public GPlayer(Player player, Color playerColor) {
         this.player = player;
 
-        if (player instanceof FungusFarmer fm) {
-            FungusFarmerView fmv = (FungusFarmerView) fm.getView();
-            fmv.setColor(playerColor);
-        }
-
-        if (player instanceof InsectKeeper ik) {
-            InsectKeeperView ikv = (InsectKeeperView) ik.getView();
-            ikv.setColor(playerColor);
-        }
+        ((IColorAble)(player.getView())).setColor(playerColor);
 
         param1box = new JComboBox<>();
         param2box = new JComboBox<>();
