@@ -141,9 +141,7 @@ public class Insect implements IRoundFollower {
      * If the insect is stunned, it dies.
      */
     public void gotEaten() {
-        if (stunnedForRounds > 0) {
-            owner.insectDied(this);
-        }
+        owner.insectDied(this);
     }
 
     /**

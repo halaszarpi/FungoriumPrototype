@@ -97,9 +97,6 @@ public class GPlayer {
             param1box.addItem(p1);
         }
 
-        // debug
-        param1box.setSelectedIndex(0);
-
         // Ensure at least one selection
         if (param1box.getItemCount() > 0) {
             param1box.setSelectedIndex(0);

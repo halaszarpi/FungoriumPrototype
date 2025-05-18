@@ -85,6 +85,12 @@ public class MyceliumView implements IObserver{
         insect.getTecton().getGTecton().detach(insect.getView());
     }
 
+    public String cannotEatInsect(Insect insect) {
+        String message = "Insect (" + insect.getName() + ") can't be eaten (not stunned)!";
+        JOptionPane.showMessageDialog(null, message);
+        return message; 
+    }
+
     public String targetAlreadyHasMycelium(Tecton targetTecton) {
         String message = "Tecton (" + targetTecton.getName() + ") already has mycelium on it and there is a connection between them!";
         JOptionPane.showMessageDialog(null, message);

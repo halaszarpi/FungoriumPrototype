@@ -236,6 +236,9 @@ public class FungusFarmer extends Player {
     public List<String> getParam2ForAction(String action, String param1, GMap map) {
         List<String> parameters = new ArrayList<>();
         Mycelium m = map.findMyceliumByName(param1);
+        if (m == null) {
+            return parameters;
+        }
         switch (action) {
             case "GROWMYC":
                 for (Tecton tecton : map.getTectons()) {
