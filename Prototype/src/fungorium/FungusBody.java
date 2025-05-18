@@ -30,13 +30,6 @@ public class FungusBody {
         gf = new GFungusBody(this);
     }
 
-    public FungusBody(Mycelium mycelium, String sporeType) {
-        this.mycelium = mycelium;
-        this.remainingSpores = 5;
-        this.scatteringCooldown = 0;
-        this.view = new FungusBodyView(this);
-        this.typeToCreate = sporeType;
-    }
 
     public FungusBodyView getView() {
         return view;
@@ -170,6 +163,9 @@ public class FungusBody {
         return mycelium.getOwner();
     }
 
+    /**
+     * return if the body is grown
+     */
     public boolean isBodyGrown() { return remainingSpores <= 3; }
 
     public GFungusBody getGFungusBody() { 

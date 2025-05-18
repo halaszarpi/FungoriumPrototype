@@ -9,6 +9,7 @@ public class GFungusBody implements IObservable {
     int y;
     ArrayList<IObserver> observers;
 
+
     public GFungusBody(FungusBody fb) {
         fungusbody = fb;
         x = -1;

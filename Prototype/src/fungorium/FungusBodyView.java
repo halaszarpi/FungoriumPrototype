@@ -36,6 +36,7 @@ public class FungusBodyView implements IObserver{
         return message;
     }
 
+
     @Override
     public void draw(Graphics g, Point coords) {
         FungusFarmerView fmv = (FungusFarmerView)fungusBody.getOwner().getView();

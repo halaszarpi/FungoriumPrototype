@@ -47,6 +47,10 @@ public class FungusFarmerView implements IObserver, IColorAble {
         System.out.println("Invalid action!");
     }
 
+    /**
+     * Displays a message to the player indicating that they don't have enough action
+     * points to perform an action.
+     */
     public void notEnoughActionPoints() {
         String errorMessage = "You don't have enough action points!";
         System.out.println(errorMessage);
