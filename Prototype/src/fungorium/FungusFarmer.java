@@ -284,6 +284,7 @@ public class FungusFarmer extends Player {
                 m.getTecton().getSporeList().forEach(s -> parameters.add(s.getName()));
                 break;
             case "SCATTERSP":
+                parameters.add(m.getTecton().getName());
                 for (Tecton t1 : map.getTectons()) {
 
                     if (m.getTecton().isNeighbour(t1) && !parameters.contains(t1.getName())) {
@@ -297,7 +298,6 @@ public class FungusFarmer extends Player {
                                 parameters.add(t2.getName());
                             }
                         }
-
                     }
                 }
                 break;
