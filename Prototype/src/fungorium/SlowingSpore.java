@@ -26,15 +26,4 @@ public class SlowingSpore extends Spore {
         i.setSlowedForRounds(effectDuration);
         return nutrientContent;
     }
-
-    /**
-     * Provides a string representation of the SlowingSpore.
-     *
-     * @return A string indicating this is a "slowing spore".
-     */
-    @Override
-    public String toString() {
-        return sporeToString("slowing spore");
-    }
-
 }

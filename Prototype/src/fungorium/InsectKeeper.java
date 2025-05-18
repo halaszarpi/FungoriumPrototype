@@ -27,7 +27,6 @@ public class InsectKeeper extends Player {
         view = new InsectKeeperView(this);
     }
 
-
     /**
      * Changes the game map state based on the given commands.
      * Executes actions like moving an insect, cutting mycelium, or eating a spore.

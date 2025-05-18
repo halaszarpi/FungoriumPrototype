@@ -75,13 +75,4 @@ public class SingleMyceliumTecton extends Tecton {
     @Override
     public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton()); }
 
-    /**
-     * Provides a string representation of the tecton.
-     *
-     * @return A string indicating this is a "single mycelium tecton".
-     */
-    @Override
-    public String toString() {
-        return tectonToString("single mycelium tecton");
-    }
 }

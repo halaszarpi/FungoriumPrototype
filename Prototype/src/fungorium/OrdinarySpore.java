@@ -25,14 +25,4 @@ public class OrdinarySpore extends Spore {
         return nutrientContent;
     }
 
-    /**
-     * Returns a string representation of this spore as an "ordinary spore."
-     *
-     * @return A string description of the ordinary spore.
-     */
-    @Override
-    public String toString() {
-        return sporeToString("ordinary spore");
-    }
-
 }

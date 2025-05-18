@@ -76,14 +76,4 @@ public class OrdinaryTecton extends Tecton {
     @Override
     public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton()); }
 
-    /**
-     * Returns a string representation of this tecton.
-     *
-     * @return A string representing this tecton, stating it's an ordinary tecton.
-     */
-    @Override
-    public String toString() {
-        return tectonToString("ordinary tecton");
-    }
-
 }

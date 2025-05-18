@@ -123,14 +123,7 @@ public class Mycelium implements IRoundFollower{
         this.body = null;
         view.bodyHasDied();
     }
-    /**
-     * Attempts to scatter a spore to a target tecton.
-     * 
-     * @param targetTecton The target tecton to scatter the spore to.
-     * @param sporeType The type of the spore to scatter.
-     * @param sporeName The name of the spore to scatter.
-     * @throws Exception If the mycelium does not have a fungus body, or if there is an error scattering the spore.
-     */
+
     public void scatterSpore(Tecton targetTecton) throws Exception {
         if (body == null) {
             throw new Exception(view.hasNoFungusBody());
@@ -138,6 +131,8 @@ public class Mycelium implements IRoundFollower{
         body.scatterTo(targetTecton);
         owner.useActionPoints(1);
     }
+
+
     /**
      * This method is called when a round has passed to reduce the cooldown of the mycelium's body.
      */

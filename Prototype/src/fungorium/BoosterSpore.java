@@ -34,14 +34,4 @@ public class BoosterSpore extends Spore {
         i.setBoostedForRounds(effectDuration);
         return nutrientContent;
     }
-
-    /**
-     * Returns a string representation of the BoosterSpore.
-     *
-     * @return a string describing the BoosterSpore
-     */
-    @Override
-    public String toString() {
-        return sporeToString("booster spore");
-    }
 }

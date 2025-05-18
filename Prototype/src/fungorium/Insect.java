@@ -33,7 +33,6 @@ public class Insect implements IRoundFollower {
         stunnedForRounds = 0;
         slowedForRounds = 0;
         boostedForRounds = 0;
-        view.insectInitialized();
         gi = new GInsect(this);
     }
 
@@ -125,7 +124,6 @@ public class Insect implements IRoundFollower {
     public void gotEaten() {
         if (stunnedForRounds > 0) {
             owner.insectDied(this);
-            view.insectGotEaten();
         }
     }
 

@@ -26,14 +26,4 @@ public class InsectDuplicatorSpore extends Spore {
         i.duplicate();
         return nutrientContent;
     }
-
-    /**
-     * Returns a string representation of the InsectDuplicatorSpore.
-     *
-     * @return A string describing the InsectDuplicatorSpore.
-     */
-    @Override
-    public String toString() {
-        return sporeToString("insect duplicator spore");
-    }
 }

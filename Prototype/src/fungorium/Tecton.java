@@ -27,7 +27,6 @@ public abstract class Tecton implements IRoundFollower{
      * @param tectonName The name of the tecton.
      * @param m The map the tecton belongs to.
      */
-
     protected Tecton(int percentToBreak, String tectonName, TectonMap m) {
 
         sporeList = new ArrayList<>();
@@ -53,27 +52,6 @@ public abstract class Tecton implements IRoundFollower{
         t.neighbours.put(this, new ArrayList<>());
 
         view.neighbourAdded(t);
-    }
-
-    /**
-     * Creates a mycelium connection with a neighbouring tecton.
-     *
-     * @param t The tecton to connect to.
-     * @throws Exception if the tecton is not a neighbour.
-     */
-    public void addConnection(Mycelium m) throws Exception{
-
-        Tecton t = m.getTecton();
-
-        if (!isNeighbour(t)) throw new Exception(view.notNeighbour(t));
-
-        List<FungusFarmer> fungusFarmerList = neighbours.get(t);
-        fungusFarmerList.add(m.getOwner());
-
-        neighbours.put(t, fungusFarmerList);
-        t.neighbours.put(this, fungusFarmerList);
-
-        view.connectionAdded(t);
     }
 
     public void addConnection(Tecton t, FungusFarmer f) throws Exception{
@@ -180,12 +158,7 @@ public abstract class Tecton implements IRoundFollower{
         view.sporeRemoved(s);
     }
 
-    /**
-     * Removes a mycelium connection with a neighbour.
-     *
-     * @param t The neighbour tecton.
-     * @throws Exception if no connection exists.
-     */
+
     public void removeConnection(Mycelium m) throws Exception {
 
         Tecton t = m.getTecton();
@@ -252,12 +225,7 @@ public abstract class Tecton implements IRoundFollower{
 
     }
 
-    /**
-     * Checks if the tecton is connected by mycelium to another tecton.
-     *
-     * @param t The tecton to check.
-     * @return True if connected.
-     */
+
     public boolean isConnectedTo(Mycelium m) {
         Tecton t = m.getTecton();
         if(!neighbours.containsKey(t))
@@ -424,135 +392,6 @@ public abstract class Tecton implements IRoundFollower{
      * @return The tecton's name.
      */
     public String getName() { return name; }
-
-    /**
-     * Converts the tecton into a human-readable string format.
-     *
-     * @param tectonType The type of the tecton.
-     * @return The formatted tecton string.
-     */
-    protected String tectonToString(String tectonType) {
-
-        String returnString = "\n--------------------------------------------------------------------------------------------------------";
-
-        returnString += "\nTecton name: ";
-
-        returnString += name;
-
-        returnString += "\nTecton type: ";
-
-        returnString += tectonType;
-
-        returnString += "\n---------------------------";
-        returnString += "\nSpores on tecton: ";
-
-        Collections.sort(sporeList, new Comparator<Spore>() {
-            @Override
-            public int compare(Spore s1, Spore s2) {
-                return s1.getName().compareTo(s2.getName());
-            }
-        });
-
-        if (!sporeList.isEmpty()) {
-            for (Spore s : sporeList){
-                returnString += "\n" + s.toString() + "\n";
-            }
-        }
-        else {
-            returnString += "-\n";
-        }
-        returnString += "---------------------------";
-        returnString += "\nNeigbours of tecton: ";
-
-        List<Tecton> neighbourList = new ArrayList<>(neighbours.keySet());
-
-        Collections.sort(neighbourList, new Comparator<Tecton>() {
-            @Override
-            public int compare(Tecton t1, Tecton t2) {
-                return t1.getName().compareTo(t2.getName());
-            }
-        });
-
-        if (!neighbourList.isEmpty()) {
-            for (Tecton t : neighbourList){
-                returnString += t.name + ", ";
-            }
-        }
-        else {
-            returnString += "-\n";
-        }
-
-        returnString += "\n---------------------------";
-        returnString += "\nConnected by mycelium: ";
-
-        boolean foundAtLeastOne = false;
-
-        if (!neighbourList.isEmpty()) {
-            for (Tecton t : neighbourList) {
-                if (neighbours.get(t) != null) {
-                    returnString += t.name + ", ";
-                    foundAtLeastOne = true;
-                }
-            }
-            if (!foundAtLeastOne) { returnString += "-\n"; }
-        }
-        else {
-            returnString += "-\n";
-        }
-
-        returnString += "\n---------------------------";
-        returnString+= "\nMycelia on tecton: ";
-
-        Collections.sort(myceliumList, new Comparator<Mycelium>() {
-            @Override
-            public int compare(Mycelium e1, Mycelium e2) {
-                return e1.getName().compareTo(e2.getName());
-            }
-        });
-
-        if (!myceliumList.isEmpty()) {
-            for (Mycelium m : myceliumList){
-                returnString += "\n" + m.toString() + "\n";
-            }
-        }
-        else {
-            returnString += "-\n";
-        }
-
-        returnString += "---------------------------";
-        returnString += "\nInsects on tecton: ";
-
-        Collections.sort(insectList, new Comparator<Insect>() {
-            @Override
-            public int compare(Insect i1, Insect i2) {
-                return i1.getName().compareTo(i2.getName());
-            }
-        });
-
-        if (!insectList.isEmpty()){
-            for (Insect i : insectList) {
-                returnString += "\n" + i.toString() + "\n";
-            }
-        }
-        else {
-            returnString += "-\n";
-        }
-
-        returnString += "---------------------------";
-        returnString += "\nBreak chance: ";
-        returnString += Integer.toString(breakPrecent) + "%";
-        returnString += "\n--------------------------------------------------------------------------------------------------------\n";
-
-        return returnString;
-    }
-
-    /**
-     * Checks if two tectons are completely equal (deep comparison).
-     *
-     * @param t The other tecton.
-     * @return True if tectons are equal.
-     */
-    public boolean isEqual(Tecton t) { return toString().equals(t.toString()); }
 
     public TectonView getView() { return view; }
 

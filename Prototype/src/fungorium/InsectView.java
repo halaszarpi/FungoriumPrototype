@@ -62,7 +62,7 @@ public class InsectView implements IObserver {
         System.out.println("Active effects on insect (" + insect.getName() + ") were reduced by 1!");
     }
 
-    public void insectGotEaten() {
+    public void d {
         //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Insect (" + insect.getName() + ") got eaten!");
     }
