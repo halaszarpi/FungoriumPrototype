@@ -3,14 +3,18 @@ package fungorium;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class GMap extends JPanel {
     
+    private Image tempImage = null;
     private TectonMap gameMap;
     private ArrayList<GTecton> gTectons;
     private GTecton chosenTecton;
@@ -18,6 +22,14 @@ public class GMap extends JPanel {
     private final int radius = 200;
 
     public GMap(TectonMap map) {
+
+        try {
+            tempImage = ImageIO.read(new File("Prototype/src/fungorium/hatter.png"));
+        }
+        catch (IOException e) {
+
+        }
+
         chosenTecton = null;
         gameMap = map;
         gTectons = new ArrayList<>();
@@ -113,6 +125,8 @@ public class GMap extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
+
+        g.drawImage(tempImage, 0, 0, getWidth(), getHeight(), this);
 
         TectonView tv = (TectonView)chosenTecton.getObserver();
         tv.drawLine(g, getConnectedGTectonts(chosenTecton));

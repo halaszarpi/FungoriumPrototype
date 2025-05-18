@@ -12,6 +12,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import javax.swing.*;
+
+import fungorium.GMainMenu.BackgroundPanel;
+
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
@@ -466,4 +469,5 @@ public class GGameController extends JFrame {
     private void showInfo(String message) {
         JOptionPane.showMessageDialog(this, message, "Info", JOptionPane.INFORMATION_MESSAGE);
     }
+    
 }
