@@ -160,13 +160,6 @@ public class Insect implements IRoundFollower {
         }
     }
 
-    /**
-     * Attempts to cut the mycelium connection between tectons.
-     *
-     * @param targetTecton The target tecton to sever the connection to.
-     * @return {@code true} if the connection was cut successfully, {@code false} otherwise.
-     * @throws Exception If the insect cannot cut the mycelium connection.
-     */
     public boolean cutMycelium(Mycelium m) throws Exception {
         if (stunnedForRounds > 0 || antiSeveredForRounds > 0) {
             throw new Exception(view.cannotCutMyceliumMessage());
