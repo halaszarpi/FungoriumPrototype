@@ -17,28 +17,24 @@ public class MyceliumView implements IObserver{
 
     public String notEnoughActionPointsForBody() {
         String message = "Not enough action points to grow a body!";
-        System.out.println(message);
         JOptionPane.showMessageDialog(null, message);
         return message; 
     }
 
     public String alreadyHasABodyMessage() {
         String message = "This mycelium (" + mycelium.getName() + ") already has a body!";
-        System.out.println(message);
         JOptionPane.showMessageDialog(null, message);
         return message;
     }
 
     public String cannotPlaceBodyMessage() {
         String message = "Cannot place body on this tecton!";
-        System.out.println(message);
         JOptionPane.showMessageDialog(null, message);
         return message;
     }
 
     public String hasNoSporeToGrowBody() {
         String message = "No spores on the tecton to grow a body!";
-        System.out.println(message);
         JOptionPane.showMessageDialog(null, message);
         return message;
     }
@@ -65,7 +61,6 @@ public class MyceliumView implements IObserver{
 
     public String hasNoFungusBody() {
         String message = "\nMycelium (" + mycelium.getName() + ") cannot scatter spore: no FungusBody present!\n";
-        System.out.println(message);
         JOptionPane.showMessageDialog(null, message);
         return message;
     }
