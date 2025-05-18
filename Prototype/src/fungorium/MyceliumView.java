@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import javax.swing.JOptionPane;
+
 public class MyceliumView implements IObserver{
 
     Mycelium mycelium;
@@ -11,6 +13,20 @@ public class MyceliumView implements IObserver{
 
     public MyceliumView(Mycelium mycelium) {
         this.mycelium = mycelium;
+    }
+
+    public String notEnoughActionPointsForBody() {
+        String message = "Not enough action points to grow a body!";
+        System.out.println(message);
+        JOptionPane.showMessageDialog(null, message);
+        return message; 
+    }
+
+    public String alreadyHasABodyMessage() {
+        String message = "This mycelium (" + mycelium.getName() + ") already has a body!";
+        System.out.println(message);
+        JOptionPane.showMessageDialog(null, message);
+        return message;
     }
 
     public void hasGrownBody() {
@@ -58,7 +74,9 @@ public class MyceliumView implements IObserver{
     }
 
     public String targetAlreadyHasMycelium(Tecton targetTecton) {
-        return ("Tecton (" + targetTecton.getName() + ") already has mycelium on it and there is a connection between them!");
+        String message = "Tecton (" + targetTecton.getName() + ") already has mycelium on it and there is a connection between them!";
+        JOptionPane.showMessageDialog(null, message);
+        return message;
     }
 
     public void connectionAddedTo(Tecton newTecton) {

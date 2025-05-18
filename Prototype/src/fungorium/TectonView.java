@@ -2,6 +2,7 @@ package fungorium;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -178,8 +179,13 @@ public class TectonView implements IObserver {
     // Újítás, kell Graphics g paraméterben
     @Override
     public void draw(Graphics g, Point coords) {
-        g.setColor(Color.BLACK);
-        g.fillOval(coords.x - tectonWidth / 2, coords.y - tectonHeight / 2, tectonWidth, tectonHeight);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.BLACK);
+        g2d.fillOval(coords.x - tectonWidth / 2, coords.y - tectonHeight / 2, tectonWidth, tectonHeight);
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(new Font("Arial", Font.BOLD, 14));
+        // kicsit eltolva mindig
+        g2d.drawString(t.getName(), coords.x - 5, coords.y);
     }
 
     public void drawLine(Graphics g, List<GTecton> connectedByMycelium) {

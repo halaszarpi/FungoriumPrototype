@@ -8,7 +8,7 @@ public class GInsect implements IObservable {
     private Insect insect;
     private int x;
     private int y;
-    private final int radius = 75;
+    private final int radius = 65;
     private ArrayList<IObserver> observers;
 
     public GInsect(Insect i) {

@@ -87,10 +87,11 @@ public class Mycelium implements IRoundFollower{
 
     public void growBody(Spore spore, String testSpore) throws Exception {
         if (body != null) {
-            throw new Exception("This mycelium already has a body.");
+            // view.alreadyHasABodyMessage
+            throw new Exception(view.alreadyHasABodyMessage());
         }
         if (owner.getActionPoints() < 1) {
-            throw new Exception("Not enough action points to grow body.");
+            throw new Exception(view.notEnoughActionPointsForBody());
         }
 
         // Ha rakhatunk ra gombatestet es rajta van a noveszteshez hasznalando spora a tektonok akkor oke

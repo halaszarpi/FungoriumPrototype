@@ -2,6 +2,9 @@ package fungorium;
 
 import java.awt.*;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
 /**
  * This class represents the view for the FungusFarmer player in the game.
  *
@@ -87,7 +90,9 @@ public class FungusFarmerView implements IObserver {
     }
 
     public void notEnoughActionPoints() {
-        System.out.println("Nincs elég akciópontod ehhez a művelethez.");
+        String errorMessage = "You don't have enough action points!";
+        System.out.println(errorMessage);
+        JOptionPane.showMessageDialog(null, errorMessage);
     }
 
     @Override
