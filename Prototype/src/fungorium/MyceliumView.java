@@ -72,7 +72,7 @@ public class MyceliumView implements IObserver{
 
     public void myceliumHasDied() {
         //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Mycelium (" + mycelium.getName() + ") has died!");
+        mycelium.getTecton().getGTecton().detach(mycelium.getView());
     }
 
     public void myceliumSustained() {
