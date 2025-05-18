@@ -108,9 +108,4 @@ public class InsectView implements IObserver {
         g.fillPolygon(p);
         g.drawPolygon(p);
     }
-
-    public String cannotCutMyceliumMessage() {
-        String message = "Insect (" + insect.getName() + ") cannot cut mycelium because it is stunned!";
-        return message;
-    }
 }
