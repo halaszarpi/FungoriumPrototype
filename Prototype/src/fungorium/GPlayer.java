@@ -158,4 +158,8 @@ public class GPlayer {
         return actionBox_firstPart + " " + param1box_firstPart + " " + param2box.getSelectedItem();
     }
 
+    public Color getColor(){
+        return ((IColorAble)(player.getView())).getColor();
+    }
+
 }

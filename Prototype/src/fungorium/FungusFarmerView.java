@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  * such as available actions, mycelium initialization, invalid actions, and
  * detailed player info.
  */
-public class FungusFarmerView implements IObserver {
+public class FungusFarmerView implements IObserver, IColorAble {
 
     private FungusFarmer fungusFarmer;
     private Color drawingColor;

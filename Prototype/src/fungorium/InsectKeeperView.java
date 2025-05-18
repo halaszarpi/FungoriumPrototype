@@ -2,7 +2,7 @@ package fungorium;
 
 import java.awt.*;
 
-public class InsectKeeperView implements IObserver {
+public class InsectKeeperView implements IObserver, IColorAble {
     InsectKeeper insectKeeper;
     private Color drawingColor;
 
