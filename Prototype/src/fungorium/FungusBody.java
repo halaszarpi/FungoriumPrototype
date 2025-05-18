@@ -115,10 +115,6 @@ public class FungusBody {
             throw new Exception(view.noAvailableSpore());
         }
 
-        if (farmer.getActionPoints() <= 0) {
-            throw new Exception(view.noAvailableActionPoint());
-        }
-
         Spore newSpore = createSpore(farmer);
         boolean grownBody = isBodyGrown();
         Tecton currentTecton = mycelium.getTecton();
