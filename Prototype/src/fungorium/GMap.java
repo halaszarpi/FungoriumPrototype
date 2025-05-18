@@ -24,7 +24,7 @@ public class GMap extends JPanel {
     public GMap(TectonMap map) {
 
         try {
-            image = ImageIO.read(new File("Prototype/src/fungorium/hatter.png"));
+            image = ImageIO.read(new File("Prototype/src/fungorium/Tektonhatter.png"));
         }
         catch (IOException e) {
 
