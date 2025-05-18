@@ -65,16 +65,7 @@ public class MyceliumVanisherTecton extends Tecton {
 
         map.addTecton(newTecton);
     }
-     /**
-     * Provides a string representation of the MyceliumVanisherTecton, 
-     * indicating it is a "mycelium vanisher tecton".
-     * 
-     * @return A string representation of the tecton.
-     */
-    @Override
-    public String toString() {
-        return tectonToString("mycelium vanisher tecton");
-    }
+
     /**
      * Vanishes all mycelium on this tecton by reducing their rounds to live. 
      * This action decreases the lifespan of each Mycelium in the list.

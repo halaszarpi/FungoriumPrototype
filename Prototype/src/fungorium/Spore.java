@@ -46,26 +46,6 @@ public abstract class Spore {
         return this.name;
     }
 
-    /**
-     * Helper method to generate a string representation of the spore.
-     *
-     * @param sporeType The type of the spore (used to clarify the spore's specific type in string representation).
-     * @return A string that represents the spore with all its properties.
-     */
-    public String sporeToString(String sporeType) {
-        String returnString = "\tSpore name: ";
-        returnString += this.name;
-        returnString += "\n\tSpore type: ";
-        returnString += sporeType;
-        returnString += "\n\tSpore's nutrient content: ";
-        returnString += this.nutrientContent;
-        returnString += "\n\tSpore's effect duration: ";
-        returnString += this.effectDuration;
-        returnString += "\n\tSpore's owner: ";
-        returnString += this.owner;
-        return returnString;
-    }
-
     public GSpore getGSpore() { 
         return gs;
     }

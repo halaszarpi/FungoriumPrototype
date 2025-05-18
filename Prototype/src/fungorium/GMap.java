@@ -1,6 +1,8 @@
 package fungorium;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +22,6 @@ public class GMap extends JPanel {
         gameMap = map;
         gTectons = new ArrayList<>();
         chosenTectonNeighbours = new ArrayList<>();
-        setSize(1080,360);
-        setVisible(true);
     }
 
     private void updateGTectons() {

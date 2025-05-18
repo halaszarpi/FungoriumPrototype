@@ -71,14 +71,4 @@ public class NoBodyTecton extends Tecton {
     @Override
     public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton()); }
 
-    /**
-     * Returns a string representation of this tecton.
-     *
-     * @return A string describing this tecton as a "no body tecton."
-     */
-    @Override
-    public String toString() {
-        return tectonToString("no body tecton");
-    }
-
 }

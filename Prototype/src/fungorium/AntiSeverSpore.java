@@ -35,14 +35,4 @@ public class AntiSeverSpore extends Spore {
         return nutrientContent;
     }
 
-    /**
-     * Returns a string representation of the AntiSeverSpore.
-     *
-     * @return a string describing the AntiSeverSpore
-     */
-    @Override
-    public String toString() {
-        return sporeToString("antisever spore");
-    }
-
 }

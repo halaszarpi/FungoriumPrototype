@@ -25,14 +25,4 @@ public class StunningSpore extends Spore {
         i.setStunnedForRounds(effectDuration);
         return nutrientContent;
     }
-
-    /**
-     * Provides a string representation of the StunningSpore.
-     *
-     * @return A string containing detailed information about the StunningSpore.
-     */
-    @Override
-    public String toString() {
-        return sporeToString("stunning spore");
-    }
 }
