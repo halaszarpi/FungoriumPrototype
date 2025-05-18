@@ -99,7 +99,9 @@ public class GPlayer {
     public void updateParam1Box() {
         // Update param1
         param1box.removeAllItems();
-        for (String p1 : player.getParam1ForAction((String) actionBox.getSelectedItem())) {
+        String action = (String) actionBox.getSelectedItem();
+        String selectedAction_splitted = action.split(" ")[0];
+        for (String p1 : player.getParam1ForAction(selectedAction_splitted)) {
             param1box.addItem(p1);
         }
 
