@@ -54,12 +54,24 @@ public class FungusBody {
                 int randomSporeType = rand.nextInt(6);
 
                 switch (randomSporeType) {
-                    case 1 -> new SlowingSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-                    case 2 -> new StunningSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-                    case 3 -> new BoosterSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-                    case 4 -> new AntiSeverSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-                    case 5 -> new InsectDuplicatorSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-                    default -> new OrdinarySpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+                    case 1 -> {
+                        return new SlowingSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+                    }
+                    case 2 -> {
+                        return new StunningSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+                    }
+                    case 3 -> {
+                        return new BoosterSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+                    }
+                    case 4 -> {
+                        return new AntiSeverSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+                    }
+                    case 5 -> {
+                        return new InsectDuplicatorSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+                    }
+                    default -> {
+                        return new OrdinarySpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+                    }
                 }
             }
             case "BST" -> {
@@ -81,7 +93,6 @@ public class FungusBody {
                 return new OrdinarySpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
             }
         }
-        return new OrdinarySpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
     }
 
     /**
