@@ -62,7 +62,7 @@ public class InsectView implements IObserver {
         System.out.println("Active effects on insect (" + insect.getName() + ") were reduced by 1!");
     }
 
-    public void d {
+    public void insectGotEaten() {
         //if (!GameTesterController.SHOW_OUTPUT) { return; }
         System.out.println("Insect (" + insect.getName() + ") got eaten!");
     }
@@ -89,13 +89,6 @@ public class InsectView implements IObserver {
 
     public Insect getInsect() {
         return insect;
-    }
-
-    public String cannotCutMyceliumMessage() {
-        String message = "Insect (" + insect.getName() + ") cannot cut mycelium because it's anti-severed (or stunned)!";
-        System.out.println(message);
-        JOptionPane.showMessageDialog(null, message);
-        return message;
     }
 
     @Override
