@@ -1,6 +1,8 @@
 package fungorium;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -145,7 +147,7 @@ public class GGameController extends JFrame {
     }
 
     private JPanel createMapPanel() {
-        JPanel mapPanel = new JPanel();
+        mapPanel = new JPanel();
         mapPanel.setLayout(new BorderLayout());
 
         // Create tecton selection combo box
@@ -159,6 +161,7 @@ public class GGameController extends JFrame {
         // Add components to mapPanel
         mapPanel.add(TectonChooser, BorderLayout.NORTH);
         mapPanel.add(gmap, BorderLayout.CENTER);
+        mapPanel.setVisible(false);
 
         // Initial map draw
         String middleTecton = (String) TectonChooser.getSelectedItem();
@@ -169,6 +172,14 @@ public class GGameController extends JFrame {
             String selectedTecton = (String) TectonChooser.getSelectedItem();
             if (selectedTecton != null) {
                 gmap.drawMap(gmap.findGTectonByName(selectedTecton));
+            }
+        });
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                revalidate();
+                gmap.drawMap(gmap.findGTectonByName((String) TectonChooser.getSelectedItem()));
             }
         });
 
@@ -383,6 +394,9 @@ public class GGameController extends JFrame {
     }
 
     private void runGame() {
+
+        mapPanel.setVisible(true);
+
         for (int round = 0; round < numberOfRounds; round++) {
             updateTectonChooser();
 
@@ -392,6 +406,7 @@ public class GGameController extends JFrame {
                 player.turn(playerPanel, gmap);
 
                 SwingUtilities.invokeLater(() -> {
+                    gmap.drawMap(gmap.findGTectonByName((String) TectonChooser.getSelectedItem()));
                     JButton okButton = new JButton("OK");
                     okButton.addActionListener(e -> {
                         player.getPlayer().doAction(tectonMap, player.getFinalCommand());
