@@ -91,6 +91,13 @@ public class InsectView implements IObserver {
         return insect;
     }
 
+    public String cannotCutMyceliumMessage() {
+        String message = "Insect (" + insect.getName() + ") cannot cut mycelium because it's anti-severed (or stunned)!";
+        System.out.println(message);
+        JOptionPane.showMessageDialog(null, message);
+        return message;
+    }
+
     @Override
     public void draw(Graphics g, Point coords) {
         // a pont amit itt megkap a tekton kp.-ja

@@ -106,7 +106,7 @@ public class Insect implements IRoundFollower {
      * @return The nutrient content of the spore, or -1 if the insect can't eat it.
      */
     public int eatSpore(Spore spore) {
-        if (!(owner.getActionPoints() >= 1) || stunnedForRounds > 0) {
+        if (stunnedForRounds > 0) {
             view.cannotEatSporeBecauseStunnedMessage();
             return -1;
         }
@@ -170,9 +170,8 @@ public class Insect implements IRoundFollower {
      * @throws Exception If the insect cannot cut the mycelium connection.
      */
     public boolean cutMycelium(Mycelium m) throws Exception {
-
-        if (!hasEnoughActionPointsForCutting()) {
-            throw new Exception();
+        if (stunnedForRounds > 0 || antiSeveredForRounds > 0) {
+            throw new Exception(view.cannotCutMyceliumMessage());
         }
         else if (this.tecton.isConnectedTo(m)) {
             this.tecton.removeConnection(m);
@@ -180,9 +179,7 @@ public class Insect implements IRoundFollower {
             view.insectCutMycelium(m.getTecton());
             return true;
         }
-        else {
-            throw new Exception();
-        }
+        return false;
     }
 
     // Getter methods for insect's details
