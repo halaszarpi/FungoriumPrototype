@@ -363,6 +363,7 @@ public class GGameController extends JFrame {
                 player.getPlayer().roundPassed();
             }
 
+            repaint();
             gmap.roundPassed();
         }
 

@@ -185,7 +185,7 @@ public class TectonView implements IObserver {
         g2d.setColor(Color.WHITE);
         g2d.setFont(new Font("Arial", Font.BOLD, 14));
         // kicsit eltolva mindig
-        g2d.drawString(t.getName(), coords.x - 5, coords.y);
+        g2d.drawString(t.getName(), coords.x - 5, coords.y + 5);
     }
 
     public void drawLine(Graphics g, List<GTecton> connectedByMycelium) {
