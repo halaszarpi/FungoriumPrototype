@@ -8,6 +8,7 @@ public class GSpore implements IObservable{
     Spore spore;
     int x;
     int y;
+    private final int radius = 50;
     ArrayList<IObserver> observers;
 
     public GSpore(Spore spore) {
@@ -33,10 +34,12 @@ public class GSpore implements IObservable{
     @Override
     public IObserver getObserver() { return observers.getFirst(); }
 
-    public void setCoordinates(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public void setCoordinates(int x, int y, double xChange, double yChange) {
+        this.x = (int)(x + radius * xChange);
+        this.y = (int)(y + radius * yChange);
     }
 
-    public Spore getSpore() {return spore; }
+    public Spore getSpore() { return spore; }
+
+    public Point getCoords() { return new Point(x, y); }
 }

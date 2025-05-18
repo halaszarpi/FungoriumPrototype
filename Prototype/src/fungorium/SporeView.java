@@ -14,6 +14,8 @@ public class SporeView implements IObserver{
         this.spore = spore;
     }
 
+    public Spore getSpore() { return this.spore; }
+
     @Override
     public void draw(Graphics g, Point coords) {
         FungusFarmerView fmv = (FungusFarmerView)spore.getOwner().getView();

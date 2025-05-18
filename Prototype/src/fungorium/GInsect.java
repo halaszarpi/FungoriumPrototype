@@ -8,6 +8,7 @@ public class GInsect implements IObservable {
     private Insect insect;
     private int x;
     private int y;
+    private final int radius = 75;
     private ArrayList<IObserver> observers;
 
     public GInsect(Insect i) {
@@ -29,9 +30,14 @@ public class GInsect implements IObservable {
 
     public IObserver getObserver() { return this.observers.getFirst(); }
 
-    public void setCoordinates(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Point getCoords() { return new Point(x, y); }
+    
+    // itt az x es y parameterek ezek:
+    // x = sin(insectPhase + pi/180)
+    // y = cos(insectPhase + pi/180)
+    public void setCoordinates(int x, int y, double xChange, double yChange) {
+        this.x = (int)(x + radius * xChange);
+        this.y = (int)(y + radius * yChange);
     }
 
     public Insect getInsect() { return this.insect; }

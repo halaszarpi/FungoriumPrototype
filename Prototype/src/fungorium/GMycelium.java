@@ -8,6 +8,7 @@ public class GMycelium implements IObservable{
     Mycelium mycelium;
     int x;
     int y;
+    private final int radius = 25;
     ArrayList<IObserver> observers;
 
     public GMycelium(Mycelium m){
@@ -36,9 +37,9 @@ public class GMycelium implements IObservable{
     }
 
     // Újítás, ez kelleni fog minden osztályhoz (ez még nem 100%, lehet máshogy lesz megoldva, de 4 sor szóval rakjuk sztem bele, max nem használjuk)
-    public void setCoordinates(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public void setCoordinates(int x, int y, double xChange, double yChange) {
+        this.x = (int)(x + radius * xChange);
+        this.y = (int)(y + radius * yChange);
     }
 
     @Override
