@@ -23,7 +23,7 @@ public class GGameController extends JFrame {
     private final TectonMap tectonMap;
     private List<GPlayer> players;
     private int numberOfRounds;
-    private JPanel GamePanel;
+    private GamePanel GamePanel;
     private JPanel playerPanel;
     private JPanel mapPanel;
     private final GMap gmap;
@@ -130,7 +130,7 @@ public class GGameController extends JFrame {
         setJMenuBar(menuBar);
 
         //The game panel itself Consists of two parts: the mapPanel and the playerPanel
-        GamePanel = new JPanel();
+        GamePanel = new GamePanel();
         GamePanel.setLayout(new BorderLayout());
 
         //mapPanel

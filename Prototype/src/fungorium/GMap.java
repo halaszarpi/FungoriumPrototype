@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 public class GMap extends JPanel {
     
-    private Image tempImage = null;
+    private Image image = null;
     private TectonMap gameMap;
     private ArrayList<GTecton> gTectons;
     private GTecton chosenTecton;
@@ -24,7 +24,7 @@ public class GMap extends JPanel {
     public GMap(TectonMap map) {
 
         try {
-            tempImage = ImageIO.read(new File("Prototype/src/fungorium/hatter.png"));
+            image = ImageIO.read(new File("Prototype/src/fungorium/hatter.png"));
         }
         catch (IOException e) {
 
@@ -126,7 +126,7 @@ public class GMap extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
 
-        g.drawImage(tempImage, 0, 0, getWidth(), getHeight(), this);
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
 
         TectonView tv = (TectonView)chosenTecton.getObserver();
         tv.drawLine(g, getConnectedGTectonts(chosenTecton));
