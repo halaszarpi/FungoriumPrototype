@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * The InsectKeeper class represents a player who controls a collection of insects.
+ * The InsectKeeper class represents a player who controls a collection of
+ * insects.
  * This class extends the {@link Player} class and is responsible for managing
  * the insect-related actions and commands in the game, as well as performing
- * actions that affect the game state, such as moving insects or interacting with spores.
+ * actions that affect the game state, such as moving insects or interacting
+ * with spores.
  */
 public class InsectKeeper extends Player {
     private List<Insect> insects;
@@ -31,7 +33,7 @@ public class InsectKeeper extends Player {
      * or eating spores, as well as checking the map or skipping their turn.
      *
      * @param map The current TectonMap of the game.
-     * @param in The scanner for reading user input.
+     * @param in  The scanner for reading user input.
      */
     @Override
     public void turn(TectonMap map, Scanner in) {
@@ -47,7 +49,8 @@ public class InsectKeeper extends Player {
             String command = in.nextLine();
             String[] args = command.split(" ");
 
-            if ((args.length != 3) && !args[0].equalsIgnoreCase("SKIP") && !args[0].equalsIgnoreCase("INFO") && !args[0].equalsIgnoreCase("SHOWMAP")) {
+            if ((args.length != 3) && !args[0].equalsIgnoreCase("SKIP") && !args[0].equalsIgnoreCase("INFO")
+                    && !args[0].equalsIgnoreCase("SHOWMAP")) {
                 System.out.println("Invalid command");
                 continue;
             }
@@ -66,9 +69,10 @@ public class InsectKeeper extends Player {
      * Changes the game map state based on the given commands.
      * Executes actions like moving an insect, cutting mycelium, or eating a spore.
      *
-     * @param map The current TectonMap of the game.
+     * @param map  The current TectonMap of the game.
      * @param args The command arguments specifying the action and its parameters.
-     * @throws Exception If an invalid action is attempted or an error occurs during the action.
+     * @throws Exception If an invalid action is attempted or an error occurs during
+     *                   the action.
      */
     public void changeMapBasedOnCommands(TectonMap map, String[] args) throws Exception {
 
@@ -76,6 +80,17 @@ public class InsectKeeper extends Player {
         String insectName = args.length > 1 ? args[1] : null;
         Insect insect;
         String targetName = args.length > 2 ? args[2] : null;
+
+        int cost = switch (action) {
+            case "MOVETOTECTON" -> 2;
+            case "CUTMYC", "EATSPORE" -> 1;
+            default -> 0;
+        };
+
+        if (cost > actionPoints) {
+            view.notEnoughActionPoints();
+            return;
+        }
 
         switch (action) {
             case "MOVETOTECTON":
@@ -99,7 +114,8 @@ public class InsectKeeper extends Player {
     }
 
     /**
-     * Removes an insect from the InsectKeeper's list and the tecton it's on when it dies.
+     * Removes an insect from the InsectKeeper's list and the tecton it's on when it
+     * dies.
      *
      * @param insect The insect that has died.
      */
@@ -109,7 +125,8 @@ public class InsectKeeper extends Player {
     }
 
     /**
-     * Duplicates an insect, creating a new instance of it and adding it to the InsectKeeper's list.
+     * Duplicates an insect, creating a new instance of it and adding it to the
+     * InsectKeeper's list.
      *
      * @param insect The insect to duplicate.
      */
@@ -119,11 +136,12 @@ public class InsectKeeper extends Player {
     }
 
     /**
-     * Advances all insects controlled by the InsectKeeper by one round, reducing the duration of their effects.
+     * Advances all insects controlled by the InsectKeeper by one round, reducing
+     * the duration of their effects.
      */
     @Override
-    public void roundPassed(){
-        for(Insect insect: insects){
+    public void roundPassed() {
+        for (Insect insect : insects) {
             insect.roundPassed();
         }
     }
@@ -177,13 +195,14 @@ public class InsectKeeper extends Player {
     }
 
     @Override
-    public List<String> getActions(){
+    public List<String> getActions() {
         List<String> actions = new ArrayList<>();
         actions.add("MOVETOTECTON (1-3)");
         actions.add("CUTMYC (1)");
         actions.add("EATSPORE (1)");
         return actions;
     }
+
     @Override
     public List<String> getParam1ForAction(String action) {
         List<String> parameters = new ArrayList<>();
@@ -194,13 +213,13 @@ public class InsectKeeper extends Player {
     }
 
     @Override
-    public List<String> getParam2ForAction(String action, String param1, GMap map){
+    public List<String> getParam2ForAction(String action, String param1, GMap map) {
         List<String> parameters = new ArrayList<>();
         Insect i = map.findInsectByName(param1);
         switch (action) {
             case "MOVETOTECTON":
                 for (Tecton tecton : map.getTectons()) {
-                    if (tecton.isConnectedTo(i.getTecton())){
+                    if (tecton.isConnectedTo(i.getTecton())) {
                         parameters.add(tecton.getName());
                     }
                 }
@@ -230,6 +249,6 @@ public class InsectKeeper extends Player {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
 }

@@ -6,9 +6,10 @@ import java.awt.*;
  * This class represents the view for the FungusFarmer player in the game.
  *
  * It provides methods to display various information and options to the player,
- * such as available actions, mycelium initialization, invalid actions, and detailed player info.
+ * such as available actions, mycelium initialization, invalid actions, and
+ * detailed player info.
  */
-public class FungusFarmerView implements IObserver{
+public class FungusFarmerView implements IObserver {
 
     private FungusFarmer fungusFarmer;
     private Color drawingColor;
@@ -24,15 +25,18 @@ public class FungusFarmerView implements IObserver{
 
     /**
      * Displays the available actions to the player during their turn.
-     * It shows a list of possible commands the player can input to perform various actions.
+     * It shows a list of possible commands the player can input to perform various
+     * actions.
      */
     public void chooseAction() {
         System.out.println(fungusFarmer.toString());
-        System.out.println("Enter command:\n\tGROWMYC(2) [MYCNAME] [TECNAME]\n\tGROWBOD(2) [MYCNAME] [SPONAME]\n\tSCATTERSP(1) [MYCNAME] [TECNAME]\n\tEATINS(3) [MYCNAME] [INSNAME]\n\tINFO\n\tSHOWMAP\n\tSKIP");
+        System.out.println(
+                "Enter command:\n\tGROWMYC(2) [MYCNAME] [TECNAME]\n\tGROWBOD(2) [MYCNAME] [SPONAME]\n\tSCATTERSP(1) [MYCNAME] [TECNAME]\n\tEATINS(3) [MYCNAME] [INSNAME]\n\tINFO\n\tSHOWMAP\n\tSKIP");
     }
 
     /**
-     * Informs the player that their mycelium has been initialized on the specified tecton.
+     * Informs the player that their mycelium has been initialized on the specified
+     * tecton.
      *
      * @param startingTecton the tecton where the mycelium is initialized
      */
@@ -43,14 +47,16 @@ public class FungusFarmerView implements IObserver{
 
     /**
      * Displays an invalid action message to the player.
-     * This is shown when the player enters a command that is not recognized or invalid.
+     * This is shown when the player enters a command that is not recognized or
+     * invalid.
      */
     public void invalidActionMessage() {
         System.out.println("Invalid action!");
     }
 
     /**
-     * Displays detailed information about the FungusFarmer, including their action points,
+     * Displays detailed information about the FungusFarmer, including their action
+     * points,
      * score, mycelium(s), fungus body, and spores.
      */
     public void info() {
@@ -80,9 +86,13 @@ public class FungusFarmerView implements IObserver{
         System.out.println("--------------------------");
     }
 
+    public void notEnoughActionPoints() {
+        System.out.println("Nincs elég akciópontod ehhez a művelethez.");
+    }
+
     @Override
     public void draw(Graphics g, Point coords) {
-        //később
+        // később
     }
 
     public void setColor(Color drawingcolor) {
@@ -92,5 +102,4 @@ public class FungusFarmerView implements IObserver{
     public Color getColor() {
         return drawingColor;
     }
-
 }

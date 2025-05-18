@@ -21,7 +21,7 @@ public class FungusFarmer extends Player {
      *
      * @param name the name of the player
      */
-    public FungusFarmer(String name){
+    public FungusFarmer(String name) {
         super(name);
         myceliums = new ArrayList<>();
         spores = new ArrayList<>();
@@ -32,10 +32,10 @@ public class FungusFarmer extends Player {
      * Executes the Fungus Farmer's turn.
      *
      * @param map the TectonMap of the game
-     * @param in the Scanner used for user input
+     * @param in  the Scanner used for user input
      */
     @Override
-    public void turn(TectonMap map, Scanner in){
+    public void turn(TectonMap map, Scanner in) {
         if (myceliums.isEmpty()) {
             inGame = false;
             return;
@@ -67,7 +67,7 @@ public class FungusFarmer extends Player {
     /**
      * Interprets and processes the given commands on the map.
      *
-     * @param map the game map
+     * @param map  the game map
      * @param args the command arguments
      * @throws Exception if an invalid action occurs
      */
@@ -76,7 +76,19 @@ public class FungusFarmer extends Player {
         Mycelium mycelium = args.length > 1 ? map.findMycelium(args[1]) : null;
         String targetName = args.length > 2 ? args[2] : null;
 
-        switch(action) {
+        int cost = switch (action) {
+            case "GROWMYC", "GROWBOD" -> 2;
+            case "SCATTERSP" -> 1;
+            case "EATINS" -> 3;
+            default -> 0;
+        };
+
+        if (cost > actionPoints) {
+            view.notEnoughActionPoints(); // <<< Ezt biztosítsd a view-ban
+            return;
+        }
+
+        switch (action) {
             case "GROWMYC":
                 Tecton targetTecton1 = map.findTecton(targetName);
                 mycelium.spreadTo(targetTecton1);
@@ -112,14 +124,15 @@ public class FungusFarmer extends Player {
      * Notifies all myceliums that a new round has passed.
      */
     @Override
-    public void roundPassed(){
+    public void roundPassed() {
         for (Mycelium mycelium : myceliums) {
             mycelium.roundPassed();
         }
     }
 
     /**
-     * Initializes the player at the start of the game with a mycelium on the starting tecton.
+     * Initializes the player at the start of the game with a mycelium on the
+     * starting tecton.
      *
      * @param startingTecton the tecton where the player starts
      * @throws Exception if the initialization fails
@@ -128,7 +141,7 @@ public class FungusFarmer extends Player {
     public void initializePlayer(Tecton startingTecton) throws Exception {
         this.score = -1;
         this.actionPoints += 2;
-        
+
         Mycelium mycelium = new Mycelium(getNewMyceliumName(), this, startingTecton);
         myceliums.add(mycelium);
         startingTecton.addMycelium(mycelium);
@@ -152,7 +165,7 @@ public class FungusFarmer extends Player {
      *
      * @param mycelium the mycelium to add
      */
-    public void addMycelium(Mycelium mycelium){
+    public void addMycelium(Mycelium mycelium) {
         myceliums.add(mycelium);
     }
 
@@ -161,7 +174,7 @@ public class FungusFarmer extends Player {
      *
      * @param spore the spore to add
      */
-    public void addSpore(Spore spore){
+    public void addSpore(Spore spore) {
         spores.add(spore);
     }
 
@@ -170,7 +183,7 @@ public class FungusFarmer extends Player {
      *
      * @param spore the spore to remove
      */
-    public void removeSpore(Spore spore){
+    public void removeSpore(Spore spore) {
         spores.remove(spore);
     }
 
@@ -217,7 +230,7 @@ public class FungusFarmer extends Player {
     }
 
     @Override
-    public List<String> getActions(){
+    public List<String> getActions() {
         List<String> actions = new ArrayList<>();
         actions.add("GROWMYC (2)");
         actions.add("GROWBOD (2)");
@@ -228,23 +241,23 @@ public class FungusFarmer extends Player {
     }
 
     @Override
-    public List<String> getParam1ForAction(String action){
+    public List<String> getParam1ForAction(String action) {
         List<String> parameters = new ArrayList<>();
         for (Mycelium mycelium : myceliums) {
-            if ((action.equals("SCATTERSP") && mycelium.hasBody()) || !action.equals("SCATTERSP")) 
+            if ((action.equals("SCATTERSP") && mycelium.hasBody()) || !action.equals("SCATTERSP"))
                 parameters.add(mycelium.getName() + " (" + mycelium.getTecton().getName() + ")");
         }
         return parameters;
     }
 
     @Override
-    public List<String> getParam2ForAction(String action, String param1, GMap map){
+    public List<String> getParam2ForAction(String action, String param1, GMap map) {
         List<String> parameters = new ArrayList<>();
         Mycelium m = map.findMyceliumByName(param1);
         switch (action) {
             case "GROWMYC":
                 for (Tecton tecton : map.getTectons()) {
-                    if(m.getTecton().isNeighbour(tecton)) {
+                    if (m.getTecton().isNeighbour(tecton)) {
                         parameters.add(tecton.getName());
                     }
                 }
@@ -258,7 +271,8 @@ public class FungusFarmer extends Player {
                     if (m.getTecton().isNeighbour(t1) && !parameters.contains(t1.getName())) {
                         parameters.add(t1.getName());
 
-                        if (m.getBody() == null || !m.getBody().isBodyGrown()) continue;
+                        if (m.getBody() == null || !m.getBody().isBodyGrown())
+                            continue;
 
                         for (Tecton t2 : map.getTectons()) {
                             if (t2.isNeighbour(t1) && !parameters.contains(t2.getName())) {
@@ -286,6 +300,6 @@ public class FungusFarmer extends Player {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
 }
