@@ -44,9 +44,9 @@ public class FungusBodyView implements IObserver{
     @Override
     public void draw(Graphics g, Point coords) {
         FungusFarmerView fmv = (FungusFarmerView)fungusBody.getOwner().getView();
-        g.setColor(fmv.getColor());
         Graphics2D g2d = (Graphics2D)g;
+        g2d.setColor(fmv.getColor());
         g2d.setStroke(new BasicStroke(3));
-        g.drawOval(coords.x - RADIUS / 2, coords.y - RADIUS / 2, RADIUS, RADIUS);
+        g2d.drawOval(coords.x - RADIUS / 2, coords.y - RADIUS / 2, RADIUS, RADIUS);
     }
 }

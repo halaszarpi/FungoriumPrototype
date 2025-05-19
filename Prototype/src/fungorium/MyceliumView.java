@@ -1,6 +1,8 @@
 package fungorium;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 
 import javax.swing.JOptionPane;
@@ -86,8 +88,10 @@ public class MyceliumView implements IObserver{
     @Override
     public void draw(Graphics g, Point coords) {
         FungusFarmerView fmv = (FungusFarmerView)mycelium.getOwner().getView();
-        g.setColor(fmv.getColor());
-        g.drawLine(coords.x - xOffset, coords.y, coords.x + xOffset, coords.y);
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.setColor(fmv.getColor());
+        g2d.setStroke(new BasicStroke(3));
+        g2d.drawLine(coords.x - xOffset, coords.y, coords.x + xOffset, coords.y);
     }
 
     public Mycelium getMycelium () { return mycelium; }
