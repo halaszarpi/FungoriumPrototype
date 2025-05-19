@@ -164,6 +164,7 @@ public class GPlayer {
         playerPanel.add(this.getPanel(map), BorderLayout.CENTER);
         playerPanel.revalidate();
         playerPanel.repaint();
+        map.repaint();
     }
 
     /**
