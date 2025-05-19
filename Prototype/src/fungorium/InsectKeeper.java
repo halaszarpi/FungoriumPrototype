@@ -43,15 +43,6 @@ public class InsectKeeper extends Player {
         Insect insect = map.findInsect(insectName);
         String targetName = args.length > 2 ? args[2] : null;
 
-        // Ezt meg itt hagyom ha gond lenne
-        /*
-        int cost = switch (action) {
-        case "MOVETOTECTON" -> 2;
-        case "MOVETOTECTON":
-        case "CUTMYC", "EATSPORE" -> 1;
-        default -> 0;
-        */
-
         int cost;
         switch (action) {
             case "MOVETOTECTON" -> {
@@ -99,7 +90,7 @@ public class InsectKeeper extends Player {
                 }
                 break;
             default:
-                view.invalidActionMessage();
+                break;
         }
     }
 
@@ -182,7 +173,7 @@ public class InsectKeeper extends Player {
 
     @Override
     public IObserver getView() {
-        return (IObserver) view;
+        return view;
     }
 
     @Override
@@ -194,6 +185,12 @@ public class InsectKeeper extends Player {
         return actions;
     }
 
+    /**
+     * Collects a String list of insects owned by the InsectKeeper. The tecton of the insect
+     * is also written in each String in brackets, as well as every effects duration after the colons.
+     * @param action the action
+     * @return insect names with their tectons in brackets and effects 
+     */
     @Override
     public List<String> getParam1ForAction(String action) {
         List<String> parameters = new ArrayList<>();
@@ -211,6 +208,13 @@ public class InsectKeeper extends Player {
         return parameters;
     }
 
+    /**
+     * Collects each possible parameter for the given action.
+     * @param action the action to be committed
+     * @param param1 the insect name
+     * @param map the game map
+     * @return the possible parameters for a specific action
+     */
     @Override
     public List<String> getParam2ForAction(String action, String param1, GMap map) {
         List<String> parameters = new ArrayList<>();
@@ -240,6 +244,12 @@ public class InsectKeeper extends Player {
         return parameters;
     }
 
+    /**
+     * Splits the incoming command and changes the game
+     * map based on the interpretation of the command.
+     * @param map the game map
+     * @param commandToRun the Keeper's command
+     */
     @Override
     public void doAction(TectonMap map, String commandToRun) {
         String[] args = commandToRun.split(" ");

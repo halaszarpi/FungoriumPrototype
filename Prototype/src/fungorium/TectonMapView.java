@@ -1,7 +1,5 @@
 package fungorium;
 
-import java.util.Scanner;
-
 public class TectonMapView {
 
     public TectonMapView(TectonMap tectonMap) {

@@ -103,7 +103,6 @@ public class Mycelium implements IRoundFollower{
         if(targetTecton.hasMycelium(owner)){
             targetTecton.addConnection(tecton, owner);
             owner.useActionPoints(2);
-            view.connectionAddedTo(targetTecton);
         }
         else {
             Mycelium newMycelium = new Mycelium(owner.getNewMyceliumName(), owner, targetTecton);
@@ -111,8 +110,6 @@ public class Mycelium implements IRoundFollower{
             targetTecton.addConnection(tecton, owner);
             owner.useActionPoints(2);
             owner.addMycelium(newMycelium);
-
-            view.hasSpreadTo(targetTecton);
         }
     }
 
@@ -120,8 +117,8 @@ public class Mycelium implements IRoundFollower{
      * Handles the case where the fungus body of the mycelium dies.
      */
     public void bodyDied() {
-        this.body = null;
         view.bodyHasDied();
+        this.body = null;
     }
 
     public void scatterSpore(Tecton targetTecton) throws Exception {
@@ -144,7 +141,6 @@ public class Mycelium implements IRoundFollower{
 
         if (body != null) {
             body.reduceCooldown();
-            view.cooldownReduced();
         }
     }
 
@@ -163,7 +159,6 @@ public class Mycelium implements IRoundFollower{
     public void increaseRoundsToLive() {
         if (roundsToLive < 3) {
             roundsToLive++;
-            view.myceliumSustained();
         }
     }
 

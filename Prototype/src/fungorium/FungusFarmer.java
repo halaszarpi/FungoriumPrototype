@@ -1,9 +1,7 @@
 package fungorium;
 
 import java.util.List;
-import java.rmi.server.ExportException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Represents a Fungus Farmer player in the Fungorium game.
@@ -87,7 +85,6 @@ public class FungusFarmer extends Player {
                 }
                 break;
             default:
-                view.invalidActionMessage();
                 break;
         }
     }
@@ -138,7 +135,7 @@ public class FungusFarmer extends Player {
             myceliums.remove(mycelium);
             throw e;
         }
-        view.myceliumInitialized(startingTecton);
+
     }
 
     /**
@@ -168,6 +165,10 @@ public class FungusFarmer extends Player {
         spores.remove(spore);
     }
 
+    /**
+     * Removes a mycelium from the player's mycelium list.
+     * @param mycelium the mycelium to be removed
+     */
     public void removeMycelium(Mycelium mycelium) {
         myceliums.remove(mycelium);
     }
@@ -205,11 +206,19 @@ public class FungusFarmer extends Player {
         return this.name.equals(otherFarmer.getName());
     }
 
+    /**
+     * Returns the Farmer's view.
+     */
     @Override
     public IObserver getView() {
-        return (IObserver) view;
+        return view;
     }
 
+
+    /**
+     * Returns a String list of possible action for the FungusFarmer with costs in brackets.
+     * @return the action list
+     */
     @Override
     public List<String> getActions() {
         List<String> actions = new ArrayList<>();
@@ -222,6 +231,12 @@ public class FungusFarmer extends Player {
         return actions;
     }
 
+    /**
+     * Collects a String list of mycelium owned by the FunusFarmer. The tecton of the mycelium
+     * is also written in each String in brackets.
+     * @param action the action
+     * @return mycelium names with their tectons in brackets 
+     */
     @Override
     public List<String> getParam1ForAction(String action) {
         List<String> parameters = new ArrayList<>();
@@ -232,6 +247,13 @@ public class FungusFarmer extends Player {
         return parameters;
     }
 
+    /**
+     * Collects each possible parameter for the given action.
+     * @param action the action to be committed
+     * @param param1 the mycelium name
+     * @param map the game map
+     * @return the possible parameters for a specific action
+     */
     @Override
     public List<String> getParam2ForAction(String action, String param1, GMap map) {
         List<String> parameters = new ArrayList<>();
@@ -274,9 +296,14 @@ public class FungusFarmer extends Player {
         }
 
         return parameters;
-
     }
 
+    /**
+     * Splits the incoming command and changes the game
+     * map based on the interpretation of the command.
+     * @param map the game map
+     * @param commandToRun the Farmer's command
+     */
     @Override
     public void doAction(TectonMap map, String commandToRun) {
         String[] args = commandToRun.split(" ");
@@ -285,6 +312,5 @@ public class FungusFarmer extends Player {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }

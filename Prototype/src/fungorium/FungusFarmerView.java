@@ -1,8 +1,6 @@
 package fungorium;
 
 import java.awt.*;
-
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
@@ -53,17 +51,23 @@ public class FungusFarmerView implements IObserver, IColorAble {
      */
     public void notEnoughActionPoints() {
         String errorMessage = "You don't have enough action points!";
-        System.out.println(errorMessage);
         JOptionPane.showMessageDialog(null, errorMessage);
     }
 
     @Override
     public void draw(Graphics g, Point coords) {}
 
+    /**
+     * Sets the drawing color of the FungusFarmer.
+     * @param drawingColor the specific color
+     */
     public void setColor(Color drawingcolor) {
         this.drawingColor = drawingcolor;
     }
 
+    /*
+     * Returns the drawingColor of the FungusFarmer.
+     */
     public Color getColor() {
         return drawingColor;
     }

@@ -38,7 +38,6 @@ public abstract class Tecton implements IRoundFollower{
         myceliumList = new ArrayList<>();
         view = new TectonView(this);
         map = m;
-        view.tectonCreated();
         gt = null;
     }
 
@@ -50,8 +49,6 @@ public abstract class Tecton implements IRoundFollower{
     public void addNeighbour(Tecton t) { 
         neighbours.put(t, new ArrayList<>());
         t.neighbours.put(this, new ArrayList<>());
-
-        view.neighbourAdded(t);
     }
 
     public void addConnection(Tecton t, FungusFarmer f) throws Exception{
@@ -63,8 +60,6 @@ public abstract class Tecton implements IRoundFollower{
 
         neighbours.put(t, fungusFarmerList);
         t.neighbours.put(this, fungusFarmerList);
-
-        view.connectionAdded(t);
     }
 
     /**
@@ -118,11 +113,8 @@ public abstract class Tecton implements IRoundFollower{
      * @param t The neighbour to remove.
      */
     private void removeNeighbour(Tecton t) {
-
         neighbours.remove(t); 
         t.neighbours.remove(this);
-
-        view.neighbourRemoved(t);
     }
 
     /**
@@ -132,7 +124,6 @@ public abstract class Tecton implements IRoundFollower{
      */
     public void removeMycelium(Mycelium m) { 
         myceliumList.remove(m); 
-
         view.myceliumRemoved(m);
     }
 
@@ -143,7 +134,6 @@ public abstract class Tecton implements IRoundFollower{
      */
     public void removeInsect(Insect i) { 
         insectList.remove(i); 
-
         view.insectRemoved(i);
     }
 
@@ -154,13 +144,11 @@ public abstract class Tecton implements IRoundFollower{
      */
     public void removeSpore(Spore s) { 
         sporeList.remove(s); 
-
         view.sporeRemoved(s);
     }
 
 
     public void removeConnection(Mycelium m) throws Exception {
-
         Tecton t = m.getTecton();
 
         if(!isNeighbour(t)) throw new Exception(view.notNeighbour(t));
@@ -171,8 +159,6 @@ public abstract class Tecton implements IRoundFollower{
 
         neighbours.put(t, fungusFarmerList);
         t.neighbours.put(this, fungusFarmerList);
-
-        view.removeConnection(t);
     }
 
     /**

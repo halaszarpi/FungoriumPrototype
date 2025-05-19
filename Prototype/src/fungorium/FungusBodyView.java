@@ -8,13 +8,13 @@ import javax.swing.JOptionPane;
  * Represents the view for a FungusBody in the Fungorium game.
  *
  * This class is responsible for providing user-friendly messages related to a FungusBody's actions,
- * such as when it cannot scatter spores or when the owning Fungus Farmer has insufficient action points.
+ * such as when it cannot scatter spores
  */
 public class FungusBodyView implements IObserver{
 
     /** The FungusBody associated with this view. */
-    FungusBody fungusBody;
-    private final int radius = 15;
+    private FungusBody fungusBody;
+    private final int RADIUS = 15;
 
     /**
      * Constructs a new FungusBodyView for a given FungusBody.
@@ -26,6 +26,7 @@ public class FungusBodyView implements IObserver{
     }
 
     /**
+     * Notifies the player in a pop-up windiw that there are no spores to scatter.
      * Returns an error message indicating that no spores are available for scattering.
      *
      * @return a string message about no available spores
@@ -36,13 +37,16 @@ public class FungusBodyView implements IObserver{
         return message;
     }
 
-
+    /**
+     * The drawing of the FungusBody. The function draws a blank circle
+     * with the color of the FungusFarmer.
+     */
     @Override
     public void draw(Graphics g, Point coords) {
         FungusFarmerView fmv = (FungusFarmerView)fungusBody.getOwner().getView();
         g.setColor(fmv.getColor());
         Graphics2D g2d = (Graphics2D)g;
         g2d.setStroke(new BasicStroke(3));
-        g.drawOval(coords.x - radius / 2, coords.y - radius / 2, radius, radius);
+        g.drawOval(coords.x - RADIUS / 2, coords.y - RADIUS / 2, RADIUS, RADIUS);
     }
 }

@@ -9,8 +9,15 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+/**
+ * The game's main menu frame.
+ */
 public class GMainMenu extends JFrame {
 
+    /**
+     * Constructor
+     * Initializes the frame and sets the wallpapers and buttons for the menu.
+     */
     public GMainMenu() {
         setTitle("Fungorium - Main Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,6 +51,14 @@ public class GMainMenu extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Makes an invisible button under the wallpaper.
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @return
+     */
     private JButton createInvisibleButton(int x, int y, int width, int height) {
         JButton button = new JButton();
         button.setBounds(x, y, width, height);
@@ -112,7 +127,9 @@ public class GMainMenu extends JFrame {
         dialog.setVisible(true);
     }
 
-    // Background panel with image
+    /**
+     * Background panel with image
+     */
     static class BackgroundPanel extends JPanel {
         private final Image backgroundImage;
 

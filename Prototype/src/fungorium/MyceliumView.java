@@ -1,6 +1,5 @@
 package fungorium;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -40,23 +39,13 @@ public class MyceliumView implements IObserver{
     }
 
     public void hasGrownBody() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         mycelium.getBody().getGFungusBody().setCoordinates(mycelium.getGMycelium().getCoords().x, mycelium.getGMycelium().getCoords().y);
         mycelium.getGMycelium().attach(mycelium.getBody().getView());
     }
 
-    public void hasSpreadTo(Tecton targetTecton) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Mycelium (" + mycelium.getName() + ") has spread to tecton (" + targetTecton.getName() + ")!");
-    }
-
-    public String invalidTarget(Tecton targetTecton) {
-        return ("Tecton (" + targetTecton.getName() + "does not exist or not a neighbour to tecton (" + mycelium.getTecton().getName() + ")!");
-    }
-
+    // remelem jo
     public void bodyHasDied() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Mycelium's (" + mycelium.getName() + ") FungusBody has died!");
+        mycelium.getGMycelium().detach(mycelium.getBody().getView());
     }
 
     public String hasNoFungusBody() {
@@ -65,23 +54,11 @@ public class MyceliumView implements IObserver{
         return message;
     }
 
-    public void cooldownReduced() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Scattering cooldown reduced on mycelium's (" + mycelium.getName() + ") FungusBody by 1!");
-    }
-
     public void myceliumHasDied() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         mycelium.getTecton().getGTecton().detach(mycelium.getView());
     }
 
-    public void myceliumSustained() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Mycelium's (" + mycelium.getName() + ") life sustained!");
-    }
-
     public void ateInsect(Insect insect) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         insect.getTecton().getGTecton().detach(insect.getView());
     }
 
@@ -97,12 +74,15 @@ public class MyceliumView implements IObserver{
         return message;
     }
 
-    public void connectionAddedTo(Tecton newTecton) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Tecton (" + mycelium.getTecton().getName() + ") is reconnected to (" + newTecton.getName() + ")!");
+    public String invalidTarget(Tecton targetTecton) {
+        String message = "Cannot spread to tecton (" + targetTecton.getName() + ")!";
+        JOptionPane.showMessageDialog(null, message);
+        return message;
     }
 
-     // Újítás, kell Graphics g paraméterben
+    /**
+     * The graphical representation of the mycelium, it consists of a line with the color of the FungusFarmer
+     */
     @Override
     public void draw(Graphics g, Point coords) {
         FungusFarmerView fmv = (FungusFarmerView)mycelium.getOwner().getView();
