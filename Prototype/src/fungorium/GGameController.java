@@ -34,7 +34,7 @@ public class GGameController extends JFrame {
             Color.GREEN, 
             Color.CYAN, 
             Color.YELLOW, 
-            Color.GRAY, 
+            Color.BLUE, 
             Color.PINK, 
             Color.MAGENTA, 
             Color.ORANGE
