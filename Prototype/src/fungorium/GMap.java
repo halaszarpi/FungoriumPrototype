@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 public class GMap extends JPanel {
     
     private Image image = null;
+    private String backgroundImage = "Prototype/src/fungorium/Tektonhatter.png";
     private TectonMap gameMap;
     private ArrayList<GTecton> gTectons;
     private GTecton chosenTecton;
@@ -25,7 +26,7 @@ public class GMap extends JPanel {
     public GMap(TectonMap map) {
 
         try {
-            image = ImageIO.read(new File("Prototype/src/fungorium/Tektonhatter.png"));
+            image = ImageIO.read(new File(backgroundImage));
         }
         catch (IOException e) {
             e.printStackTrace();

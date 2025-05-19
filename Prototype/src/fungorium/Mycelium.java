@@ -180,9 +180,9 @@ public class Mycelium implements IRoundFollower{
      */
     public void eatInsect(Insect insect) throws Exception {
         if (insect.getStunnedForRounds() > 0) {
-            insect.gotEaten();
-            owner.useActionPoints(3);
-            view.ateInsect(insect);
+        insect.gotEaten();
+        owner.useActionPoints(3);
+        view.ateInsect(insect);
         } else {
             throw new Exception(view.cannotEatInsect(insect));
         }
