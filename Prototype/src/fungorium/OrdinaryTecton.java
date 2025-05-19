@@ -63,8 +63,6 @@ public class OrdinaryTecton extends Tecton {
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton, randomTecton);
 
-        view.tectonBreaks(newTecton);
-
         map.addTecton(newTecton);
     }
 
@@ -74,6 +72,6 @@ public class OrdinaryTecton extends Tecton {
      * @throws Exception If this operation is attempted, an exception is thrown indicating it's not allowed for ordinary tectons.
      */
     @Override
-    public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton()); }
+    public void vanishMycelium() throws Exception {}
 
 }

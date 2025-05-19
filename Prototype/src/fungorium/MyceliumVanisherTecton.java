@@ -61,8 +61,6 @@ public class MyceliumVanisherTecton extends Tecton {
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton, randomTecton);
 
-        view.tectonBreaks(newTecton);
-
         map.addTecton(newTecton);
     }
 

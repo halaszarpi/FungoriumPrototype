@@ -58,8 +58,6 @@ public class NoBodyTecton extends Tecton {
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton, randomTecton);
 
-        view.tectonBreaks(newTecton);
-
         map.addTecton(newTecton);
     }
 
@@ -69,6 +67,6 @@ public class NoBodyTecton extends Tecton {
      * @throws Exception If mycelium cannot be vanished from this tecton.
      */
     @Override
-    public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton()); }
+    public void vanishMycelium() throws Exception {}
 
 }

@@ -3,6 +3,10 @@ package fungorium;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The graphical representation of a player which consists of an label with action points, an action
+ * box and constantly refreshing parameter box for the action box.
+ */
 public class GPlayer {
     private Player player;
     private JLabel actionPointsLabel;
@@ -26,6 +30,11 @@ public class GPlayer {
         return player;
     }
 
+    /**
+     * Creates and returns the graphical panel representation of the player.
+     * @param map the game map
+     * @return the player's panel
+     */
     public JPanel getPanel(GMap map) {
 
         this.gmap = map;
@@ -84,10 +93,16 @@ public class GPlayer {
         return playerPanel;
     }
 
+    /**
+     * Refreshes the action points of the player on the player panel.
+     */
     public void setActionPoints() {
         actionPointsLabel.setText("Action Points: " + player.getActionPoints());
     }
 
+    /**
+     * Updates the action parameter box.
+     */
     public void updateParam1Box() {
         // Update param1
         param1box.removeAllItems();
@@ -103,7 +118,9 @@ public class GPlayer {
         }
     }
 
-    // Helper function outside getPanel or make it private inside the class
+    /**
+     * Updates the parameter box of the selected action according to the possible parameters.
+     */
     public void updateParam2Box() {
 
         String selectedAction = (String) actionBox.getSelectedItem();
@@ -120,17 +137,23 @@ public class GPlayer {
         if (selectedParam1_splitted == null)
             return;
 
-        java.util.List<String> param2Options = player.getParam2ForAction(selectedAction_splitted,
-                selectedParam1_splitted, gmap);
+        java.util.List<String> param2Options = player.getParam2ForAction(selectedAction_splitted, selectedParam1_splitted, gmap);
         param2box.removeAllItems();
+
         for (String p2 : param2Options) {
             param2box.addItem(p2);
         }
+
         if (param2box.getItemCount() > 0) {
             param2box.setSelectedIndex(0);
         }
     }
 
+    /**
+     * Handles the update of the player panel after a turn.
+     * @param playerPanel
+     * @param map
+     */
     public void turn(JPanel playerPanel, GMap map) {
         if (!player.inGame) {
             return;
@@ -143,12 +166,20 @@ public class GPlayer {
         playerPanel.repaint();
     }
 
+    /**
+     * Returns the player's final command choice based on the action and the parameter boxes.
+     * @return
+     */
     public String getFinalCommand() {
         String actionBox_firstPart = actionBox.getSelectedItem().toString().split(" ")[0];
         String param1box_firstPart = param1box.getSelectedItem().toString().split(" ")[0];
         return actionBox_firstPart + " " + param1box_firstPart + " " + param2box.getSelectedItem();
     }
 
+    /**
+     * Player color.
+     * @return the player's color.
+     */
     public Color getColor(){
         return ((IColorAble)(player.getView())).getColor();
     }

@@ -1,7 +1,5 @@
 package fungorium;
 
-import java.util.ArrayList;
-
 public class SingleMyceliumTecton extends Tecton {
 
     /**
@@ -62,8 +60,6 @@ public class SingleMyceliumTecton extends Tecton {
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton, randomTecton);
 
-        view.tectonBreaks(newTecton);
-
         map.addTecton(newTecton);
     }
 
@@ -73,6 +69,6 @@ public class SingleMyceliumTecton extends Tecton {
      * @throws Exception indicating this tecton cannot vanish mycelium.
      */
     @Override
-    public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton()); }
+    public void vanishMycelium() throws Exception {}
 
 }

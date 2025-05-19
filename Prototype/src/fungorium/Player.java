@@ -1,7 +1,6 @@
 package fungorium;
 
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Abstract class representing a player in the fungorium game.

@@ -13,7 +13,6 @@ public class FungusBody {
     private int remainingSpores;
     private int scatteringCooldown;
     private final FungusBodyView view;
-    String typeToCreate;
     private GFungusBody gf;
 
     /**
@@ -26,7 +25,6 @@ public class FungusBody {
         this.remainingSpores = 5;
         this.scatteringCooldown = 0;
         this.view = new FungusBodyView(this);
-        this.typeToCreate = "random";
         gf = new GFungusBody(this);
     }
 
@@ -36,57 +34,35 @@ public class FungusBody {
     }
 
     /**
-     * Creates a random Spore. If sporeTypeString and sporeName are provided,
-     * creates a specific type of Spore with fixed nutrient content and effect duration.
+     * Creates a random spore that is going to be scattered 
+     * in the scatterTo method to a target tecton.
      * @param owner the FungusFarmer who owns the new Spore
-     * @return a new Spore instance
+     * @return a new Spore instance with randomized type
      */
     private Spore createSpore(FungusFarmer owner) {
         int nutrientContent = 5;
         int effectDuration = 3;
-        switch (typeToCreate.toUpperCase()){
-            case "RANDOM" -> {
-                Random rand = new Random();
+        Random rand = new Random();
 
-                nutrientContent = rand.nextInt(5) + 1;
-                effectDuration = rand.nextInt(3) + 1;
+        nutrientContent = rand.nextInt(5) + 1;
+        effectDuration = rand.nextInt(3) + 1;
 
-                int randomSporeType = rand.nextInt(6);
+        int randomSporeType = rand.nextInt(6);
 
-                switch (randomSporeType) {
-                    case 1 -> {
-                        return new SlowingSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-                    }
-                    case 2 -> {
-                        return new StunningSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-                    }
-                    case 3 -> {
-                        return new BoosterSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-                    }
-                    case 4 -> {
-                        return new AntiSeverSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-                    }
-                    case 5 -> {
-                        return new InsectDuplicatorSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-                    }
-                    default -> {
-                        return new OrdinarySpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-                    }
-                }
-            }
-            case "BST" -> {
-                return new BoosterSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-            }
-            case "ANT" -> {
-                return new AntiSeverSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
-            }
-            case "SLO" -> {
+        switch (randomSporeType) {
+            case 1 -> {
                 return new SlowingSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
             }
-            case "STU" -> {
+            case 2 -> {
                 return new StunningSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
             }
-            case "DUP" -> {
+            case 3 -> {
+                return new BoosterSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+            }
+            case 4 -> {
+                return new AntiSeverSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
+            }
+            case 5 -> {
                 return new InsectDuplicatorSpore(owner, nutrientContent, effectDuration, owner.getNewSporeName());
             }
             default -> {
@@ -94,6 +70,7 @@ public class FungusBody {
             }
         }
     }
+    
 
     /**
      * Gets the Mycelium associated with this FungusBody.
@@ -107,7 +84,7 @@ public class FungusBody {
     /**
      * Attempts to scatter a spore onto a target Tecton.
      *
-     * Throws an exception if scattering is not allowed (e.g., cooldown active or no action points).
+     * Throws an exception if scattering is not allowed (cooldown is active).
      *
      * @param targetTecton the Tecton to scatter to
      * @throws Exception if scattering cannot be performed
@@ -179,6 +156,9 @@ public class FungusBody {
      */
     public boolean isBodyGrown() { return remainingSpores <= 3; }
 
+    /*
+     * returns the GFungusBody
+     */
     public GFungusBody getGFungusBody() { 
         return gf;
     }

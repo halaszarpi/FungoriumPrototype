@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 /**
  * The TectonView class is responsible for providing messages and status updates
  * related to the state and interactions of a Tecton. It communicates important
@@ -33,77 +35,11 @@ public class TectonView implements IObserver {
     }
 
     /**
-     * Provides a message indicating that two tectons are not neighbours.
-     *
-     * @param t2 The other Tecton being compared.
-     * @return A string message indicating the two tectons are not neighbours.
-     */
-    public String notNeighbour(Tecton t2) { return "The tectons ("+ t.getName() + ", " + t2.getName() + ") are not neighbours!"; }
-
-    /**
-     * Provides a message indicating that two tectons are not connected by mycelium.
-     *
-     * @param t2 The other Tecton being compared.
-     * @return A string message indicating the tectons are not connected by mycelium.
-     */
-    public String notConnectedByMycelium(Tecton t2) { return "The tectons ("+ t.getName() + ", " + t2.getName() + ") are not connected by mycelium!"; }
-
-    /**
-     * Provides a message indicating that a SingleMyceliumTecton already has mycelium.
-     *
-     * @return A string message indicating that the tecton already has mycelium.
-     */
-    public String singleMyceliumTectonAlreadyHasMycelium() { return "The single mycelium tecton (" + t.getName() + ") has already a mycelium on it!"; }
-
-    /**
-     * Provides a message indicating that the Tecton cannot vanish mycelium.
-     *
-     * @return A string message indicating that the tecton cannot vanish mycelium.
-     */
-    public String notMyceliumVanisherTecton() { return "Not Mycelium Vanisher Tecton (" + t.getName() + "), therefor cant vanish mycelium"; }
-
-    /**
-     * Prints a message indicating that a Tecton has been created.
-     */
-    public void tectonCreated() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-    }
-
-    /**
-     * Prints a message indicating that a Tecton has broken into two,
-     * with the name of the new tecton created.
-     *
-     * @param newTecton The new Tecton created after the break.
-     */
-    public void tectonBreaks(Tecton newTecton) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-    }
-
-    /**
-     * Prints a message indicating that a new neighbour has been added to the Tecton.
-     *
-     * @param newTecton The new Tecton that is now a neighbour.
-     */
-    public void neighbourAdded(Tecton newTecton) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-    }
-
-    /**
-     * Prints a message indicating that a new connection has been added between two tectons.
-     *
-     * @param newTecton The Tecton that is now connected to this Tecton.
-     */
-    public void connectionAdded(Tecton newTecton) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-    }
-
-    /**
      * Prints a message indicating that mycelium has been added to the Tecton.
      *
      * @param m The Mycelium added to the Tecton.
      */
     public void myceliumAdded(Mycelium m) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         t.getGTecton().attach(m.getView());
     }
 
@@ -113,7 +49,6 @@ public class TectonView implements IObserver {
      * @param s The Spore added to the Tecton.
      */
     public void sporeAdded(Spore s) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         t.getGTecton().attach(s.getView());
     }
 
@@ -123,17 +58,7 @@ public class TectonView implements IObserver {
      * @param i The Insect added to the Tecton.
      */
     public void insectAdded(Insect i) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         t.getGTecton().attach(i.getView());
-    }
-
-    /**
-     * Prints a message indicating that a neighbour has been removed from the Tecton.
-     *
-     * @param newTecton The Tecton that is no longer a neighbour.
-     */
-    public void neighbourRemoved(Tecton newTecton) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
     }
 
     /**
@@ -142,9 +67,7 @@ public class TectonView implements IObserver {
      * @param m The Mycelium removed from the Tecton.
      */
     public void myceliumRemoved(Mycelium m) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         t.getGTecton().detach(m.getView());
-
     }
 
     /**
@@ -153,7 +76,6 @@ public class TectonView implements IObserver {
      * @param i The Insect removed from the Tecton.
      */
     public void insectRemoved(Insect i) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
        t.getGTecton().detach(i.getView());
     }
 
@@ -163,20 +85,46 @@ public class TectonView implements IObserver {
      * @param s The Spore removed from the Tecton.
      */
     public void sporeRemoved(Spore s) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
         t.getGTecton().detach(s.getView());
     }
 
     /**
-     * Prints a message indicating that the connection between two tectons has been removed.
-     *
-     * @param newTecton The Tecton that is no longer connected to this Tecton.
+     * Error message indicating the lack of neighbour connection with the parameter tecton.
+     * @param otherTecton
+     * @return message
      */
-    public void removeConnection(Tecton newTecton) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
+    public String notNeighbour(Tecton otherTecton) {
+        String message = "Tecton (" + t.getName() + ") has no neighbour tecton (" + otherTecton.getName() + ")!";
+        JOptionPane.showMessageDialog(null, message);
+        return message;
     }
 
-    // Újítás, kell Graphics g paraméterben
+    /**
+     * Error message indicating the lack of mycelium connection with the parameter tecton.
+     * @param otherTecton
+     * @return message
+     */
+    public String notConnectedByMycelium(Tecton otherTecton) {
+        String message = "Tecton (" + t.getName() + ") is not connected with tecton (" + otherTecton.getName() + ")!";
+        JOptionPane.showMessageDialog(null, message);
+        return message;
+    }
+
+    /**
+     * Error message indicating the that the SingleMyceliumTecton already has a mycelium.
+     * @param otherTecton
+     * @return message
+     */
+    public String singleMyceliumTectonAlreadyHasMycelium() {
+        String message = "Tecton (" + t.getName() + ") already has a mycelium!";
+        JOptionPane.showMessageDialog(null, message);
+        return message;
+    }
+
+    /**
+     * The graphical representation of the tecton itself, it consists if a circle filled black with tecton's name on it and mycelium connections
+     * around it with the right color of the mycelium's FungusFarmer
+     */
     @Override
     public void draw(Graphics g, Point coords) {
         Graphics2D g2d = (Graphics2D) g;
@@ -188,6 +136,11 @@ public class TectonView implements IObserver {
         g2d.drawString(t.getName(), coords.x - 5, coords.y + 5);
     }
 
+    /**
+     * Function that supports mycelium connection drawing during tecton drawings. 
+     * @param g
+     * @param connectedByMycelium
+     */
     public void drawLine(Graphics g, List<GTecton> connectedByMycelium) {
 
         Graphics2D g2d = (Graphics2D)g;
@@ -229,5 +182,4 @@ public class TectonView implements IObserver {
             }
         }
     }
-
 }

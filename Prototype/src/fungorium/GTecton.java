@@ -3,8 +3,10 @@ package fungorium;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Collections;
 
+/**
+ * This class is responsible for storing coordinates of a tecton and handling its observers.
+ */
 public class GTecton implements IObservable {
     Tecton tecton;
     GMap map;
@@ -22,16 +24,27 @@ public class GTecton implements IObservable {
         attach(tecton.getView());
     }
 
+    /**
+     * Attachment of an observer.
+     * @param o
+     */
     @Override
     public void attach(IObserver o) {
         observers.add(o);
     }
 
+    /**
+     * Detachment of an observer.
+     * @param o
+     */
     @Override
     public void detach(IObserver o) {
         observers.remove(o);
     }
 
+    /**
+     * A helper class that connects phases with the number of objects.
+     */
     private class ValuePair {
         private int phase;
         private int count;
@@ -45,7 +58,12 @@ public class GTecton implements IObservable {
         public void increaseCount() { ++count; }
     }
 
-    // Újítás, kell Graphics g paraméterben
+    /**
+     * Heart of the update methods.
+     * Update which calls every observer's draw method, giving the Tecton's coordinates.
+     * In case of different objects' views, there is a phase computation that helps the
+     * placment of the matching objects in concentrical rounds, here lies the usage of the private class ValuePair. 
+     */
     @Override
     public void update(Graphics g) {
 
@@ -126,17 +144,32 @@ public class GTecton implements IObservable {
         }
     }
 
-    // Újítás, ez kelleni fog minden osztályhoz (ez még nem 100%, lehet máshogy lesz megoldva, de 4 sor szóval rakjuk sztem bele, max nem használjuk)
+    /**
+     * Sets the coordinates of the tecton. 
+     * @param x number of pixels on the x axis
+     * @param y number of pixels on the y axis
+     */
     public void setCoordinates(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Returns the first observer of the observer list.
+     */
     @Override
-    public IObserver getObserver() { return observers.getFirst(); }
+    public IObserver getObserver() { return observers.get(0); }
 
+    /**
+     * Returns the GTecton's tecton
+     * @return the tecton
+     */
     public Tecton getTecton() { return tecton; }
 
+    /**
+     * Returns the coordinates of the tecton (Point)
+     * @return coordinates (Point)
+     */
     public Point getCoords() { return new Point(x, y); }
 
 }

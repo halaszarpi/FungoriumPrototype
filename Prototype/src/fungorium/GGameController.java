@@ -13,21 +13,22 @@ import java.util.HashSet;
 import java.util.List;
 import javax.swing.*;
 
-import fungorium.GMainMenu.BackgroundPanel;
-
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
 
+/**
+ * The controller of the game.
+ */
 public class GGameController extends JFrame {
     private final TectonMap tectonMap;
     private List<GPlayer> players;
     private int numberOfRounds;
-    private GamePanel GamePanel;
+    private JPanel GamePanel;
     private JPanel playerPanel;
     private JPanel mapPanel;
     private final GMap gmap;
-    JComboBox<String> TectonChooser;
+    private JComboBox<String> TectonChooser;
     private ArrayList<Color> allColors = new ArrayList<>(
         Arrays.asList(
             Color.RED, 
@@ -40,6 +41,10 @@ public class GGameController extends JFrame {
             Color.ORANGE
     ));
 
+    /**
+     * Constructor.
+     * Loads the game map, the menu and initializes the players and the current game's parameters (length, player names and colors etc.) 
+     */
     public GGameController() {
         setTitle("Fungorium - Game");
         setSize(1080, 720);
@@ -130,7 +135,7 @@ public class GGameController extends JFrame {
         setJMenuBar(menuBar);
 
         //The game panel itself Consists of two parts: the mapPanel and the playerPanel
-        GamePanel = new GamePanel();
+        GamePanel = new JPanel();
         GamePanel.setLayout(new BorderLayout());
 
         //mapPanel
@@ -149,6 +154,10 @@ public class GGameController extends JFrame {
         new Thread(this::initializeGame).start();
     }
 
+    /**
+     * Creates the JPanel for the map.
+     * @return the panel
+     */
     private JPanel createMapPanel() {
         mapPanel = new JPanel();
         mapPanel.setLayout(new BorderLayout());
@@ -189,6 +198,10 @@ public class GGameController extends JFrame {
         return mapPanel;
     }
 
+    /**
+     * Updates the tecton chooser combobox, where players can switch between
+     * different tectons' views.
+     */
     private void updateTectonChooser() {
         // Get current items in the combo box
         Set<String> currentItems = new HashSet<>();
@@ -216,6 +229,11 @@ public class GGameController extends JFrame {
         }
     }
 
+    /**
+     * Helps the player choose a color from a color pool.
+     * Used during the initialization part of the game.
+     * @return the chosen color
+     */
     private Color chooseColor() {
         // Létrehozunk egy JComboBox-ot Color objektumokkal
         JComboBox<Color> comboBox = new JComboBox<>(allColors.toArray(new Color[0]));
@@ -263,9 +281,13 @@ public class GGameController extends JFrame {
         
     }
 
+    /**
+     * The initialization part of the game.
+     * Handles the number of players and their names, colors and starting tectons.
+     * Handles the number of rounds to be played.
+     */
     private void initializeGame() {
         showInfo("Game is starting!");
-        String input;
 
         // Get number of players (between 2 and 16)
         int numPlayers;
@@ -396,6 +418,11 @@ public class GGameController extends JFrame {
         runGame();
     }
 
+    /**
+     * The game loop which consits of a specified number of rounds given earlier,
+     * during the initialization part.
+     * Handles every players' turn, the graphical repainting and the notification that round has gone by.
+     */
     private void runGame() {
 
         mapPanel.setVisible(true);
@@ -449,6 +476,11 @@ public class GGameController extends JFrame {
         endGame();
     }
 
+    /**
+     * The end game phase.
+     * Stops the game and announces the players and their points.
+     * Returns to the menu. 
+     */
     private void endGame() {
         showInfo("Game Over!");
 
@@ -462,10 +494,18 @@ public class GGameController extends JFrame {
         SwingUtilities.invokeLater(GMainMenu::new);
     }
 
+    /**
+     * Error notification.
+     * @param message the error message
+     */
     private void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Information notification.
+     * @param message the general information
+     */
     private void showInfo(String message) {
         JOptionPane.showMessageDialog(this, message, "Info", JOptionPane.INFORMATION_MESSAGE);
     }

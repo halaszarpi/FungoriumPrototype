@@ -1,12 +1,17 @@
 package fungorium;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
 
 import javax.swing.JOptionPane;
 
+/**
+ * Represents the view for an Insect in the Fungorium game.
+ *
+ * This class is responsible for providing user-friendly messages related to an Insect's actions,
+ * such as when it cannot step, eat or cut mycelium.
+ */
 public class InsectView implements IObserver {
 
     Insect insect;
@@ -17,69 +22,20 @@ public class InsectView implements IObserver {
         this.insect = insect;
     }
 
-    public void insectInitialized() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Insect (" + insect.getName() + ") is initialized on (" + insect.getTecton().getName() + ") tecton!");
-    }
-
-    public void insectIsAntiSevered() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Insect (" + insect.getName() + ") is anti-severed for " + insect.getAntiSeveredForRounds() + " rounds!");
-    }
-
-    public void insectIsStunned() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Insect (" + insect.getName() + ") is stunned for " + insect.getStunnedForRounds() + " rounds!");
-    }
-
-    public void insectIsSlowed() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Insect (" + insect.getName() + ") is slowed for " + insect.getSlowedForRounds() + " rounds!");
-    }
-
-    public void insectIsBoosted() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Insect (" + insect.getName() + ") is an boosted for " + insect.getBoostedForRounds() + " rounds!");
-    }
-
-    public void insectAteSpore(Spore spore) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        insect.getTecton().getGTecton().detach(spore.getView());
-    }
-
-    public void insectSteppedToTecton() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Insect (" + insect.getName() + ") stepped to (" + insect.getTecton().getName() + ") tecton!");
-    }
-
-    public void insectCutMycelium(Tecton targetTecton) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Insect (" + insect.getName() + ") cut mycelium between tectons (" + insect.getTecton().getName() + ") and " + targetTecton.getName() + "!");
-    }
-
-    public void insectEffectsReduced() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Active effects on insect (" + insect.getName() + ") were reduced by 1!");
-    }
-
-    public void insectGotEaten() {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        System.out.println("Insect (" + insect.getName() + ") got eaten!");
-    }
-
-    // Ide esetleg nem kellene az uj insect neve?
-    public void insectDuplicated(Insect duplicatedInsect) {
-        //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        duplicatedInsect.getTecton().getGTecton().attach(duplicatedInsect.getView());
-
-    }
-
+    /**
+     * Message that notifies the insectkeeper that its insect is stunned.
+     * @return the message
+     */
     public String cannotEatSporeBecauseStunnedMessage() {
         String message = "Insect (" + insect.getName() + ") cannot eat spore because it is stunned!";
         JOptionPane.showMessageDialog(null, message);
         return message;
     }
 
+    /**
+     * Message that notifies the insectkeeper that its insect is not able to step to an other tecton.
+     * @return the message
+     */
     public String insectNotAbleToStep(String insectName, String targetTectonName) {
         String message = "Insect " + insectName + " is not able to step to tecton (" + targetTectonName + ")!";
         JOptionPane.showMessageDialog(null, message);
@@ -90,12 +46,20 @@ public class InsectView implements IObserver {
         return insect;
     }
 
+    /**
+     * Message that notifies the insectkeeper that its insect is not able to cut a mycelium.
+     * @return the message
+     */
     public String cannotCutMyceliumMessage() {
         String message = "Insect (" + insect.getName() + ") cannot cut mycelium because it's anti-severed (or stunned)!";
         JOptionPane.showMessageDialog(null, message);
         return message;
     }
 
+    /**
+     * The graphical representation of an insect which is a filled triangle with the color of the InsectKeeper.
+     * @param coords the relative middle point of the insect.
+     */
     @Override
     public void draw(Graphics g, Point coords) {
         // a pont amit itt megkap a tekton kp.-ja

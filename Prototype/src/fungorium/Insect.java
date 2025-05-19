@@ -84,7 +84,6 @@ public class Insect implements IRoundFollower {
      */
     public void setAntiSeveredForRounds(int numberOfRounds) {
         this.antiSeveredForRounds = numberOfRounds;
-        view.insectIsAntiSevered();
     }
 
     /**
@@ -94,7 +93,6 @@ public class Insect implements IRoundFollower {
      */
     public void setStunnedForRounds(int numberOfRounds) {
         this.stunnedForRounds = numberOfRounds;
-        view.insectIsStunned();
     }
 
     /**
@@ -104,7 +102,6 @@ public class Insect implements IRoundFollower {
      */
     public void setSlowedForRounds(int numberOfRounds) {
         this.slowedForRounds = numberOfRounds;
-        view.insectIsSlowed();
     }
 
     /**
@@ -114,7 +111,6 @@ public class Insect implements IRoundFollower {
      */
     public void setBoostedForRounds(int numberOfRounds) {
         this.boostedForRounds = numberOfRounds;
-        view.insectIsBoosted();
     }
 
     /**
@@ -129,7 +125,6 @@ public class Insect implements IRoundFollower {
             return -1;
         }
         int nutrientContent = spore.gotEatenBy(this);
-        view.insectAteSpore(spore);
         tecton.removeSpore(spore);
         owner.useActionPoints(1);
         owner.increaseScore(nutrientContent);
@@ -145,11 +140,10 @@ public class Insect implements IRoundFollower {
     }
 
     /**
-     * Duplicates the insect and notifies the owner.
+     * Duplicates the insect.
      */
     public void duplicate() {
         Insect duplicatedInsect = owner.duplicateInsect(this);
-        view.insectDuplicated(duplicatedInsect);
     }
 
     /**
@@ -169,7 +163,6 @@ public class Insect implements IRoundFollower {
             this.tecton = targetTecton;
             int actionPointsUsed = actionPointsForStepping();
             this.owner.useActionPoints(actionPointsUsed);
-            view.insectSteppedToTecton();
             return true;
         }
         else {
@@ -191,7 +184,6 @@ public class Insect implements IRoundFollower {
         else if (this.tecton.isConnectedTo(m)) {
             this.tecton.removeConnection(m);
             this.owner.useActionPoints(1);
-            view.insectCutMycelium(m.getTecton());
             return true;
         }
         return false;
@@ -235,7 +227,6 @@ public class Insect implements IRoundFollower {
         if (stunnedForRounds > 0) { stunnedForRounds--; }
         if (slowedForRounds > 0) { slowedForRounds--; }
         if (boostedForRounds > 0) { boostedForRounds--; }
-        view.insectEffectsReduced();
     }
 
     /**

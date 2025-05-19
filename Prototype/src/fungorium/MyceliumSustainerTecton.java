@@ -65,17 +65,10 @@ public class MyceliumSustainerTecton extends Tecton{
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton, randomTecton);
 
-        view.tectonBreaks(newTecton);
-
         map.addTecton(newTecton);
     }
-    /**
-     * Throws an exception if an attempt is made to vanish mycelium from this type of tecton, 
-     * as MyceliumSustainerTecton does not support the vanishing of mycelium.
-     * 
-     * @throws Exception with a message indicating that this tecton does not allow mycelium to vanish.
-     */
+     
     @Override
-    public void vanishMycelium() throws Exception { throw new Exception(view.notMyceliumVanisherTecton()); }
+    public void vanishMycelium() throws Exception {}
 
 }
