@@ -143,6 +143,7 @@ public class GMap extends JPanel {
      * @param middleTecton the tecton in the middle of the screen
      */
     public void drawMap(GTecton middleTecton) {
+        if (middleTecton == null) return;
         updateGTectons();
         chosenTecton = middleTecton;
         setChosenTectonsNeighbourGTectons();

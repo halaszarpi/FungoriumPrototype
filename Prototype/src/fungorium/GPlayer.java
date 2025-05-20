@@ -155,9 +155,6 @@ public class GPlayer {
      * @param map
      */
     public void turn(JPanel playerPanel, GMap map) {
-        if (!player.inGame) {
-            return;
-        }
         player.actionPoints = 4;
         // Set up playerPanel
         playerPanel.removeAll();

@@ -10,7 +10,6 @@ public abstract class Player {
     protected String name;
     protected int actionPoints;
     protected int score;
-    protected boolean inGame;
 
     /**
      * Constructor to initialize a player with a given name.
@@ -22,7 +21,6 @@ public abstract class Player {
         this.name = name;
         this.actionPoints = 4;
         this.score = 0;
-        this.inGame = true;
     }
 
 
@@ -83,9 +81,7 @@ public abstract class Player {
      *
      * @return True if the player is in the game, otherwise false.
      */
-    public boolean isInGame() {
-        return inGame;
-    }
+    public abstract boolean isInGame();
 
     /**
      * Gets the player's name.

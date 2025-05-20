@@ -260,4 +260,9 @@ public class InsectKeeper extends Player {
         }
 
     }
+
+    @Override
+    public boolean isInGame() {
+        return insects.size() > 0;
+    }
 }

@@ -313,4 +313,9 @@ public class FungusFarmer extends Player {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public boolean isInGame() {
+        return myceliums.size() > 0;
+    }
 }

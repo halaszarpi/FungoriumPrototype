@@ -434,6 +434,12 @@ public class GGameController extends JFrame {
             updateTectonChooser();
 
             for (GPlayer player : players) {
+
+                if (!player.getPlayer().isInGame()) {
+                    players.remove(round);
+                    continue;
+                }
+
                 CountDownLatch latch = new CountDownLatch(1);  
 
                 player.turn(playerPanel, gmap);
