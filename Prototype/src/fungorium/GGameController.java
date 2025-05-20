@@ -436,7 +436,7 @@ public class GGameController extends JFrame {
             for (GPlayer player : players) {
 
                 if (!player.getPlayer().isInGame()) {
-                    players.remove(round);
+                    //players.remove(round);
                     continue;
                 }
 

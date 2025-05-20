@@ -11,6 +11,7 @@ public class TectonMap {
     private List<Tecton> tectons;
     private TectonMapView view;
     private Random rand;
+    private int breakChance = 1;
 
     public TectonMap() {
         this.view = new TectonMapView(this);
@@ -23,7 +24,7 @@ public class TectonMap {
     }
 
     private void addNewTecton(String tectonName, String tectonType) throws Exception {
-        int percentToBreak = rand.nextInt(10) + 1;
+        int percentToBreak = rand.nextInt(breakChance);
 
         Tecton tecton;
         switch (tectonType) {
@@ -66,7 +67,7 @@ public class TectonMap {
     }
 
     public void roundPassed() {
-        int percentToBreak = rand.nextInt(10) + 1;
+        int percentToBreak = rand.nextInt(breakChance);
 
         int initialTectonsSize = tectons.size();
 
@@ -122,9 +123,9 @@ public class TectonMap {
     public Insect findInsect(String insectName) throws Exception {
 
         for (Tecton t : tectons) {
-            List<Insect> myceliumList = t.getInsectList();
+            List<Insect> insectList = t.getInsectList();
 
-            for (Insect i : myceliumList) {
+            for (Insect i : insectList) {
                 if (i.getName().equals(insectName)) return i;
             }
 
