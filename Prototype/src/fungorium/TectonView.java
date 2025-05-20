@@ -128,8 +128,26 @@ public class TectonView implements IObserver {
     @Override
     public void draw(Graphics g, Point coords) {
         Graphics2D g2d = (Graphics2D) g;
+        
+        // Drawing the outline based on the tecton
+        if (t instanceof SingleMyceliumTecton) {
+            g2d.setColor(new Color(194, 178, 128)); // -> "sand"
+        } else if (t instanceof NoBodyTecton) {
+            g2d.setColor(new Color(137, 81, 41)); // -> "brown"
+        } else if (t instanceof MyceliumSustainerTecton) {
+            g2d.setColor(Color.GREEN);
+        } else if (t instanceof MyceliumVanisherTecton) {
+            g2d.setColor(Color.BLUE);
+        } else {
+            g2d.setColor(Color.BLACK);
+        }   
+        
+        g2d.fillOval(coords.x - (tectonWidth + 6) / 2, coords.y - (tectonHeight + 6) / 2, tectonWidth + 6, tectonHeight + 6);
+        
+        // Drawing of the black tecton
         g2d.setColor(Color.BLACK);
         g2d.fillOval(coords.x - tectonWidth / 2, coords.y - tectonHeight / 2, tectonWidth, tectonHeight);
+
         g2d.setColor(Color.WHITE);
         g2d.setFont(new Font("Arial", Font.BOLD, 14));
         // kicsit eltolva mindig
