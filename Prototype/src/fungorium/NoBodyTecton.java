@@ -5,11 +5,10 @@ public class NoBodyTecton extends Tecton {
     /**
      * Constructs a NoBodyTecton with a given break percentage, name, and associated map.
      *
-     * @param precentToBreak The probability (as a percentage) that the tecton will break.
      * @param tectonName The name of the tecton.
      * @param map The map to which this tecton belongs.
      */
-    public NoBodyTecton(int precentToBreak, String tectonName, TectonMap map) { super(precentToBreak, tectonName, map); }
+    public NoBodyTecton(String tectonName, TectonMap map) { super(tectonName, map); }
 
     /**
      * Adds a mycelium to this tecton.
@@ -53,7 +52,7 @@ public class NoBodyTecton extends Tecton {
 
         Tecton randomTecton = generateRandomTectonNeighbour(oneNeighbourNameOfTecton);
 
-        Tecton newTecton = new NoBodyTecton(breakPrecent, name + "-2", map);
+        Tecton newTecton = new NoBodyTecton(name + "-2", map);
         name += "-1";
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton, randomTecton);

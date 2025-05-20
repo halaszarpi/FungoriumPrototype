@@ -11,8 +11,6 @@ public class TectonMap {
     private List<Tecton> tectons;
     private TectonMapView view;
     private Random rand;
-    private int breakChance = 1;
-
     public TectonMap() {
         this.view = new TectonMapView(this);
         rand = new Random();
@@ -24,15 +22,13 @@ public class TectonMap {
     }
 
     private void addNewTecton(String tectonName, String tectonType) throws Exception {
-        int percentToBreak = rand.nextInt(breakChance);
-
         Tecton tecton;
         switch (tectonType) {
-            case "ORD" -> tecton = new OrdinaryTecton(percentToBreak, tectonName, this);
-            case "NOB" -> tecton = new NoBodyTecton(percentToBreak, tectonName, this);
-            case "SIN" -> tecton = new SingleMyceliumTecton(percentToBreak, tectonName, this);
-            case "VAN" -> tecton = new MyceliumVanisherTecton(percentToBreak, tectonName, this);
-            case "SUS" -> tecton = new MyceliumSustainerTecton(percentToBreak, tectonName, this);
+            case "ORD" -> tecton = new OrdinaryTecton(tectonName, this);
+            case "NOB" -> tecton = new NoBodyTecton(tectonName, this);
+            case "SIN" -> tecton = new SingleMyceliumTecton(tectonName, this);
+            case "VAN" -> tecton = new MyceliumVanisherTecton(tectonName, this);
+            case "SUS" -> tecton = new MyceliumSustainerTecton(tectonName, this);
             default -> throw new Exception(view.noSuchTecton(tectonName));
         }
         tectons.add(tecton);
@@ -67,13 +63,11 @@ public class TectonMap {
     }
 
     public void roundPassed() {
-        int percentToBreak = rand.nextInt(breakChance);
 
         int initialTectonsSize = tectons.size();
 
         for (int i = 0; i < initialTectonsSize; i++){
             Tecton t = tectons.get(i);
-            t.setBreakPercent(percentToBreak);
             t.roundPassed();
         }
     }

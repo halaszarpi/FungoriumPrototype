@@ -9,11 +9,10 @@ public class OrdinaryTecton extends Tecton {
     /**
      * Constructor to initialize an OrdinaryTecton with a given break probability, name, and map.
      *
-     * @param precentToBreak The probability percentage that the tecton will break each round.
      * @param tectonName The name of the tecton.
      * @param map The map that this tecton belongs to.
      */
-    public OrdinaryTecton(int precentToBreak, String tectonName, TectonMap map){ super(precentToBreak, tectonName, map); }
+    public OrdinaryTecton(String tectonName, TectonMap map){ super(tectonName, map); }
 
     /**
      * Adds mycelium to this tecton and logs the addition via the view.
@@ -58,7 +57,7 @@ public class OrdinaryTecton extends Tecton {
 
         Tecton randomTecton = generateRandomTectonNeighbour(oneNeighbourNameOfTecton);
 
-        Tecton newTecton = new OrdinaryTecton(breakPrecent, name + "-2", map);
+        Tecton newTecton = new OrdinaryTecton( name + "-2", map);
         name += "-1";
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton, randomTecton);

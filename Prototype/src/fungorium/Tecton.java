@@ -15,25 +15,23 @@ public abstract class Tecton implements IRoundFollower{
     private List<Insect> insectList;
     protected List<Mycelium> myceliumList;
     protected String name;
-    protected int breakPrecent;
+    protected int breakPrecent = 4;
     protected Random gen;
     protected TectonView view;
     protected GTecton gt;
 
     /**
-     * Constructs a Tecton with a break chance, name, and associated map.
+     * Constructs a Tecton with a name, and associated map.
      *
-     * @param percentToBreak The percentage chance for the tecton to break.
      * @param tectonName The name of the tecton.
      * @param m The map the tecton belongs to.
      */
-    protected Tecton(int percentToBreak, String tectonName, TectonMap m) {
+    protected Tecton(String tectonName, TectonMap m) {
 
         sporeList = new ArrayList<>();
         neighbours = new HashMap<>();
         insectList = new ArrayList<>();
         name = tectonName;
-        breakPrecent = percentToBreak;
         gen = new Random();
         myceliumList = new ArrayList<>();
         view = new TectonView(this);

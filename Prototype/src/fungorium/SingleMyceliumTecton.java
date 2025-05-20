@@ -5,11 +5,10 @@ public class SingleMyceliumTecton extends Tecton {
     /**
      * Constructor for SingleMyceliumTecton.
      *
-     * @param precentToBreak The percentage chance for the tecton to break.
      * @param tectonName The name of the tecton.
      * @param map The map where the tecton exists.
      */
-    public SingleMyceliumTecton(int precentToBreak, String tectonName, TectonMap map) { super(precentToBreak, tectonName, map); }
+    public SingleMyceliumTecton(String tectonName, TectonMap map) { super(tectonName, map); }
 
     /**
      * Adds a mycelium to the tecton.
@@ -55,7 +54,7 @@ public class SingleMyceliumTecton extends Tecton {
 
         Tecton randomTecton = generateRandomTectonNeighbour(oneNeighbourNameOfTecton);
 
-        Tecton newTecton = new SingleMyceliumTecton(breakPrecent, name + "-2", map);
+        Tecton newTecton = new SingleMyceliumTecton(name + "-2", map);
         name += "-1";
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton, randomTecton);

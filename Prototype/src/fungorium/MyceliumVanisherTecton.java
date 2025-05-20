@@ -8,11 +8,10 @@ public class MyceliumVanisherTecton extends Tecton {
     /**
      * Constructs a new MyceliumVanisherTecton with the specified break percentage, name, and map.
      * 
-     * @param precentToBreak The percentage chance that the tecton will break during the round.
      * @param tectonName The name of the tecton.
      * @param map The map the tecton belongs to.
      */
-    public MyceliumVanisherTecton(int precentToBreak, String tectonName, TectonMap map) { super(precentToBreak, tectonName, map); }
+    public MyceliumVanisherTecton(String tectonName, TectonMap map) { super(tectonName, map); }
     /**
      * Adds a Mycelium object to the list of mycelium on this tecton. 
      * The addition is followed by a notification through the view.
@@ -56,7 +55,7 @@ public class MyceliumVanisherTecton extends Tecton {
 
         Tecton randomTecton = generateRandomTectonNeighbour(oneNeighbourNameOfTecton);
 
-        Tecton newTecton = new MyceliumVanisherTecton(breakPrecent, name + "-2", map);
+        Tecton newTecton = new MyceliumVanisherTecton(name + "-2", map);
         name += "-1";
         removeConnectionAtBreak();
         manageNeighboursAtBreak(newTecton, randomTecton);
