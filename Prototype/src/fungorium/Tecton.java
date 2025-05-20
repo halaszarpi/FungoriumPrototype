@@ -132,8 +132,8 @@ public abstract class Tecton implements IRoundFollower{
 
             List<FungusFarmer> farmers = neighbours.get(t);
 
-            for (FungusFarmer f : farmers) {
-
+            for (int i = 0; i < farmers.size(); i++) {
+                FungusFarmer f = farmers.get(i);
                 if (f.equals(m.getOwner())) {
                     farmers.remove(f);
                     neighbours.put(t, farmers);
@@ -377,7 +377,7 @@ public abstract class Tecton implements IRoundFollower{
         List<Tecton> neighbourList = new ArrayList<>(neighbourMap.keySet());
 
         for (Tecton t : neighbourList) {
-            if (neighbourMap.get(t) != null && !checkedTectons.contains(t)) { newCheckedTectons.add(t); }
+            if (neighbourMap.get(t).contains(owner) && !checkedTectons.contains(t)) { newCheckedTectons.add(t); }
         }
 
         for (Tecton t : newCheckedTectons) {
@@ -385,7 +385,6 @@ public abstract class Tecton implements IRoundFollower{
         }
 
         return false;
-
     }
 
     /**

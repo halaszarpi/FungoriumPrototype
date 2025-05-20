@@ -103,7 +103,9 @@ public class FungusFarmer extends Player {
      */
     @Override
     public void roundPassed() {
-        for (Mycelium mycelium : myceliums) {
+
+        for (int i = 0; i < myceliums.size(); i++) {
+            Mycelium mycelium = myceliums.get(i);
             mycelium.roundPassed();
         }
     }
@@ -273,23 +275,32 @@ public class FungusFarmer extends Player {
                 m.getTecton().getSporeList().forEach(s -> parameters.add(s.getName()));
                 break;
             case "SCATTERSP":
+                if(m.getBody() == null){
+                    break;
+                }
+
+                List<Tecton> neighbors = new ArrayList<>();
                 parameters.add(m.getTecton().getName());
+
                 for (Tecton t1 : map.getTectons()) {
-
-                    if (m.getTecton().isNeighbour(t1) && !parameters.contains(t1.getName())) {
+                    if (m.getTecton().isNeighbour(t1) && !neighbors.contains(t1)) {
+                        neighbors.add(t1);
                         parameters.add(t1.getName());
-
-                        if (m.getBody() == null || !m.getBody().isBodyGrown())
-                            continue;
-
-                        for (Tecton t2 : map.getTectons()) {
-                            if (t2.isNeighbour(t1) && !parameters.contains(t2.getName())) {
-                                parameters.add(t2.getName());
-                            }
-                        }
                     }
                 }
+
+                if(m.getBody().isBodyGrown()) {
+                   for (Tecton ngh : neighbors) {
+                       for (Tecton nghngh : map.getTectons()) {
+                            if (ngh.isNeighbour(nghngh) && !parameters.contains(nghngh.getName())) {
+                                 parameters.add(nghngh.getName());
+                            }
+                       }
+                   }
+                }
+
                 break;
+
             case "EATINS":
                 m.getTecton().getInsectList().forEach(i -> parameters.add(i.getName()));
                 break;
