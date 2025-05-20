@@ -125,6 +125,22 @@ public abstract class Tecton implements IRoundFollower{
     public void removeMycelium(Mycelium m) { 
         myceliumList.remove(m); 
         view.myceliumRemoved(m);
+
+        List<Tecton> neighbourList = new ArrayList<>(neighbours.keySet());
+
+        for (Tecton t : neighbourList) {
+
+            List<FungusFarmer> farmers = neighbours.get(t);
+
+            for (FungusFarmer f : farmers) {
+
+                if (f.equals(m.getOwner())) {
+                    farmers.remove(f);
+                    neighbours.put(t, farmers);
+                }
+            }
+
+        }
     }
 
     /**
