@@ -44,7 +44,6 @@ public class InsectView implements IObserver {
 
     public void insectDuplicated(Insect duplicatedInsect) {
         //if (!GameTesterController.SHOW_OUTPUT) { return; }
-        duplicatedInsect.getTecton().getGTecton().attach(duplicatedInsect.getView());
 
     }
 
