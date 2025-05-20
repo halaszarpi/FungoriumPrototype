@@ -144,6 +144,7 @@ public class Insect implements IRoundFollower {
      */
     public void duplicate() {
         Insect duplicatedInsect = owner.duplicateInsect(this);
+        getTecton().addInsect(duplicatedInsect);
         view.insectDuplicated(duplicatedInsect);
     }
 
