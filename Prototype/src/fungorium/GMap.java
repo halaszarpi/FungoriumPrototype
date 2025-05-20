@@ -21,7 +21,7 @@ public class GMap extends JPanel {
     private ArrayList<GTecton> gTectons;
     private GTecton chosenTecton;
     private List<GTecton> chosenTectonNeighbours;
-    private final int radius = 200;
+    private final int radius = 275;
 
     public GMap(TectonMap map) {
 

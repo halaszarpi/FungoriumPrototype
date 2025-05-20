@@ -170,6 +170,7 @@ public class Mycelium implements IRoundFollower{
         if (roundsToLive == 0) {
             tecton.removeMycelium(this);
             view.myceliumHasDied();
+            owner.removeMycelium(this);
         }
     }
 
@@ -180,9 +181,14 @@ public class Mycelium implements IRoundFollower{
      */
     public void eatInsect(Insect insect) throws Exception {
         if (insect.getStunnedForRounds() > 0) {
-        insect.gotEaten();
-        owner.useActionPoints(3);
-        view.ateInsect(insect);
+            insect.gotEaten();
+            if (tecton.canPlaceBody()) {
+                Spore bodyGrowingSpore = new OrdinarySpore(this.owner, 0, 0, null);
+                this.tecton.addSpore(bodyGrowingSpore);
+                this.growBody(bodyGrowingSpore);
+            }
+            owner.useActionPoints(3);
+            view.ateInsect(insect);
         } else {
             throw new Exception(view.cannotEatInsect(insect));
         }
