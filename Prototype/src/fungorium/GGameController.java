@@ -404,7 +404,7 @@ public class GGameController extends JFrame {
                         JOptionPane.PLAIN_MESSAGE,
                         null,
                         tectonNames.toArray(),
-                        tectonNames.getFirst()
+                        tectonNames.get(0)
                 );
 
                 try {
